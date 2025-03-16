@@ -2,9 +2,12 @@
 layout: archive
 ---
 
-{{ content }}
+<div class="intro-text">
+  <p>Hi! I'm Pedro, a Backend Engineer at Ostrom and AWS Certified Solutions Architect. I combine my electrical engineering background with cloud expertise to build sustainable energy management solutions. Currently focused on developing scalable microservices and real-time data processing systems for the energy sector.</p>
+  <a href="/resume/" class="btn btn--primary">View Full Resume</a>
+</div>
 
-<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
+<h2 class="archive__subtitle">Recent Posts</h2>
 
 {% if paginator %}
   {% assign posts = paginator.posts %}
@@ -14,7 +17,9 @@ layout: archive
 
 {% assign entries_layout = page.entries_layout | default: 'list' %}
 <div class="entries-{{ entries_layout }}">
-  {% include documents-collection.html entries=posts type=entries_layout %}
+  {% for post in posts %}
+    {% include archive-single.html type=entries_layout %}
+  {% endfor %}
 </div>
 
 {% include paginator.html %}

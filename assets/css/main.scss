@@ -1,9 +1,108 @@
 ---
 # Only the main Sass file needs front matter (the dashes are enough)
-search: false
 ---
 
 @charset "utf-8";
+@use "sass:math";
+@use "sass:color";
 
-@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
-@import "minimal-mistakes"; // main partials
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+/* Custom styles */
+.page {
+  padding-right: 0;
+  width: 100%;
+  float: left;
+
+  @media (min-width: 80em) {
+    width: 75%;
+    margin: 0 auto;
+    float: none;
+    padding-left: 0;
+  }
+}
+
+.home-intro {
+  margin-bottom: calc(2em);
+  
+  .intro-text {
+    background-color: var(--background-color, #f8f9fa);
+    padding: calc(2em);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 1.5em;
+      color: var(--text-color, $text-color);
+    }
+    
+    .btn--primary {
+      margin-top: 0.5em;
+      display: inline-block;
+    }
+  }
+}
+
+.resume-preview {
+  h2 {
+    color: var(--primary-color, $primary-color);
+    margin-bottom: 1em;
+  }
+  
+  h3 {
+    color: var(--info-color, $info-color);
+    margin: calc(1.5em) 0 calc(0.5em);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: calc(2em);
+    
+    li {
+      margin-bottom: calc(0.5em);
+      padding-left: calc(1.5em);
+      position: relative;
+      
+      &:before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--primary-color, $primary-color);
+      }
+    }
+  }
+  
+  .btn--primary {
+    margin-top: calc(1em);
+    display: inline-block;
+  }
+}
+
+/* Center content for single layout */
+.layout--single {
+  .page {
+    width: 100%;
+    padding-right: 0;
+    
+    @media (min-width: 80em) {
+      width: 75%;
+      margin: 0 auto;
+      float: none;
+      padding-left: 0;
+    }
+  }
+  
+  .page__content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1em;
+    
+    @media (min-width: 80em) {
+      padding: 0;
+    }
+  }
+}
