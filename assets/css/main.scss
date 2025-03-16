@@ -46,39 +46,57 @@
   }
 }
 
-.resume-preview {
+/* Minimalistic Resume Styles */
+.page__content {
   h2 {
-    color: var(--primary-color, $primary-color);
-    margin-bottom: 1em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid $border-color;
+    font-size: 1.2em;
+    color: $text-color;
+    font-weight: normal;
   }
   
   h3 {
-    color: var(--info-color, $info-color);
-    margin: calc(1.5em) 0 calc(0.5em);
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+    font-size: 1em;
+    color: $text-color;
+    font-weight: normal;
   }
-  
+
+  p {
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+
   ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: calc(2em);
+    margin: 0.3em 0 1em;
+    padding-left: 1em;
     
     li {
-      margin-bottom: calc(0.5em);
-      padding-left: calc(1.5em);
-      position: relative;
+      margin-bottom: 0.2em;
+      line-height: 1.4;
+      font-size: 0.9em;
       
-      &:before {
-        content: "→";
-        position: absolute;
-        left: 0;
-        color: var(--primary-color, $primary-color);
+      &::marker {
+        color: $muted-text-color;
+        font-size: 0.8em;
       }
     }
   }
-  
-  .btn--primary {
-    margin-top: calc(1em);
-    display: inline-block;
+
+  em {
+    color: $muted-text-color;
+    font-style: normal;
+    font-size: 0.85em;
+  }
+
+  strong {
+    font-weight: normal;
+    color: $text-color;
   }
 }
 

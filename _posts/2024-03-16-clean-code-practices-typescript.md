@@ -8,8 +8,8 @@ tags:
   - Clean Code
   - Best Practices
   - Software Architecture
-toc: true
-toc_sticky: true
+toc: false
+toc_sticky: false
 excerpt: "A comprehensive guide to writing clean, maintainable TypeScript code with practical examples and best practices."
 ---
 

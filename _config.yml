@@ -327,6 +327,9 @@ defaults:
       comments: false
       share: true
       related: true
+      toc: false
+      toc_label: "Contents"
+      toc_sticky: false
   # _pages
   - scope:
       path: ""
