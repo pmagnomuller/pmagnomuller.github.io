@@ -1,3 +1,4 @@
+{% if site.github.username or site.linkedin.username %}
 <div class="page__footer-follow">
   <ul class="social-icons">
     {% if site.github.username %}
@@ -8,5 +9,6 @@
     {% endif %}
   </ul>
 </div>
+{% endif %}
 
 {% include footer/custom.html %}
