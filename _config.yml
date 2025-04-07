@@ -113,8 +113,8 @@ analytics:
 
 # Site Author
 author:
-  # name             : ""
-  # avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  name             : "Pedro Magno Müller"
+  avatar           : "/assets/images/profile-photo.jpg"
   bio              : "Passionate about energy, clean code, modern web technologies and ai"
   location         : "Berlin, Germany"
   email            : "pedro.magnomuller@gmail.com"
