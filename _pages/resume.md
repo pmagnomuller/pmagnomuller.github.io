@@ -1,89 +1,62 @@
 ---
 title: "Resume"
 permalink: /resume/
-layout: single
 author_profile: false
+layout: single
 classes: wide
 ---
 
-## Professional Summary
-
-Software Engineer specializing in backend development at Ostrom in Berlin. Combining a Master's degree in Electrical Engineering and Information Technology with expertise in Power Engineering and Renewable Energies. Strong focus on clean code practices and modern software architecture patterns.
-
-## Technical Skills
-
-### Programming Languages & Technologies
-- **Frontend**: React Native, Tailwind CSS
-- **Backend**: TypeScript, JavaScript, Python
-- **Testing**: Unit Testing, Quality Assurance
-- **APIs**: RESTful Services, Backend Development
-
-### Frameworks & Tools
-- **Development**: Backend Systems, Data Structures & Algorithms
-- **Industry**: Power Engineering, Renewable Energies
-- **Analysis**: Techno-economic Analysis, Linear Optimization
-
-## Professional Experience
-
-### Software Engineer (Backend) | Ostrom
-*Berlin, Germany | February 2023 - Present*
-- Drive backend excellence in energy sector solutions
-- Develop and maintain scalable microservices
-- Implement clean code practices and software design patterns
-- Tech stack: TypeScript, Backend Technologies
-
-### Software Engineer | pragmatic industries GmbH
-*Germany | November 2021 - February 2023*
-- Led backend functionality development
-- Translated user requirements into actionable tasks
-- Conducted extensive unit tests and resolved issues
-- Facilitated client communication and maintained relationships
-- Created demo environment for solution showcasing
-- Coordinated and moderated regulatory meetings with clients
-
-### Engineering Intern | Siemens Energy
-*Munich, Germany | June 2021 - September 2021*
-- Conducted techno-economic analysis of hydrogen transport options using linear optimization
-- Managed data research for regional projections of future hydrogen demands
-- Validated German gas network model
-- Completed Master's thesis on hydrogen transport infrastructure options
+## Contact Information
+- **Email:** pedro.magno.muller@gmail.com
+- **LinkedIn:** [linkedin.com/in/pedro-magno-müller](https://linkedin.com/in/pedro-magno-müller)
+- **Mobile:** +49 176 82011111
 
 ## Education
+### Technical University Munich (TUM)
+**Master of Science in Electrical Engineering and Computer Science**  
+- Specialization: Power Engineering and Renewable Energies
+- Exchange Program: University of Oulu, Finland (2019)
 
-### Master of Science in Electrical Engineering
-*Technical University Munich (TUM) | 2018 - 2021*
-- Focus: Electrical and Electronics Engineering
-- Specialization: Energy Management and Systems Technology
+### FEUP - Faculty of Engineering, University of Porto
+**Bachelor of Science in Electrical Engineering and Computer Science**  
+- Program: Electrical and Computer Science with focus on Power Engineering
 
-### Exchange Program
-*University of Oulu | 2019*
-- Electrical and Electronic Engineering studies
+### Deutsche Schule Porto (German School of Porto)
+**Abitur** (2003 – 2015)
 
-### Bachelor of Science in Electrical Engineering
-*FEUP - Faculty of Engineering, University of Porto | 2015 - 2018*
-- Program: Electrical and Computer Engineering
+## Experience
+### Ostrom
+**Software Engineer** (Feb 2023 – Present)  
+Berlin, Germany
+- Energy Management Platform: Developed and maintained a scalable energy management platform serving over 70,000 clients, implementing real-time monitoring and control systems for distributed energy resources.
+- Charging Optimization: Designed and implemented advanced charging algorithms that optimize energy consumption patterns, reducing costs through intelligent load management and time-of-use optimization.
+- Virtual Power Plant: Contributed to the development of a virtual power plant system that successfully participated in energy markets, generating revenue through optimized vehicle charging and energy trading strategies.
 
-### Early Education
-*Deutsche Schule Porto | 2003 - 2015*
-- Abitur
+### pragmatic industries GmbH
+**Software Engineer** (Nov 2021 – Feb 2023)  
+Germany
+- Backend Development: Led backend functionality development and translated user requirements into actionable tasks.
+- Quality Assurance: Conducted extensive unit tests and resolved issues. Implemented automated testing pipelines.
+- Client Relations: Facilitated client communication and maintained relationships. Created demo environments for solution showcasing.
+- Regulatory Coordination: Coordinated and moderated regulatory meetings with clients.
+
+### Siemens Energy
+**Research Assistant** (Jun 2021 – Sep 2021)  
+Munich, Germany
+- Techno-economic Analysis: Conducted analysis of hydrogen transport options using linear optimization.
+- Research: Managed data research for regional projections of future hydrogen demands.
+- Validation: Validated German gas network model and completed Master's thesis on hydrogen transport infrastructure options.
+
+## Skills
+### Languages
+- TypeScript, JavaScript, Python
+
+### Frameworks
+- Django, NestJS, React Native, Flask
+
+### Cloud
+- AWS (Certified Cloud Architect)
 
 ## Languages
-- German (Native/Bilingual)
-- Portuguese (Native/Bilingual)
-- English (Native/Bilingual)
-- Spanish (Limited Working)
-- French (Limited Working)
-
-## Certifications
-- Complete Python Bootcamp
-- JavaScript Algorithms and Data Structures
-- Fundamentals of Quality Assurance Engineer
-- Back End Development and APIs
-- FCE (Cambridge English)
-
-## Areas of Interest
-- Backend Development
-- Energy Systems & Renewable Energy
-- Software Architecture
-- Sustainable Technology
-- Data Analysis & Optimization 
+- **Native/Bilingual:** German, Portuguese, English
+- **Limited Working:** Spanish, French 
