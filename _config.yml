@@ -133,13 +133,13 @@ author:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
+      url: "https://github.com/pmagnomuller"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url:
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/pmagnomuller"
+      url: "https://linkedin.com/in/pedro-magno-müller/"
 
 # Site Footer
 footer:
