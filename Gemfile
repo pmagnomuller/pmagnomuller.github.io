@@ -9,5 +9,3 @@ group :jekyll_plugins do
   gem "jekyll-gist"
   gem "jekyll-feed"
 end
-
-gem "minimal-mistakes-jekyll", "~> 4.27"
