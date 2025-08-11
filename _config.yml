@@ -10,17 +10,17 @@
 # Review documentation to determine if you should use `theme` or `remote_theme`
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
-# theme                  : "minimal-mistakes-jekyll"
-remote_theme             : "mmistakes/minimal-mistakes@4.24.0"
-minimal_mistakes_skin    : "dark" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+theme                  : "minimal-mistakes-jekyll"
+# remote_theme             : "mmistakes/minimal-mistakes@4.24.0"
+minimal_mistakes_skin    : "sunrise" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Pedro Magno Müller"
+title                    : "Pedro Müller"
 title_separator          : "-"
 subtitle                 : "Software Engineer"
-name                     : "Pedro Magno Müller"
+name                     : "Pedro Müller"
 description              : "Personal website and blog about software development."
 url                      : "https://pmagnomuller.github.io"
 baseurl                  : ""
@@ -113,15 +113,12 @@ analytics:
 
 # Site Author
 author:
-  name             : "Pedro Magno Müller"
+  name             : "Pedro Müller"
   avatar           : "/assets/images/profile-photo.jpg"
   bio              : "Passionate about energy, clean code, modern web technologies and ai"
   location         : "Berlin, Germany"
-  email            : "pedro.magnomuller@gmail.com"
+  email            : "pedro.muller@gmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "mailto:pedro.magnomuller@gmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -139,7 +136,7 @@ author:
       # url:
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/pedro-magno-müller/"
+      url: "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
 
 # Site Footer
 footer:
