@@ -8,7 +8,7 @@ classes: wide
 
 ## Contact Information
 - **Email:** pedro.muller@gmail.com
-- **LinkedIn:** [linkedin.com/in/pedro-müller](https://linkedin.com/in/pedro-müller)
+- **LinkedIn:** [linkedin.com/in/pedro-magno-müller](https://www.linkedin.com/in/pedro-magno-m%C3%BCller/)
 - **Mobile:** +49 176 82011111
 
 ## Education
