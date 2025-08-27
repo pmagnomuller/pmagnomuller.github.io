@@ -154,3 +154,26 @@
     }
   }
 }
+
+/* Fix sidebar overlap issues - minimal approach */
+.sidebar {
+  z-index: 10;
+}
+
+.page {
+  z-index: 1;
+}
+
+/* Ensure PDF content doesn't overlap */
+.page__content object {
+  z-index: 1;
+}
+
+/* Hide the footer completely */
+.page__footer {
+  display: none !important;
+}
+
+#footer {
+  display: none !important;
+}

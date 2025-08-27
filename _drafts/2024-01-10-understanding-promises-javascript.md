@@ -10,6 +10,7 @@ tags:
   - Promises
 toc: false
 toc_sticky: false
+draft: true
 ---
 
 Being new to JavaScript has these things. I'm sure you understand what an async function is and how asynchronicity works in JavaScript. A key difference from all other languages is the use of Promise.

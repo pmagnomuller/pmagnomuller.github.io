@@ -4,7 +4,7 @@ date: 2025-02-19
 description: "Explore how Cursor is revolutionizing software development by integrating AI directly into the code editor, making it a true pair programming experience."
 categories: ["Development Tools", "AI", "Productivity"]
 tags: ["Cursor", "AI", "Development", "Productivity"]
-draft: false
+draft: true
 ---
 
 In a world where coding productivity tools are evolving rapidly, Cursor is pioneering a new frontier. Founded by four MIT students in 2022, the company launched publicly in 2023 and quickly made waves raising an $8 million seed round led by OpenAI's Startup Fund. Fast forward to February 2025, and Cursor hit $100 million in annual recurring revenue (ARR), becoming the fastest-growing SaaS company to date.

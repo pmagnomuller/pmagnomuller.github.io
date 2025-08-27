@@ -11,6 +11,7 @@ tags:
 toc: false
 toc_sticky: false
 excerpt: "A comprehensive guide to writing clean, maintainable TypeScript code with practical examples and best practices."
+draft: true
 ---
 
 Writing clean, maintainable code is crucial for any software project's long-term success. In this post, I'll share some essential clean code practices specifically for TypeScript development, drawing from my experience as a software engineer.

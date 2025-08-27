@@ -1,11 +1,18 @@
 ---
 title: "Resume"
 permalink: /resume/
-author_profile: false
-layout: single
+author_profile: true
+layout: home
 classes: wide
 ---
 
+<div style="width: 100%; height: 80vh; margin: 0; padding: 0; border: none; background: transparent; overflow: hidden;">
+  <iframe src="/pedro_resume.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%" style="border: none; margin: 0; padding: 0; box-shadow: none; outline: none; background: transparent;">
+    <p>Your browser does not support PDFs. <a href="/pedro_resume.pdf" target="_blank">Click here to download the PDF</a>.</p>
+  </iframe>
+</div>
+
+<!--
 ## Contact Information
 - **Email:** pedro.muller@gmail.com
 - **LinkedIn:** [linkedin.com/in/pedro-müller](https://linkedin.com/in/pedro-müller)
@@ -59,4 +66,5 @@ Munich, Germany
 
 ## Languages
 - **Native/Bilingual:** German, Portuguese, English
-- **Limited Working:** Spanish, French 
+- **Limited Working:** Spanish, French
+--> 
