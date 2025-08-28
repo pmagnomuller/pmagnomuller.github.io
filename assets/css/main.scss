@@ -40,18 +40,7 @@
 }
 
 
-.page {
-  padding-right: 0;
-  width: 100%;
-  float: left;
 
-  @media (min-width: 80em) {
-    width: 75%;
-    margin: 0 auto;
-    float: none;
-    padding-left: 0;
-  }
-}
 
 .home-intro {
   margin-bottom: calc(2em);
@@ -130,43 +119,60 @@
   }
 }
 
-/* Center content for single layout */
+
+
+/* Ensure proper 2-column layout for single posts */
 .layout--single {
-  .page {
-    width: 100%;
-    padding-right: 0;
-    
-    @media (min-width: 80em) {
-      width: 75%;
-      margin: 0 auto;
-      float: none;
-      padding-left: 0;
-    }
+  #main {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
   }
   
-  .page__content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1em;
-    
-    @media (min-width: 80em) {
-      padding: 0;
-    }
+  .sidebar {
+    flex: 0 0 300px;
+    z-index: 10;
+    position: sticky;
+    top: 2rem;
   }
-}
-
-/* Fix sidebar overlap issues - minimal approach */
-.sidebar {
-  z-index: 10;
-}
-
-.page {
-  z-index: 1;
+  
+  .page {
+    flex: 1;
+    z-index: 1;
+    max-width: none;
+  }
 }
 
 /* Ensure PDF content doesn't overlap */
 .page__content object {
   z-index: 1;
+}
+
+/* Style related posts section */
+.page__related {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e1e4e8;
+}
+
+.page__related h4 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.page__related .archive__item {
+  margin-bottom: 1rem;
+}
+
+.page__related .archive__item-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.page__related .archive__item-excerpt {
+  font-size: 0.9rem;
+  color: #7f8c8d;
 }
 
 /* Hide the footer completely */

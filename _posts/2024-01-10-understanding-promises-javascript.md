@@ -1,13 +1,6 @@
 ---
 title: "Understanding Promises in JavaScript: From Callbacks to Promise.allSettled()"
 date: 2024-01-10
-categories:
-  - JavaScript
-tags:
-  - JavaScript
-  - Programming
-  - Asynchronous Programming
-  - Promises
 toc: false
 toc_sticky: false
 ---
