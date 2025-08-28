@@ -60,7 +60,7 @@ layout: default
         {% include page__date.html %}
       </footer>
 
-      {% if page.share %}{% include social-share.html %}{% endif %}
+      {% comment %}{% if page.share %}{% include social-share.html %}{% endif %}{% endcomment %}
 
       {% include post_pagination.html %}
     </div>
@@ -76,12 +76,12 @@ layout: default
       {% endif %}
     {% endif %}
   </article>
-
-  {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
-  {% if page.id and page.related and site.related_posts.size > 0 %}
-    {% include page__related.html posts=site.related_posts %}
-  {% comment %}<!-- otherwise show recent posts if no related when `related: true` -->{% endcomment %}
-  {% elsif page.id and page.related %}
-    {% include page__related.html posts=site.posts %}
-  {% endif %}
 </div>
+
+{% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
+{% if page.id and page.related and site.related_posts.size > 0 %}
+  {% include page__related.html posts=site.related_posts %}
+{% comment %}<!-- otherwise show recent posts if no related when `related: true` -->{% endcomment %}
+{% elsif page.id and page.related %}
+  {% include page__related.html posts=site.posts %}
+{% endif %}

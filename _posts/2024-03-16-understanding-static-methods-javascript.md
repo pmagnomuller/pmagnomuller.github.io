@@ -1,16 +1,8 @@
 ---
 title: "Understanding Static Methods in JavaScript: A Comprehensive Guide"
 date: 2024-03-16
-categories:
-  - JavaScript
-tags:
-  - JavaScript
-  - Programming
-  - Design Patterns
-  - Object-Oriented Programming
 toc: false
 toc_sticky: false
-draft: true
 ---
 
 Before diving into why static methods matter, let's quickly understand what they are. In JavaScript, a static method is a function that belongs to a class itself, rather than an instance of that class. Unlike regular methods, which need an object to be created before they can be used, static methods can be called directly on the class.
