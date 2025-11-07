@@ -318,3 +318,9 @@
 .page__content h6::after {
   content: none !important;
 }
+
+/* Hide back to top button */
+.back-to-top {
+  display: none !important;
+  visibility: hidden !important;
+}
