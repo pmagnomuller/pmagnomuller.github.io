@@ -294,3 +294,27 @@
 #footer {
   display: none !important;
 }
+
+/* Hide permalink elements in blog posts */
+.page__content .header-link,
+.page__content a.header-link,
+.page__content .sr-only,
+.page__content span.sr-only {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0) !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Hide any permalink text that might appear after headings */
+.page__content h1::after,
+.page__content h2::after,
+.page__content h3::after,
+.page__content h4::after,
+.page__content h5::after,
+.page__content h6::after {
+  content: none !important;
+}
