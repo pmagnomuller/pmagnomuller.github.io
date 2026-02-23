@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 7: Transactions"
+title: "DDIA Chapter 7: Transactions"
 chapter: 7
 part: "Part II: Distributed Data"
 collection: ddia
 ---
-
-Chapter 7 is my sanity check: yes, transactions are still useful, even if we sometimes decide not to use them.
-
-Chapter 7: Transactions
 
 A transaction is a way of an application to group several reads and writes together into a logical unit, which either succeeds or fails entirely.
 

@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 11: Stream Processing"
+title: "DDIA Chapter 11: Stream Processing"
 chapter: 11
 part: "Part III: Derived Data"
 collection: ddia
 ---
-
-Chapter 11 is how I think about \"near real-time\" – not magic, just another dataflow pattern.
-
-Chapter 11: Stream Processing
 
 Some problems of batch processing are that it has to read the entire input before processing, and that the input is reflected to output after a very long period (up to days sometimes), stream processing come into place as a solution for these two problems, where processing is run over small chunks of input for a very small time frames (usually less than a second).
 

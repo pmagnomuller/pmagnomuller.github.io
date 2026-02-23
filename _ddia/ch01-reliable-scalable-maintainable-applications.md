@@ -1,14 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 1: Reliable, Scalable, and Maintainable Applications"
+title: "DDIA Chapter 1: Reliable, Scalable, and Maintainable Applications"
 chapter: 1
 part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
-
-These are my personal notes for Chapter 1 – mostly for my own memory, not a full summary.
-
-Part I: Foundation of Data Systems  
-Chapter 1: Reliable, Scalable, and Maintainable Applications
 
 CPU power is rarely the limiting factor anymore, it is the data size that is.
 

@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 12: The Future of Data Systems"
+title: "DDIA Chapter 12: The Future of Data Systems"
 chapter: 12
 part: "Part III: Derived Data"
 collection: ddia
 ---
-
-Chapter 12 is more reflective – how these ideas add up to real systems (and trade-offs) we build.
-
-Chapter 12: The Future of Data Systems
 
 ## Data Integration
 

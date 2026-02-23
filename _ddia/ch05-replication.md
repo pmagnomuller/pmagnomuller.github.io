@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 5: Replication"
+title: "DDIA Chapter 5: Replication"
 chapter: 5
 part: "Part II: Distributed Data"
 collection: ddia
 ---
-
-Replication is where my mental model shifts from \"one database\" to \"many imperfect copies that must somehow agree\".
-
-Chapter 5: Replication
 
 If the data doesn't change, replication would be as simple as copying it once to other replicas, but the difficulty lies in handling changes if it does, because we usually have to deal with many trade-offs such as sync vs async replication, and how to handle failed replicas.
 

@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 4: Encoding and Evolution"
+title: "DDIA Chapter 4: Encoding and Evolution"
 chapter: 4
 part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
-
-Chapter 4 is my mental note about how data formats and services keep changing while everything keeps running.
-
-Chapter 4: Encoding and Evolution
 
 Changes to the application's features also requires a change to data that it stores, this means that multiple versions of code and multiple data formats may coexist at the same time. Thus, backward compatibility and forward compatibility should be maintained.
 

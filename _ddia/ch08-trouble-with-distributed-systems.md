@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 8: The Trouble with Distributed Systems"
+title: "DDIA Chapter 8: The Trouble with Distributed Systems"
 chapter: 8
 part: "Part II: Distributed Data"
 collection: ddia
 ---
-
-This chapter is basically \"embrace the chaos\" for distributed systems.
-
-Chapter 8: The Trouble with Distributed Systems
 
 The main difference between a single computer and a distributed system, is that in distributed systems there are lots of ways for things to go wrong, and we should assume that it will go wrong.
 
