@@ -116,9 +116,9 @@ analytics:
 author:
   name             : "Pedro Müller"
   avatar           : "/assets/images/profile-photo.jpg"
-  bio              : "Passionate about energy, clean code, modern web technologies and ai"
+  bio              : "Passionate about clean code, modern web technologies and ai"
   location         : "Berlin, Germany"
-  email            : "pedro.muller@gmail.com"
+  email            : "pedro.magnomuller@gmail.com"
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
@@ -321,9 +321,10 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: false
+      author_profile: true
       classes: wide
       read_time: true
+      show_date: true
       comments: false
       share: true
       related: true

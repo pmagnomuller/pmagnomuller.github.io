@@ -2,8 +2,6 @@
 title: "Cursor as Your Tool: A New Workflow for AI-Native Development"
 date: 2025-02-19
 description: "Explore how Cursor is revolutionizing software development by integrating AI directly into the code editor, making it a true pair programming experience."
-categories: ["Development Tools", "AI", "Productivity"]
-tags: ["Cursor", "AI", "Development", "Productivity"]
 draft: false
 ---
 
@@ -19,17 +17,11 @@ Cursor flips the script: instead of working alongside an AI tool, it brings AI i
 
 ## What Is Cursor?
 
-- A new workflow for developers
-- A new way of thinking about code as structured, contextual text
-- A new tool that feels like an extension of your brain, rather than just your keyboard
 
 ## Key Features
 
 Cursor is not just an editor. It's a supercharged development environment packed with intelligent features:
 
-- Find and fix bugs fast
-- Context-aware autocomplete
-- Generate tests and documentation in seconds
 
 These features become even more powerful with light customization from the user — making Cursor adaptable to your style and stack.
 
@@ -38,15 +30,9 @@ These features become even more powerful with light customization from the user 
 Cursor introduces a concept called Cursor Rules, which lets you train the AI on your team's coding preferences.
 
 There are two types:
-- **Project Rules**: Shared in a codebase. Enforce team/repo-specific best practices.
-- **Global Rules**: Personal. Apply your own coding preferences.
 
 ### Why Use Cursor Rules?
 
-- Enforce naming conventions and architectural choices
-- Prefer specific libraries, folder structures, or types
-- Avoid unwanted patterns (e.g., `console.log`, `any`)
-- Tailor AI suggestions to your team's opinionated style
 
 In short: Cursor becomes a custom coding assistant that writes like you and your team.
 
@@ -57,16 +43,8 @@ One of Cursor's most exciting innovations is MCP, an open protocol that standard
 ### What does this unlock?
 
 **Without MCP:**
-- AI guesses table names
-- Uses raw HTML/CSS
-- Offers generic SQL
-- Sees only open files
 
 **With MCP:**
-- AI knows your schema
-- Uses design system components
-- Provides validated queries
-- Sees full project context
 
 ## Live Demo: Build a Slack-Style Chat App
 
@@ -75,10 +53,6 @@ Cursor's power becomes real in practice. With a simple prompt like:
 ```typescript
 // Example prompt for Cursor
 Build a simple Express backend for a Slack-style chat app. It should have endpoints to:
-- Create a user
-- Create a channel
-- Send a message
-- Get all messages in a channel
 Also create a simple frontend with inputs for user, channel, and message.
 ```
 

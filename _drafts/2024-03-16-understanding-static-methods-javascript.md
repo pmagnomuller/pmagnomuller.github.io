@@ -1,13 +1,6 @@
 ---
 title: "Understanding Static Methods in JavaScript: A Comprehensive Guide"
 date: 2024-03-16
-categories:
-  - JavaScript
-tags:
-  - JavaScript
-  - Programming
-  - Design Patterns
-  - Object-Oriented Programming
 toc: false
 toc_sticky: false
 ---
