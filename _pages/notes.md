@@ -1,16 +1,11 @@
 ---
 title: "Notes"
 permalink: /notes/
-layout: archive
+layout: collection
 collection: ddia
+sort_by: chapter
 author_profile: true
 classes: wide
 ---
 
-<ul>
-{% assign notes = site.ddia | sort: 'chapter' %}
-{% for note in notes %}
-  <li><a href="{{ note.url | relative_url }}">{{ note.title }}</a></li>
-{% endfor %}
-</ul>
-
+Study notes
