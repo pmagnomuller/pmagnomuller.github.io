@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 2: Data Models and Query Languages"
+title: "DDIA Chapter 2: Data Models and Query Languages"
 chapter: 2
 part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
-
-These are my notes for Chapter 2 – mostly thinking about how data shapes the way I design systems.
-
-Chapter 2: Data Models and Query Languages
 
 ## Data Models
 

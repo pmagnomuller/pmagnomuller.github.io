@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 10: Batch Processing"
+title: "DDIA Chapter 10: Batch Processing"
 chapter: 10
 part: "Part III: Derived Data"
 collection: ddia
 ---
-
-Part III is all about derived data. Chapter 10 is my mental model of \"offline crunching\" data.
-
-Chapter 10: Batch Processing
 
 All systems can fit into three main categories:
 

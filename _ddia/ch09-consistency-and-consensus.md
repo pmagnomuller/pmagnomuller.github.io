@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 9: Consistency and Consensus"
+title: "DDIA Chapter 9: Consistency and Consensus"
 chapter: 9
 part: "Part II: Distributed Data"
 collection: ddia
 ---
-
-This is where the theory (consensus, linearizability, CAP) meets day-to-day architecture choices.
-
-Chapter 9: Consistency and Consensus
 
 The simplest way of handling system faults is to simply let the entire system fail, and then show an error message. But, the best way is to have a general-purpose abstraction with useful guarantees that we can implement.
 

@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 6: Partitioning"
+title: "DDIA Chapter 6: Partitioning"
 chapter: 6
 part: "Part II: Distributed Data"
 collection: ddia
 ---
-
-Chapter 6 is my reminder that \"just shard it\" hides a lot of real trade-offs.
-
-Chapter 6: Partitioning
 
 For huge datasets that doesn't fit in a single database, or for scalability purposes, partitioning (sharding) is the solution. Typically each piece of data belongs to exactly one partition, and a single operation might need to touch multiple partitions at once. Thus, complex queries should be parallelized across many nodes.
 

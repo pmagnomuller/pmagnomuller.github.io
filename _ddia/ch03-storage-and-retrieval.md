@@ -1,13 +1,9 @@
 ---
-title: "DDIA Notes – Chapter 3: Storage and Retrieval"
+title: "DDIA Chapter 3: Storage and Retrieval"
 chapter: 3
 part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
-
-Chapter 3 is where the \"how the database actually works\" details start to matter for me.
-
-Chapter 3: Storage and Retrieval
 
 ## Data Structures That Powers Your Database
 
