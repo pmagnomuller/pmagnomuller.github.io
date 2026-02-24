@@ -4,7 +4,5 @@ main:
     url: /resume/
   - title: "Notes"
     url: /notes/
-  - title: "Projects"
-    url: /projects/
   - title: "Blog"
     url: /blog/ 
