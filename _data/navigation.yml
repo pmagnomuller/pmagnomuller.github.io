@@ -2,7 +2,5 @@
 main:
   - title: "Resume"
     url: /resume/
-  - title: "Notes"
-    url: /notes/
   - title: "Blog"
     url: /blog/ 
