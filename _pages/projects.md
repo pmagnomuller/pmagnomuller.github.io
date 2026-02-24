@@ -12,12 +12,7 @@ classes: wide
 </div>
 
 <div class="projects-grid">
-  <a class="project-card" href="https://do-not-stop.com" target="_blank" rel="noopener noreferrer">
-    <div class="project-label project-label--wip">In progress</div>
-    <h2>DNS – Do Not Stop</h2>
-    <p class="project-tagline">Streetwear shop with bold, timeless pieces.</p>
-    <p class="project-meta">do-not-stop.com</p>
-  </a>
+  
 
   <a class="project-card" href="https://catchupdigest.com" target="_blank" rel="noopener noreferrer">
     <div class="project-label project-label--wip">In progress</div>
@@ -27,6 +22,14 @@ classes: wide
     </p>
     <p class="project-meta">catchupdigest.com</p>
   </a>
+
+  <a class="project-card" href="https://do-not-stop.com" target="_blank" rel="noopener noreferrer">
+    <div class="project-label project-label--wip">In progress</div>
+    <h2>DNS – Do Not Stop</h2>
+    <p class="project-tagline">Streetwear shop with bold, timeless pieces.</p>
+    <p class="project-meta">do-not-stop.com</p>
+  </a>
+  
 </div>
 
 <style>
