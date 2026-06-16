@@ -6,10 +6,17 @@ layout: home
 classes: wide
 ---
 
-<div style="width: 100%; height: 80vh; margin: 0; padding: 0; border: none; background: transparent; overflow: hidden;">
-  <iframe src="/pedro_resume.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%" style="border: none; margin: 0; padding: 0; box-shadow: none; outline: none; background: transparent;">
-    <p>Your browser does not support PDFs. <a href="/pedro_resume.pdf" target="_blank">Click here to download the PDF</a>.</p>
-  </iframe>
+<div class="resume-wrap">
+  <div class="resume-wrap__bar">
+    <a class="btn-pill btn-pill--primary" href="{{ '/pedro_resume.pdf' | relative_url }}" download>
+      <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+    </a>
+  </div>
+  <div class="resume-wrap__frame">
+    <iframe src="{{ '/pedro_resume.pdf' | relative_url }}#toolbar=0&navpanes=0&scrollbar=0" title="Pedro Müller — Resume">
+      <p>Your browser does not support PDFs. <a href="{{ '/pedro_resume.pdf' | relative_url }}" target="_blank">Click here to download the PDF</a>.</p>
+    </iframe>
+  </div>
 </div>
 
 <!--
