@@ -1,9 +1,13 @@
 <!-- start custom footer snippets -->
-<div class="page__footer-copyright">
- <!--  <div class="footer-text">
-    © {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}. 
-    Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> & 
-    <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.
-  </div> -->
+<div class="site-footer-custom">
+  <div class="site-footer-custom__social">
+    <a href="https://github.com/pmagnomuller" aria-label="GitHub" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a>
+    <a href="https://www.linkedin.com/in/pedro-magno-m%C3%BCller/" aria-label="LinkedIn" rel="noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+    <a href="mailto:{{ site.author.email }}" aria-label="Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+  </div>
+  <div class="site-footer-custom__copyright">
+    &copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }} · Built with
+    <a href="https://jekyllrb.com" rel="nofollow noopener">Jekyll</a>
+  </div>
 </div>
 <!-- end custom footer snippets -->

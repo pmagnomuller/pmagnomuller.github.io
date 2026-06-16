@@ -1,14 +1,1 @@
-{% if site.github.username or site.linkedin.username %}
-<div class="page__footer-follow">
-  <ul class="social-icons">
-    {% if site.github.username %}
-      <li><a href="https://github.com/{{ site.github.username }}" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
-    {% endif %}
-    {% if site.linkedin.username %}
-      <li><a href="https://www.linkedin.com/in/{{ site.linkedin.username }}" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
-    {% endif %}
-  </ul>
-</div>
-{% endif %}
-
 {% include footer/custom.html %}
