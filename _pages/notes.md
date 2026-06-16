@@ -8,4 +8,6 @@ author_profile: true
 classes: wide
 ---
 
-Study notes
+Working through *Designing Data-Intensive Applications* by Martin Kleppmann — a
+chapter-by-chapter set of study notes on the ideas behind reliable, scalable, and
+maintainable data systems.
