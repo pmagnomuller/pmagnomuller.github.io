@@ -4,132 +4,47 @@ author_profile: true
 classes: wide
 ---
 
-<div class="homepage-hero">
-  <h1>👋 Hi, I'm Pedro</h1>
-  <p class="tagline">Software Engineer</p>
+<section class="home-hero">
+  <h1 class="home-hero__greeting">Hi, I'm Pedro 👋</h1>
+  <p class="home-hero__tagline">Software Engineer · Berlin, Germany</p>
+  <p class="home-hero__intro">
+    I build software that helps people — currently working on energy and clean-tech
+    platforms. I care about clean code, modern web technologies, AI, and sustainability.
+    This is where I write about what I learn.
+  </p>
+  <div class="home-hero__actions">
+    <a class="btn-pill btn-pill--primary" href="{{ '/blog/' | relative_url }}">
+      <i class="fas fa-pen-nib" aria-hidden="true"></i> Read the blog
+    </a>
+    <a class="btn-pill btn-pill--ghost" href="https://github.com/pmagnomuller" rel="noopener noreferrer">
+      <i class="fab fa-github" aria-hidden="true"></i> GitHub
+    </a>
+    <a class="btn-pill btn-pill--ghost" href="https://www.linkedin.com/in/pedro-magno-m%C3%BCller/" rel="noopener noreferrer">
+      <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
+    </a>
+  </div>
+</section>
+
+<div class="section-heading">
+  <h2>Latest writing</h2>
+  <a href="{{ '/blog/' | relative_url }}">View all posts &rarr;</a>
 </div>
 
-<div class="simple-intro">
-  <p>I build software that helps people.</p>
-</div>
-
-<div class="content-section">
+<div class="post-cards">
   {% for post in site.posts limit:5 %}
-    <div class="post-item">
-      <a href="{{ post.url }}">{{ post.title }}</a>
-      <span class="post-date">{{ post.date | date: "%B %Y" }}</span>
-    </div>
+    <a class="post-card" href="{{ post.url | relative_url }}">
+      <h3 class="post-card__title">{{ post.title }}</h3>
+      <p class="post-card__meta">
+        <span><i class="far fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%B %-d, %Y" }}</span>
+        {% assign words = post.content | strip_html | number_of_words %}
+        {% assign minutes = words | divided_by: 200 | plus: 1 %}
+        <span><i class="far fa-clock" aria-hidden="true"></i> {{ minutes }} min read</span>
+      </p>
+      {% if post.description %}
+        <p class="post-card__excerpt">{{ post.description | strip_html | truncate: 160 }}</p>
+      {% elsif post.excerpt %}
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+      {% endif %}
+    </a>
   {% endfor %}
 </div>
-
-
-
-<style>
-.homepage-hero {
-  text-align: center;
-  margin: 4rem 0 3rem 0;
-}
-
-.homepage-hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.tagline {
-  font-size: 1.2rem;
-  color: #7f8c8d;
-  margin: 0;
-  font-weight: 400;
-}
-
-.simple-intro {
-  text-align: center;
-  margin: 2rem 0 4rem 0;
-  font-size: 1.1rem;
-  color: #34495e;
-  line-height: 1.6;
-}
-
-.content-section {
-  margin: 3rem 0;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.post-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 1.2rem 0;
-  border-bottom: 1px solid #f1f3f4;
-  transition: background-color 0.2s ease;
-}
-
-.post-item:hover {
-  margin: 0 -1rem;
-  padding: 1.2rem 1rem;
-}
-
-.post-item:last-child {
-  border-bottom: none;
-}
-
-.post-item a {
-  color: #1a73e8;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 500;
-  line-height: 1.4;
-  flex: 1;
-  margin-right: 1rem;
-}
-
-.post-item a:hover {
-  color: #174ea6;
-  text-decoration: none;
-}
-
-.post-date {
-  font-size: 0.9rem;
-  color: #5f6368;
-  font-weight: 400;
-  white-space: nowrap;
-  min-width: 80px;
-  text-align: right;
-}
-
-.quick-links {
-  text-align: center;
-  margin: 4rem 0;
-}
-
-.quick-links a {
-  display: inline-block;
-  margin: 0 1rem;
-  color: #7f8c8d;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.2s ease;
-}
-
-.quick-links a:hover {
-  color: #2c3e50;
-}
-
-@media (max-width: 768px) {
-  .homepage-hero h1 {
-    font-size: 2rem;
-  }
-  
-  .post-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-}
-</style>
-
-
