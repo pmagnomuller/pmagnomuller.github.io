@@ -6,149 +6,492 @@
 @use "sass:math";
 @use "sass:color";
 
+/* ==========================================================================
+   Custom palette overrides (defined before the theme so they win over
+   the skin's `!default` values)
+   ========================================================================== */
+
+/* Light theme */
+$background-color: #ffffff;
+$text-color: #1f2328;
+$muted-text-color: #57606a;
+$primary-color: #4f46e5;
+$border-color: #e6e8eb;
+$code-background-color: #f6f8fa;
+$code-background-color-dark: #eaeef2;
+$form-background-color: #f6f8fa;
+$footer-background-color: #fafafa;
+
+$link-color: #4338ca;
+$link-color-hover: #3730a3;
+$link-color-visited: #4338ca;
+$masthead-link-color: $text-color;
+$masthead-link-color-hover: $primary-color;
+
+/* Typography */
+$global-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Helvetica Neue", Arial, sans-serif;
+$header-font-family: $global-font-family;
+
+/* Shape */
+$border-radius: 10px;
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
 @import "minimal-mistakes";
 
-/* Custom styles */
+/* ==========================================================================
+   Design tokens used by custom components (so dark mode can flip them)
+   ========================================================================== */
 
-/* Custom highlight color for sunrise theme */
+:root {
+  --bg: #{$background-color};
+  --bg-elevated: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --text: #{$text-color};
+  --text-muted: #{$muted-text-color};
+  --border: #{$border-color};
+  --accent: #{$primary-color};
+  --accent-strong: #4338ca;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
+/* ==========================================================================
+   Base refinements
+   ========================================================================== */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.003em;
+}
+
 ::selection {
-  background-color: #f9b248; /* Warm orange from sunrise palette */
-  color: #000;
+  background-color: var(--accent);
+  color: #fff;
 }
-
 ::-moz-selection {
-  background-color: #f9b248; /* Warm orange from sunrise palette */
-  color: #000;
+  background-color: var(--accent);
+  color: #fff;
 }
 
-/* Fix archive item colors */
-.archive__item-title a {
-  color: #000 !important;
+a {
+  transition: color 0.18s ease;
 }
 
-.archive__item-title a:hover {
-  color: #333 !important;
+/* Masthead: cleaner, sticky, subtle blur */
+.masthead {
+  border-bottom: 1px solid var(--border);
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Fix profile picture to be circular */
+.greedy-nav {
+  background: transparent;
+
+  .site-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    font-weight: 500;
+  }
+
+  .visible-links a:before {
+    height: 3px;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+}
+
+.site-subtitle {
+  font-style: normal !important;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Author profile (sidebar)
+   ========================================================================== */
+
 .author__avatar img {
   border-radius: 50% !important;
-  width: 110px !important;
-  height: 110px !important;
+  width: 120px !important;
+  height: 120px !important;
   object-fit: cover !important;
+  box-shadow: var(--shadow-md);
+  border: 3px solid var(--bg-elevated);
 }
 
+.author__name {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 
+.author__bio {
+  color: var(--text-muted);
+}
 
+.author__urls {
+  li a {
+    border-radius: 6px;
+    padding: 0.15em 0.35em;
+    transition: background-color 0.18s ease, color 0.18s ease;
 
-.home-intro {
-  margin-bottom: calc(2em);
-  
-  .intro-text {
-    background-color: var(--background-color, #f8f9fa);
-    padding: calc(2em);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-    p {
-      font-size: 1.1em;
-      line-height: 1.6;
-      margin-bottom: 1.5em;
-      color: var(--text-color, $text-color);
-    }
-    
-    .btn--primary {
-      margin-top: 0.5em;
-      display: inline-block;
+    &:hover {
+      background-color: var(--bg-subtle);
+      color: var(--accent);
+      text-decoration: none;
     }
   }
 }
 
-/* Minimalistic Resume Styles */
-.page__content {
+/* ==========================================================================
+   Home page
+   ========================================================================== */
+
+.home-hero {
+  margin: 1.5rem 0 2.5rem;
+
+  &__greeting {
+    font-size: 2.4rem;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin: 0 0 0.5rem;
+  }
+
+  &__tagline {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin: 0 0 1.25rem;
+    font-weight: 500;
+  }
+
+  &__intro {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    max-width: 46rem;
+    margin: 0 0 1.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.18s ease,
+    background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+
+  &--primary {
+    background-color: var(--accent);
+    color: #fff !important;
+    box-shadow: var(--shadow-sm);
+
+    &:hover {
+      background-color: var(--accent-strong);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    color: var(--text) !important;
+    border: 1px solid var(--border);
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent) !important;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 2.5rem 0 1.25rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+
   h2 {
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid $border-color;
-    font-size: 1.2em;
-    color: $text-color;
-    font-weight: normal;
-  }
-  
-  h3 {
-    margin-top: 1em;
-    margin-bottom: 0.3em;
-    font-size: 1em;
-    color: $text-color;
-    font-weight: normal;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    border: 0;
+    padding: 0;
   }
 
-  p {
-    margin-bottom: 0.5em;
-    font-size: 0.9em;
-    line-height: 1.4;
-  }
-
-  ul {
-    margin: 0.3em 0 1em;
-    padding-left: 1em;
-    
-    li {
-      margin-bottom: 0.2em;
-      line-height: 1.4;
-      font-size: 0.9em;
-      
-      &::marker {
-        color: $muted-text-color;
-        font-size: 0.8em;
-      }
-    }
-  }
-
-  em {
-    color: $muted-text-color;
-    font-style: normal;
-    font-size: 0.85em;
-  }
-
-  strong {
-    font-weight: normal;
-    color: $text-color;
+  a {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
   }
 }
 
+/* Post list / cards */
+.post-cards {
+  display: grid;
+  gap: 1rem;
+}
 
+.post-card {
+  display: block;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: $border-radius;
+  background-color: var(--bg-elevated);
+  text-decoration: none !important;
+  color: inherit;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
-/* Ensure proper 2-column layout for single posts */
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(#4f46e5, 0.4);
+  }
+
+  &__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0 0 0.35rem;
+    line-height: 1.35;
+  }
+
+  &__meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0 0 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  &__excerpt {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+  }
+}
+
+/* ==========================================================================
+   Archive (blog index) as cards
+   ========================================================================== */
+
+.archive__item-title a {
+  color: var(--text) !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--accent) !important;
+    text-decoration: none;
+  }
+}
+
+.entries-list .list__item {
+  margin-bottom: 1rem;
+
+  .archive__item {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: $border-radius;
+    background-color: var(--bg-elevated);
+    transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  .archive__item-title {
+    margin-top: 0;
+  }
+}
+
+.archive__subtitle {
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.taxonomy__index {
+  background-color: var(--bg-subtle);
+  border-radius: $border-radius;
+
+  a {
+    color: var(--text);
+  }
+}
+
+/* ==========================================================================
+   Article / page content
+   ========================================================================== */
+
+.page__title {
+  letter-spacing: -0.03em;
+
+  a {
+    color: var(--text);
+    &:hover { color: var(--accent); }
+  }
+}
+
+.page__content {
+  font-size: 1.02rem;
+  line-height: 1.75;
+
+  code {
+    border-radius: 5px;
+  }
+}
+
+/* Article-only content styling (kept off the home/blog/notes index pages
+   so listing components keep their own typography). */
+.layout--single .page__content {
+  h2 {
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  h3 {
+    margin-top: 1.4em;
+    margin-bottom: 0.4em;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  a {
+    text-decoration: none;
+    border-bottom: 1px solid rgba(#4f46e5, 0.35);
+
+    &:hover {
+      border-bottom-color: var(--accent);
+    }
+  }
+
+  blockquote {
+    border-left: 4px solid var(--accent);
+    background-color: var(--bg-subtle);
+    border-radius: 0 $border-radius $border-radius 0;
+    padding: 0.6em 1.1em;
+    color: var(--text-muted);
+    font-style: normal;
+  }
+}
+
+.page__meta {
+  color: var(--text-muted);
+}
+
+/* Related posts */
+.page__related {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+
+  h4 {
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+/* ==========================================================================
+   Resume page
+   ========================================================================== */
+
+.resume-wrap {
+  margin: 0 auto;
+  max-width: 900px;
+
+  &__bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
+  }
+
+  &__frame {
+    width: 100%;
+    height: 82vh;
+    border: 1px solid var(--border);
+    border-radius: $border-radius;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: var(--bg-subtle);
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+/* ==========================================================================
+   Two-column single layout (kept from original, refined)
+   ========================================================================== */
+
 .layout--single {
   #main {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: flex-start;
   }
-  
+
   .sidebar {
-    flex: 0 0 300px;
+    flex: 0 0 280px;
     z-index: 10;
     position: sticky;
-    top: 2rem;
+    top: 5rem;
   }
-  
+
   .page {
     flex: 1;
     z-index: 1;
     max-width: none;
   }
-  
-  /* Mobile responsive design */
+
   @media (max-width: 768px) {
     #main {
       flex-direction: column;
       gap: 1rem;
     }
-    
+
     .sidebar {
       flex: none;
       width: 100%;
@@ -156,171 +499,208 @@
       order: 1;
       margin-bottom: 2rem;
     }
-    
+
     .page {
       order: 2;
       width: 100%;
     }
-    
+
     .page__title {
       font-size: 1.8rem !important;
       line-height: 1.3 !important;
-      margin-bottom: 1rem !important;
-    }
-    
-    .page__content {
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    
-    .page__content h1 {
-      font-size: 1.6rem;
-      margin-top: 1.5rem;
-      margin-bottom: 0.8rem;
-    }
-    
-    .page__content h2 {
-      font-size: 1.4rem;
-      margin-top: 1.3rem;
-      margin-bottom: 0.6rem;
-    }
-    
-    .page__content h3 {
-      font-size: 1.2rem;
-      margin-top: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .page__content p {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    
-    .page__content ul, .page__content ol {
-      margin: 1rem 0;
-      padding-left: 1.5rem;
-    }
-    
-    .page__content li {
-      margin-bottom: 0.5rem;
-    }
-    
-    .page__content pre {
-      font-size: 0.9rem;
-      padding: 1rem;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-    
-    .page__content code {
-      font-size: 0.9rem;
-      padding: 0.2rem 0.4rem;
-    }
-    
-    .page__content blockquote {
-      margin: 1rem 0;
-      padding: 1rem;
-      font-size: 0.95rem;
-    }
-  }
-  
-  /* Small mobile devices */
-  @media (max-width: 480px) {
-    .page__title {
-      font-size: 1.6rem !important;
-    }
-    
-    .page__content {
-      font-size: 0.95rem;
-    }
-    
-    .page__content h1 {
-      font-size: 1.4rem;
-    }
-    
-    .page__content h2 {
-      font-size: 1.2rem;
-    }
-    
-    .page__content h3 {
-      font-size: 1.1rem;
-    }
-    
-    .page__content pre {
-      font-size: 0.85rem;
-      padding: 0.8rem;
     }
   }
 }
 
-/* Ensure PDF content doesn't overlap */
-.page__content object {
-  z-index: 1;
-}
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 
-/* Style related posts section */
-.page__related {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e1e4e8;
-}
-
-.page__related h4 {
-  margin-bottom: 1rem;
-  color: #2c3e50;
-  font-size: 1.2rem;
-}
-
-.page__related .archive__item {
-  margin-bottom: 1rem;
-}
-
-.page__related .archive__item-title {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.page__related .archive__item-excerpt {
-  font-size: 0.9rem;
-  color: #7f8c8d;
-}
-
-/* Hide the footer completely */
 .page__footer {
-  display: none !important;
+  margin-top: 3rem;
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+
+  footer {
+    padding: 1.5rem 0;
+  }
+
+  a {
+    color: var(--text-muted);
+    &:hover { color: var(--accent); }
+  }
 }
 
-#footer {
-  display: none !important;
+.site-footer-custom {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+
+  &__social {
+    display: flex;
+    justify-content: center;
+    gap: 1.1rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+
+    a {
+      color: var(--text-muted);
+      transition: color 0.18s ease, transform 0.15s ease;
+
+      &:hover {
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+    }
+  }
 }
 
-/* Hide permalink elements in blog posts */
+/* Hide permalink anchors and back-to-top */
 .page__content .header-link,
 .page__content a.header-link,
 .page__content .sr-only,
 .page__content span.sr-only {
   display: none !important;
-  visibility: hidden !important;
-  position: absolute !important;
-  clip: rect(0, 0, 0, 0) !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
 }
 
-/* Hide any permalink text that might appear after headings */
-.page__content h1::after,
-.page__content h2::after,
-.page__content h3::after,
-.page__content h4::after,
-.page__content h5::after,
-.page__content h6::after {
-  content: none !important;
-}
-
-/* Hide back to top button */
 .back-to-top {
   display: none !important;
-  visibility: hidden !important;
+}
+
+/* ==========================================================================
+   Mobile tweaks
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .home-hero__greeting {
+    font-size: 2rem;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   Dark mode
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --bg-elevated: #161b22;
+    --bg-subtle: #161b22;
+    --text: #e6edf3;
+    --text-muted: #9198a1;
+    --border: #2a313c;
+    --accent: #8b93f8;
+    --accent-strong: #a5acff;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  .masthead {
+    background-color: rgba(13, 17, 23, 0.82);
+    border-bottom-color: var(--border);
+  }
+
+  .greedy-nav,
+  .greedy-nav .site-title,
+  .greedy-nav a {
+    color: var(--text);
+  }
+
+  .greedy-nav .visible-links a:hover {
+    color: var(--accent);
+  }
+
+  .hidden-links {
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow-md);
+
+    a { color: var(--text); }
+    &:after { border-color: transparent transparent var(--bg-elevated); }
+  }
+
+  .author__name { color: var(--text); }
+  .author__bio,
+  .author__urls li a { color: var(--text-muted); }
+  .author__avatar img { border-color: var(--bg-elevated); }
+
+  .home-hero__greeting,
+  .home-hero__intro,
+  .section-heading h2,
+  .post-card__title,
+  .page__title,
+  .page__title a,
+  .archive__item-title a {
+    color: var(--text) !important;
+  }
+
+  .home-hero__tagline,
+  .post-card__meta,
+  .post-card__excerpt,
+  .page__meta,
+  .archive__subtitle {
+    color: var(--text-muted);
+  }
+
+  .post-card,
+  .entries-list .list__item .archive__item {
+    background-color: var(--bg-elevated);
+    border-color: var(--border);
+  }
+
+  .btn-pill--ghost {
+    color: var(--text) !important;
+    border-color: var(--border);
+  }
+
+  .taxonomy__index { background-color: var(--bg-elevated); }
+  .taxonomy__index a { color: var(--text); }
+
+  .page__content {
+    color: var(--text);
+
+    h1, h2, h3, h4, h5, h6, strong { color: var(--text); }
+    h2 { border-bottom-color: var(--border); }
+
+    blockquote {
+      background-color: var(--bg-elevated);
+      color: var(--text-muted);
+    }
+
+    a { color: var(--accent); }
+
+    code {
+      background-color: #1b2230;
+      color: #e6edf3;
+    }
+  }
+
+  hr { border-color: var(--border); }
+
+  .page__related { border-top-color: var(--border); }
+
+  .page__footer {
+    background-color: #0a0d12;
+    border-top-color: var(--border);
+  }
+
+  .resume-wrap__frame {
+    background: var(--bg-elevated);
+    border-color: var(--border);
+  }
+
+  table { color: var(--text); }
+  td, th { border-color: var(--border); }
+  tr:nth-child(2n) { background-color: var(--bg-elevated); }
 }
