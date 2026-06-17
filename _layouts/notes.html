@@ -1,0 +1,43 @@
+---
+layout: archive
+---
+
+{{ content }}
+
+<div class="notes-books">
+  {% for book in site.data.books %}
+    {% assign entries = site[book.collection] | where_exp: "post", "post.hidden != true" %}
+    {% if book.sort_by %}
+      {% assign entries = entries | sort: book.sort_by %}
+    {% endif %}
+
+    <details class="notes-book"{% if book.open %} open{% endif %}>
+      <summary class="notes-book__summary">
+        <span class="notes-book__heading">
+          <span class="notes-book__title">{{ book.title }}</span>
+          {% if book.author %}<span class="notes-book__author">{{ book.author }}</span>{% endif %}
+        </span>
+        <span class="notes-book__count">{{ entries | size }} notes</span>
+        <span class="notes-book__chevron" aria-hidden="true"></span>
+      </summary>
+
+      <div class="notes-book__body">
+        {% assign group_field = book.group_by %}
+        {% assign current_group = "__notes_unset__" %}
+        {% for post in entries %}
+          {% if group_field %}{% assign post_group = post[group_field] %}{% else %}{% assign post_group = "" %}{% endif %}
+          {% if post_group != current_group %}
+            {% unless forloop.first %}</ul>{% endunless %}
+            {% assign current_group = post_group %}
+            {% if post_group and post_group != "" %}<h3 class="notes-book__part">{{ post_group }}</h3>{% endif %}
+            <ul class="notes-book__list">
+          {% endif %}
+          <li class="notes-book__item">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </li>
+          {% if forloop.last %}</ul>{% endif %}
+        {% endfor %}
+      </div>
+    </details>
+  {% endfor %}
+</div>

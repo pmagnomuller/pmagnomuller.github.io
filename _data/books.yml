@@ -1,0 +1,22 @@
+# Registry of book note collections shown on the /notes/ page.
+#
+# To add notes for a new book:
+#   1. Add a new collection in `_config.yml` under `collections:` (output: true)
+#      and a matching `defaults` entry, then create a `_<collection>/` folder
+#      with one markdown file per note/chapter.
+#   2. Add an entry below pointing at that collection.
+#
+# Fields:
+#   title      Book title shown in the collapsible header.
+#   author     Author shown next to the title (optional).
+#   collection Name of the Jekyll collection that holds the notes.
+#   sort_by    Front matter field used to order notes (optional).
+#   group_by   Front matter field used to group notes within the book (optional).
+#   open       Whether the section starts expanded (optional, defaults to false).
+
+- title: "Designing Data-Intensive Applications"
+  author: "Martin Kleppmann"
+  collection: ddia
+  sort_by: chapter
+  group_by: part
+  open: true

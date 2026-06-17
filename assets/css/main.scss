@@ -351,6 +351,134 @@ a {
 }
 
 /* ==========================================================================
+   Notes index — collapsible per-book sections
+   ========================================================================== */
+
+.notes-books {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.notes-book {
+  border: 1px solid var(--border);
+  border-radius: $border-radius;
+  background-color: var(--bg-elevated);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &[open] {
+    box-shadow: var(--shadow-sm);
+  }
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      background-color: var(--bg-subtle);
+    }
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  &__author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  &__count {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  &__chevron {
+    flex: 0 0 auto;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  &[open] &__chevron {
+    transform: rotate(-135deg);
+  }
+
+  &__body {
+    padding: 0.25rem 1.4rem 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  &__part {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 1.1rem 0 0.5rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    margin: 0;
+
+    a {
+      display: block;
+      padding: 0.5rem 0.7rem;
+      margin: 0 -0.7rem;
+      border-radius: 8px;
+      color: var(--text);
+      font-weight: 500;
+      text-decoration: none;
+      line-height: 1.4;
+      transition: background-color 0.16s ease, color 0.16s ease;
+
+      &:hover {
+        background-color: var(--bg-subtle);
+        color: var(--accent);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+/* ==========================================================================
    Article / page content
    ========================================================================== */
 
@@ -657,6 +785,22 @@ a {
   .entries-list .list__item .archive__item {
     background-color: var(--bg-elevated);
     border-color: var(--border);
+  }
+
+  .notes-book {
+    background-color: var(--bg-elevated);
+    border-color: var(--border);
+
+    &__title { color: var(--text); }
+    &__author,
+    &__count { color: var(--text-muted); }
+    &__count { background-color: var(--bg-subtle); border-color: var(--border); }
+    &__body { border-top-color: var(--border); }
+
+    &__item a {
+      color: var(--text);
+      &:hover { background-color: var(--bg-subtle); color: var(--accent); }
+    }
   }
 
   .btn-pill--ghost {
