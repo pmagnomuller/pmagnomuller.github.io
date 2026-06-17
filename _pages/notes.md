@@ -1,13 +1,11 @@
 ---
 title: "Notes"
 permalink: /notes/
-layout: collection
-collection: ddia
-sort_by: chapter
+layout: notes
 author_profile: true
 classes: wide
 ---
 
-Working through *Designing Data-Intensive Applications* by Martin Kleppmann — a
-chapter-by-chapter set of study notes on the ideas behind reliable, scalable, and
-maintainable data systems.
+Study notes from books I'm working through, organized by book. Expand a title to
+browse the notes — starting with *Designing Data-Intensive Applications* by
+Martin Kleppmann, with more books to come.
