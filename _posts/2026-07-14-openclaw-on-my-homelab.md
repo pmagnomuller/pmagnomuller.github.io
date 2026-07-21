@@ -1,6 +1,6 @@
 ---
 title: "OpenClaw on My Homelab: A Personal Agent That Can Touch the Grid"
-date: 2026-07-20
+date: 2026-07-14
 description: "How I run OpenClaw as a self-hosted gateway — messaging in, energy skills out, and why ClawHub skills matter for real automation."
 categories:
   - Homelab

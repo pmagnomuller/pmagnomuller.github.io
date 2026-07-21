@@ -1,6 +1,6 @@
 ---
 title: "Starting My Homelab Journey"
-date: 2026-07-19
+date: 2026-07-07
 description: "Why I'm building a home lab in Berlin — private AI, energy automation, and a place to run things I actually own."
 categories:
   - Homelab
