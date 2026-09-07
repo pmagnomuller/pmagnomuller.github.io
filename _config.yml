@@ -231,6 +231,9 @@ collections:
   ddia:
     output: true
     permalink: /notes/:title/
+  guides:
+    output: true
+    permalink: /notes/:title/
 
 
 # Outputting
@@ -350,6 +353,20 @@ defaults:
   - scope:
       path: ""
       type: ddia
+    values:
+      layout: single
+      author_profile: true
+      classes: wide
+      read_time: false
+      show_date: false
+      comments: false
+      share: false
+      related: false
+      toc: false
+  # _guides
+  - scope:
+      path: ""
+      type: guides
     values:
       layout: single
       author_profile: true
