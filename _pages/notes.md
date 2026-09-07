@@ -7,5 +7,5 @@ classes: wide
 ---
 
 Study notes from books I'm working through, organized by book. Expand a title to
-browse the notes — starting with *Designing Data-Intensive Applications* by
-Martin Kleppmann, with more books to come.
+browse the notes — *Designing Data-Intensive Applications* by Martin Kleppmann,
+and a self-written study guide to the 23 classic design patterns, with more to come.
