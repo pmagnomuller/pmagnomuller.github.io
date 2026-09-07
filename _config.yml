@@ -124,25 +124,6 @@ author:
   email            : "pedro.magnomuller@gmail.com"
   github           : "pmagnomuller"
   linkedin         : "pedro-magno-müller"
-  links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      # url: "https://twitter.com/"
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/pmagnomuller"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url:
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
 
 # Site Footer
 footer:
