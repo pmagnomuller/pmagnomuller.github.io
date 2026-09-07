@@ -2,8 +2,6 @@
 main:
   - title: "Home"
     url: /
-  - title: "Blog"
-    url: /blog/
   - title: "Notes"
     url: /notes/
   - title: "Resume"

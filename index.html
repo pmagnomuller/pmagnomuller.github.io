@@ -2,49 +2,14 @@
 layout: home
 author_profile: true
 classes: wide
+title: "Pedro Müller"
+description: "Pedro Müller (Pedro Magno Müller) — software engineer in Berlin building energy and clean-tech software."
 ---
 
 <section class="home-hero">
-  <h1 class="home-hero__greeting">Hi, I'm Pedro 👋</h1>
-  <p class="home-hero__tagline">Software Engineer · Berlin, Germany</p>
+  <h1 class="home-hero__eyebrow">Pedro Müller</h1>
+  <p class="home-hero__greeting">Software engineer in Berlin</p>
   <p class="home-hero__intro">
-    I build software that helps people — currently working on energy and clean-tech
-    platforms. Here I write about my home lab, OpenClaw, and the AI coding setup that
-    ties them together, plus the clean code and sustainability habits that stick.
+    I build energy and clean-tech software.
   </p>
-  <div class="home-hero__actions">
-    <a class="btn-pill btn-pill--primary" href="{{ '/blog/' | relative_url }}">
-      <i class="fas fa-pen-nib" aria-hidden="true"></i> Read the blog
-    </a>
-    <a class="btn-pill btn-pill--ghost" href="https://github.com/pmagnomuller" rel="noopener noreferrer">
-      <i class="fab fa-github" aria-hidden="true"></i> GitHub
-    </a>
-    <a class="btn-pill btn-pill--ghost" href="https://www.linkedin.com/in/pedro-magno-m%C3%BCller/" rel="noopener noreferrer">
-      <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
-    </a>
-  </div>
 </section>
-
-<div class="section-heading">
-  <h2>Latest writing</h2>
-  <a href="{{ '/blog/' | relative_url }}">View all posts &rarr;</a>
-</div>
-
-<div class="post-cards">
-  {% for post in site.posts limit:5 %}
-    <a class="post-card" href="{{ post.url | relative_url }}">
-      <h3 class="post-card__title">{{ post.title }}</h3>
-      <p class="post-card__meta">
-        <span><i class="far fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%B %-d, %Y" }}</span>
-        {% assign words = post.content | strip_html | number_of_words %}
-        {% assign minutes = words | divided_by: 200 | plus: 1 %}
-        <span><i class="far fa-clock" aria-hidden="true"></i> {{ minutes }} min read</span>
-      </p>
-      {% if post.description %}
-        <p class="post-card__excerpt">{{ post.description | strip_html | truncate: 160 }}</p>
-      {% elsif post.excerpt %}
-        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-      {% endif %}
-    </a>
-  {% endfor %}
-</div>

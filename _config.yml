@@ -13,7 +13,7 @@
 # For GitHub Pages deployment
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme             : "mmistakes/minimal-mistakes@4.24.0"
-minimal_mistakes_skin    : "sunrise" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "air" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
@@ -22,10 +22,10 @@ title                    : "Pedro Müller"
 title_separator          : "-"
 subtitle                 : "Software Engineer"
 name                     : "Pedro Müller"
-description              : "Personal website and blog about home lab, OpenClaw, AI coding, energy software, and clean code."
+description              : "Pedro Müller (Pedro Magno Müller) — software engineer in Berlin working on energy and clean-tech."
 url                      : "https://pmagnomuller.github.io"
 baseurl                  : ""
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "pmagnomuller/pmagnomuller.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
@@ -100,9 +100,12 @@ og_image                 : "/assets/images/profile-photo.jpg" # Open Graph/Twitt
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
-  type                   : # Person or Organization (defaults to Person)
-  name                   : # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
+  type                   : "Person"
+  name                   : "Pedro Müller"
+  links:
+    - "https://github.com/pmagnomuller"
+    - "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
+    - "https://pmagnomuller.github.io"
 
 # Analytics
 analytics:
@@ -116,9 +119,11 @@ analytics:
 author:
   name             : "Pedro Müller"
   avatar           : "/assets/images/profile-photo.jpg"
-  bio              : "Energy software by day. Homelab, OpenClaw, and AI coding by night."
+  bio              : "Software engineer working on energy and clean-tech."
   location         : "Berlin, Germany"
   email            : "pedro.magnomuller@gmail.com"
+  github           : "pmagnomuller"
+  linkedin         : "pedro-magno-müller"
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
