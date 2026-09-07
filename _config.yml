@@ -22,7 +22,7 @@ title                    : "Pedro Müller"
 title_separator          : "-"
 subtitle                 : "Software Engineer"
 name                     : "Pedro Müller"
-description              : "Personal website and blog about software development."
+description              : "Personal website and blog about home lab, OpenClaw, AI coding, energy software, and clean code."
 url                      : "https://pmagnomuller.github.io"
 baseurl                  : ""
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -116,7 +116,7 @@ analytics:
 author:
   name             : "Pedro Müller"
   avatar           : "/assets/images/profile-photo.jpg"
-  bio              : "Passionate about clean code, modern web technologies, AI and sustainability"
+  bio              : "Energy software by day. Homelab, OpenClaw, and AI coding by night."
   location         : "Berlin, Germany"
   email            : "pedro.magnomuller@gmail.com"
   links:
