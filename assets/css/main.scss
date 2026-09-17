@@ -556,12 +556,42 @@ h1, h2, h3, h4, h5, h6,
 
   .mermaid {
     margin: 1.75rem 0;
-    padding: 1rem 0.75rem;
+    padding: 1.1rem 0.9rem;
     overflow-x: auto;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    // Always light: Mermaid label contrast breaks under dark-mode page colors.
+    background: #fafbfa;
+    border: 1px solid #dce3e0;
     border-radius: $border-radius;
     text-align: center;
+    color: #2c3431;
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .messageText,
+    .labelText,
+    .loopText,
+    .noteText,
+    .actor text,
+    .actor-box text,
+    .nodeLabel,
+    .edgeLabel,
+    .edgeLabel span,
+    .edgeLabel p,
+    .cluster-label,
+    .cluster span,
+    text.actor,
+    text {
+      fill: #2c3431 !important;
+      color: #2c3431 !important;
+    }
+
+    .messageLine0,
+    .messageLine1 {
+      stroke: #2c3431 !important;
+    }
   }
 }
 
