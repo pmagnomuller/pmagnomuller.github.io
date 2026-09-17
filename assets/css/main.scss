@@ -629,6 +629,7 @@ h1, h2, h3, h4, h5, h6,
 
   .sidebar {
     flex: 0 0 260px;
+    min-width: 260px;
     z-index: 10;
     position: sticky;
     top: 5rem;
@@ -636,8 +637,52 @@ h1, h2, h3, h4, h5, h6,
 
   .page {
     flex: 1;
+    min-width: 0;
     z-index: 1;
     max-width: none;
+  }
+
+  /* The theme uses a compact avatar | bio | Follow row below 1024px.
+     That row cannot fit in the 260px left column, so stack it instead. */
+  @media (min-width: 769px) {
+    .author__avatar,
+    .author__content,
+    .author__urls-wrapper {
+      display: block;
+      width: 100%;
+      height: auto;
+      padding-inline: 0;
+    }
+
+    .author__name {
+      margin-top: 0.65rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .author__bio {
+      margin-top: 0.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .author__urls-wrapper button {
+      display: none;
+    }
+
+    .author__urls {
+      display: block;
+      position: relative;
+      inset-inline-end: auto;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
   }
 
   @media (max-width: 768px) {
@@ -648,6 +693,7 @@ h1, h2, h3, h4, h5, h6,
 
     .sidebar {
       flex: none;
+      min-width: 0;
       width: 100%;
       position: static;
       order: 1;
