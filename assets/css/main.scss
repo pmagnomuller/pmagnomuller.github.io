@@ -534,6 +534,35 @@ h1, h2, h3, h4, h5, h6,
   a code {
     color: var(--accent);
   }
+
+  figure {
+    margin: 1.75rem 0;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: $border-radius;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+
+    figcaption {
+      margin-top: 0.55rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  }
+
+  .mermaid {
+    margin: 1.75rem 0;
+    padding: 1rem 0.75rem;
+    overflow-x: auto;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: $border-radius;
+    text-align: center;
+  }
 }
 
 .layout--single .page__content {
