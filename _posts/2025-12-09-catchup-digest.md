@@ -1,7 +1,7 @@
 ---
 title: "Catchup Digest: Newsletters on Your Schedule"
 date: 2025-12-09
-description: "How I'm building Catchup Digest, a Gmail-connected newsletter aggregator that emails you an AI-summarized digest when you actually have time to read."
+description: "A small product tryout with two friends: one AI-summarized newsletter digest on your clock, real users, and the Google audit that stopped us."
 categories:
   - Projects
 tags:
@@ -10,15 +10,38 @@ tags:
   - FastAPI
   - Next.js
   - Gmail
+  - OpenAI
 toc: false
 ---
 
-I like newsletters. I do not like opening Gmail at 11pm to a pile of them and telling myself I'll catch up this weekend. That weekend never comes. The unread count just becomes another thing I feel vaguely guilty about.
+I like newsletters. I do not like opening Gmail at 11pm to a pile of them and telling myself I will catch up this weekend. That weekend never comes. The unread count just becomes another thing I feel vaguely guilty about.
 
-[Catchup Digest](https://github.com/pmagnomuller/catchup-digest) is me trying to fix that for myself. Connect Gmail, find the newsletters you actually get, pick which ones still deserve attention, and get one AI-summarized email at a time you chose. The senders keep their cadence. I get mine.
+[Catchup Digest](https://github.com/pmagnomuller/catchup-digest) was our attempt to fix that. Not a solo side project I polished forever. A real tryout with **two friends**: build something people would actually use, see if they would pay, learn fast. They leaned into distribution and got people in the door. I built the product. Safe to say at least **twenty people** connected an inbox and received digests.
 
-The idea is almost boring, which is why I wanted to own it. Newsletters are useful and badly timed. They arrive when the writer hits publish, not when I have twenty quiet minutes. Batching them into a single scheduled digest is not a research problem. It is infrastructure I kept wishing existed in a shape I trusted: read-only Gmail, an explicit connect I can revoke, and a delivery time I set.
+## The idea
 
-What it does in practice is simple. You log in with Google, it scans for newsletter-shaped mail — unsubscribe links, sender patterns, the usual tells — and you choose what makes the cut. Then it shows up as one email instead of twenty tabs. Under the hood that is a FastAPI backend, a Next.js frontend, PostgreSQL for accounts and schedules, and the Gmail API for ingestion, sitting in a monorepo under `apps/api` and `apps/web`. I care less about the stack sounding modern than about three things holding: consent stays narrow, selection stays intentional, and the digest actually arrives when it said it would. A late digest is worse than no digest.
+Instead of ten newsletter emails fighting for attention, you get **one**. A summary of the newsletters you chose, at a time you picked. The writers keep their cadence. You get yours.
 
-This is an active build, not a finished product. I am writing about it because the problem is mine and the shape is clear enough to share: aggregate, summarize, deliver on my clock. If your inbox looks like mine, you already know why.
+Log in with Google. That login was the whole consent story: we asked for the scopes to **read your mail**, found the newsletters in your inbox, let you pick which ones still deserved a slot, and emailed you a digest on a schedule. The point was never to become another feed. It was to collapse the pile into something you could finish with coffee.
+
+## How we found the newsletters
+
+Detection was half AI, half boring rules. An OpenAI call (we used **GPT-4o-mini**, the cheap one) helped classify mail as newsletter-shaped or not. On top of that I layered simple signals: headers that say it is a newsletter, senders you already get on a weekly rhythm, the usual unsubscribe tells. Together that was enough to pull a credible list from a real inbox without making people hand-label everything.
+
+Under the hood it was straightforward. **FastAPI** backend, **Next.js** frontend, hosted on **Railway**. Cost was basically nothing while we were small. The OpenAI key sat on the backend. Google OAuth on the front of the flow. Ingest, filter, summarize, send.
+
+## What we learned before we stopped
+
+Distribution worked better than I expected for a first version. People tried it. Digests went out. We started poking at willingness to pay. Then the wall appeared.
+
+Because we asked Google for permission to **read email**, we needed a proper OAuth verification / security assessment. That audit was on the order of **about $1,500**. For a tryout that was still finding its feet, that was real money. Around the same time one of the co-founders went quieter. Momentum dropped. And even if we had paid, I kept hearing the same resistance in conversations: a lot of people, especially in Germany, will not grant an app the right to read their inbox. I talked to CEOs and other operators about the problem. The pain is real. The trust tax on "let us read your Gmail" is also real.
+
+So we stopped there. Not because the digests were bad. Because the next step was certification money plus a privacy posture that fights the product shape.
+
+## What I take from it
+
+Catchup Digest proved the boring version of the idea works. Aggregate, summarize, deliver on the user's clock. Users will try it if you make the first digest easy. The hard part is not the summary model. It is **inbox access**, compliance cost, and whether people will ever feel okay granting that scope.
+
+I still have notes on how I would reshape the product without asking for the whole mailbox. Maybe you will see a descendant of this later. For now this post is the honest version: a small team, a working slice, real users, and a hard stop at Google's gate.
+
+I will add screenshots when I dig them up.
