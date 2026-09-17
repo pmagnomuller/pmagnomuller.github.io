@@ -10,54 +10,19 @@ tags:
   - OpenClaw
   - Energy
   - AI
-toc: true
+toc: false
 ---
 
-For years I treated "the cloud" as the default place to run anything interesting. Lately I've been pulling more of that work back home — not out of nostalgia for racks and blinking lights, but because the projects I care about want **persistence, privacy, and proximity to real devices**.
+For years I treated the cloud as the default place to run anything interesting. Lately I have been pulling more of that work back home. Not because I missed racks and blinking lights, but because the projects I care about want persistence, privacy, and proximity to real devices. A laptop that sleeps is a bad place to put an agent that should notice when electricity gets cheap. A chat window that forgets you between sessions is a bad place to put the same.
 
-This post kicks off a series on that shift: the home lab, the [OpenClaw](https://docs.openclaw.ai/) instance that sits on top of it, and the AI coding setup that ties the day job to the evening tinkering.
+This is the start of that shift: a home lab in Berlin, the [OpenClaw](https://docs.openclaw.ai/) instance that sits on top of it, and the AI coding setup that ties the day job to the evening tinkering. I will write about it as I actually run it, not as a shopping list.
 
-## Why a lab, why now
-
-Three threads kept colliding:
-
-1. **Energy work that needs to live near the meter.** Spot prices, load shifting, heat pumps, batteries — the interesting part is not another dashboard. It is an agent that can *act* when prices drop or the grid gets greener. That wants something always on, on my network, with skills I control.
-2. **AI that does not evaporate between chats.** Cloud assistants are great until the session ends. A self-hosted gateway keeps memory, tools, and channel bindings in one place I can back up.
-3. **A sandbox for messy experiments.** Ollama models, Home Assistant hooks, scrapers, cron jobs that should not share a laptop with my day job. The lab is where those get to be loud.
+Three threads kept colliding. Energy work that needs to live near the meter — spot prices, load shifting, heat pumps, batteries. The interesting part is not another dashboard. It is something that can act when prices drop or the grid gets greener, always on, on my network, with skills I control. Then AI that does not evaporate between chats. Cloud assistants are great until the session ends. A self-hosted gateway keeps memory, tools, and channel bindings in one place I can back up. And a sandbox for messy experiments: local models, Home Assistant hooks, scrapers, cron jobs that should not share a laptop with work. The lab is where those get to be loud.
 
 I work on energy and clean-tech software for a living. The lab is where that domain stops being slides and starts being "turn the boiler on when OMIE says Portugal is cheap."
 
-## What "homelab" means here
+I am not chasing a datacenter in a closet. The bar is simpler. One always-on Linux host I can reach over a private mesh. Services bound to loopback by default, reached through Tailscale or SSH, not the open internet. A clear separation between toys, tools, and things that can switch real loads. Backups I would actually restore from. Security is not a later chapter. Anything that can run shell commands against smart-home hardware gets dry-run defaults, allowlists, and secrets that never leave local config.
 
-I am not chasing a datacenter in a closet. The bar is simpler:
+Hardware will show up in follow-ups once it stops changing week to week. Conceptually it is three layers. Compute for containers, local models, and the OpenClaw Gateway. Access so phones and laptops reach the lab without port-forwarding theatre. Agency — OpenClaw and skills — for energy, home automation, and coding assistants. OpenClaw is the piece that made the lab feel like more than another server. It turns the box into something I can message from my phone and get an agent that already knows my tools.
 
-- One always-on Linux host (or a small cluster later) I can reach over a private mesh
-- Services bound to loopback by default — reach them via Tailscale / SSH, not the open internet
-- Clear separation between **toys**, **tools**, and **things that can switch real loads**
-- Backups I would actually restore from
-
-Security is not a later chapter. Anything that can run shell commands against smart-home hardware gets dry-run defaults, allowlists, and secrets that never leave local config.
-
-## The stack I am growing into
-
-Exact hardware will show up in follow-ups once it stops changing week to week. Conceptually the lab is three layers:
-
-| Layer | Job |
-| --- | --- |
-| **Compute** | Host for containers, local models, and the OpenClaw Gateway |
-| **Access** | Private mesh (Tailscale-style) so phones and laptops reach the lab without port-forwarding theatre |
-| **Agency** | OpenClaw + skills for energy, home automation, and coding assistants |
-
-OpenClaw is the piece that made the lab feel like more than "another server." It turns the box into something I can message from Telegram (or Discord, or whatever channel wins that week) and get an agent that already knows my tools.
-
-## What I will write about next
-
-This series will stay close to what I am actually running:
-
-- **OpenClaw on the lab** — Gateway setup, skills, and how energy automation plugs in ([next post](/homelab/openclaw-on-my-homelab/))
-- **AI coding setup** — one skills library across Cursor, Claude Code, and Codex ([follow-up](/ai/my-ai-coding-setup/))
-- Hardware choices, failure modes, and the boring ops that keep the lights on
-
-If you already self-host: I would love to steal your hard-won defaults. If you are curious but stuck on the first machine: start with one always-on box, one private VPN, and one service you check every day. Expand only when that feels boring.
-
-Next up: how OpenClaw sits in the middle of all of this.
+Next I will write about [that OpenClaw instance](/homelab/openclaw-on-my-homelab/), then [the energy skill I hung on it](/homelab/building-an-energy-skill-for-openclaw/), and later [the same skill mindset in the editor](/ai/my-ai-coding-setup/). If you already self-host, I would love to steal your hard-won defaults. If you are curious but stuck on the first machine: start with one always-on box, one private VPN, and one service you check every day. Expand only when that feels boring.

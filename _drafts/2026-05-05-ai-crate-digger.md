@@ -10,35 +10,15 @@ tags:
   - NestJS
   - Semantic Search
   - Azure OpenAI
-toc: true
+toc: false
 ---
 
-Record shops are magic until the Saturday rush hits and nobody has ten minutes to talk crates with you.
+Record shops are magic until Saturday hits and nobody behind the counter has ten minutes to talk crates with you. You know the feeling: you can describe what you want — warm deep house for a sunset, something adjacent to a record you already love, a mood under a budget — and the bins do not speak that language. Discogs-style metadata helps if you already know the title. Taste is fuzzier than that.
 
-[AI Crate Digger](https://github.com/pmagnomuller/ai-crate-digger) is a pocket companion for that moment: ask for something like a record, a mood under a budget, or "more along these lines" — and get answers grounded in **a real vinyl catalog**, not generic model inventiveness.
+[AI Crate Digger](https://github.com/pmagnomuller/ai-crate-digger) is a pocket companion for that moment. You ask in chat, it answers from a real vinyl catalog, not from whatever a model feels like inventing. That last part is the whole point. Hallucinated pressings are worse than silence in a shop. If it cannot point at a title that is actually there, it should shut up.
 
-## The idea
+The useful layer is semantic. Embed the catalog, retrieve candidates, then let a chat agent explain the picks with tools that can actually look records up — search, detail, a taste profile, recommend-for-me, sometimes several of those at once. Mood, genre, budget, similar-to-this. Answers stream back. Optionally, Spotify likes can tilt retrieval toward what you already play, which I am still unsure how much a shop-floor tool should do. A digger's private taste and a shop's bins are not the same collection.
 
-Fuzzy taste ("warm deep house for a sunset") is easy to say and hard to search. Discogs-style metadata helps, but the useful layer is semantic: embed the catalog, retrieve candidates, then let a chat agent explain picks with tools that can actually look records up.
+It runs on NestJS, MongoDB, Azure OpenAI, a small Vite client for local digs, Docker, CI pointing at Azure Container Apps. None of that is the interesting constraint. The interesting constraint is inventory. Recommendations have to land on titles you can pull. I care about music discovery that stays local to a collection — a shop's stock, or eventually a digger's own shelves — and then gets out of the way so you can flip wax.
 
-## What you get
-
-- **Chat-style recommendations** — mood, genre, budget, similar-to-X
-- **Streaming answers** — SSE chat with vinyl-focused prompting
-- **Semantic search** — embeddings over MongoDB-backed records (seeded from Discogs)
-- **Taste bias (optional)** — Spotify likes to tilt retrieval toward what you already play
-- **Tool use** — `search_records`, `get_record_detail`, taste profile, recommend-for-me — including parallel tool calls when several lookups fire at once
-
-## Stack
-
-NestJS · MongoDB · Azure OpenAI · a small Vite client for local digs · Docker · CI toward Azure Container Apps.
-
-The important constraint: recommendations must point at **titles in the catalog**. Hallucinated pressings are worse than silence in a shop.
-
-## Why build it
-
-I care about music discovery that stays local to a collection — a shop's bins, or eventually a digger's own shelves. The agent is useful only if it respects inventory and taste, then gets out of the way so you can flip wax.
-
-## Status
-
-Still a working lab: seeding, retrieval quality, and how much Spotify should influence shop-floor picks. This post is the stake in the ground — more build notes as the recommendations get trustworthy enough to trust with a Saturday afternoon.
+This is still a working lab: seeding, retrieval quality, how much Spotify should be allowed to influence a Saturday afternoon. I am planting the stake here and I will write more as the recommendations get trustworthy enough to trust with a real shop.
