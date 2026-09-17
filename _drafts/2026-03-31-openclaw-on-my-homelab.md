@@ -1,7 +1,7 @@
 ---
 title: "OpenClaw on My Homelab: A Personal Agent That Can Touch the Grid"
-date: 2026-06-16
-description: "How I run OpenClaw as a self-hosted gateway — messaging in, energy skills out, and why ClawHub skills matter for real automation."
+date: 2026-03-31
+description: "How I run OpenClaw as a self-hosted gateway. Messaging in, energy skills out, and why ClawHub skills matter for real automation."
 categories:
   - Homelab
 tags:
@@ -14,11 +14,11 @@ tags:
 toc: true
 ---
 
-[OpenClaw](https://docs.openclaw.ai/) is the reason my home lab stopped being "a place to park containers" and became something I talk to from my phone.
+[OpenClaw](https://docs.openclaw.ai/) is why my home lab stopped being a place to park containers and became something I talk to from my phone.
 
-It is a self-hosted gateway: one process that connects chat channels (Telegram, Discord, WhatsApp, Slack, and friends) to an AI agent with tools, memory, and sessions. You message it. It runs on *your* hardware. The Gateway owns state.
+It's a self-hosted gateway: one process that connects chat channels (Telegram, Discord, WhatsApp, Slack, and friends) to an AI agent with tools, memory, and sessions. You message it. It runs on your hardware. The Gateway owns state.
 
-This post is how I think about my instance — especially the energy skills that make it useful beyond demos.
+This post is how I think about my instance, especially the energy skills that make it useful beyond demos.
 
 ## The mental model
 
@@ -32,7 +32,7 @@ Phone / laptop ──(private mesh)──▶ Gateway (loopback)
 
 Defaults that matter:
 
-- Bind the Gateway to **loopback**. Reach it with Tailscale Serve or an SSH tunnel — not a public port.
+- Bind the Gateway to **loopback**. Reach it with Tailscale Serve or an SSH tunnel, not a public port.
 - Treat the host as source of truth. Back up `~/.openclaw` (or your container volume) like you mean it.
 - Skills that can run shell commands stay in **dry-run** until thresholds and allowlists are boringly correct.
 
@@ -40,7 +40,7 @@ The [official docs](https://docs.openclaw.ai/) cover onboarding well (`openclaw 
 
 ## Why energy skills
 
-I work in energy software. At home, dynamic tariffs and day-ahead prices are the perfect agent workload: structured data, clear optimization questions, and occasional actions ("start charging now").
+I work in energy software. At home, dynamic tariffs and day-ahead prices are a good agent workload: structured data, clear questions, and occasional actions ("start charging now").
 
 My OpenClaw-facing skills live as standalone packages and on [ClawHub](https://clawhub.ai/pmagnomuller):
 
@@ -60,7 +60,7 @@ bash run.sh control --price-below 0.15 --on-command "echo on" --off-command "ech
 
 Credentials stay local (`.env` or `~/.config/<skill>/config.json`). Control paths default to dry-run; `--execute` is explicit. Thresholds use **EUR/kWh** across providers so muscle memory transfers.
 
-The wider catalog — battery arbitrage, heat-pump load shift, carbon-intensity scheduling — lives in my [skills](https://github.com/pmagnomuller/skills) library. OpenClaw gets the automation surface; Cursor / Claude Code / Codex get the same recipes when I am writing code instead of chatting from the couch.
+The wider catalog (battery arbitrage, heat-pump load shift, carbon-intensity scheduling) lives in my [skills](https://github.com/pmagnomuller/skills) library. OpenClaw gets the automation surface. Cursor, Claude Code, and Codex get the same recipes when I am writing code instead of chatting from the couch.
 
 ## A concrete loop
 
@@ -68,9 +68,9 @@ A useful night looks like this:
 
 1. Message the agent: "Cheapest 3-hour window for Portugal tomorrow?"
 2. Skill pulls OMIE day-ahead data, returns the window in EUR/kWh.
-3. Optionally: schedule or threshold-trigger a trusted command (EV charger, dishwasher relay, whatever you have wired — after dry-runs stop surprising you).
+3. Optionally schedule or threshold-trigger a trusted command (EV charger, dishwasher relay, whatever you have wired), after dry-runs stop surprising you.
 
-That is the whole point of putting OpenClaw on the lab: **chat as the UI**, **your network as the runtime**, **skills as the contract**.
+That is why OpenClaw is on the lab. Chat as the UI, your network as the runtime, skills as the contract.
 
 ## Ops notes I wish I had earlier
 
@@ -81,8 +81,8 @@ That is the whole point of putting OpenClaw on the lab: **chat as the UI**, **yo
 
 ## What is next
 
-Follow-ups will go deeper on Gateway hardening (Tailscale Serve vs Funnel), how I version skills across OpenClaw and coding agents, and the failure modes that only show up at 2am when the tariff flips.
+[Building an energy skill](/homelab/building-an-energy-skill-for-openclaw/) is the practical follow-up. How I version skills across OpenClaw and coding agents can wait.
 
-If you want the packages: [ClawHub `@pmagnomuller`](https://clawhub.ai/pmagnomuller) and the GitHub links above. If you want the lab context: [the journey post](/homelab/starting-my-homelab-journey/).
+Packages: [ClawHub `@pmagnomuller`](https://clawhub.ai/pmagnomuller) and the GitHub links above.
 
 Next: how the same skill mindset shows up in my day-to-day AI coding setup.
