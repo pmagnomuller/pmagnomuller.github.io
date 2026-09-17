@@ -91,7 +91,7 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : "pedrommuller"
 facebook:
   username               :
   app_id                 :
@@ -105,6 +105,7 @@ social:
   links:
     - "https://github.com/pmagnomuller"
     - "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
+    - "https://x.com/pedrommuller"
     - "https://pmagnomuller.github.io"
 
 # Analytics
@@ -124,6 +125,7 @@ author:
   email            : "pedro.magnomuller@gmail.com"
   github           : "pmagnomuller"
   linkedin         : "pedro-magno-müller"
+  twitter          : "pedrommuller"
 
 # Site Footer
 footer:
