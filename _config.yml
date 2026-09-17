@@ -157,6 +157,7 @@ include:
 exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
+  - _drafts/parked
   - vendor
   - .asset-cache
   - .bundle
