@@ -11,4 +11,59 @@
     <a href="https://jekyllrb.com" rel="nofollow noopener">Jekyll</a>
   </div>
 </div>
+<script type="module">
+  const blocks = document.querySelectorAll("pre code.language-mermaid");
+  if (blocks.length) {
+    const { default: mermaid } = await import(
+      "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+    );
+
+    blocks.forEach((code) => {
+      const pre = code.parentElement;
+      if (!pre) return;
+      const diagram = document.createElement("div");
+      diagram.className = "mermaid";
+      diagram.textContent = code.textContent;
+      pre.replaceWith(diagram);
+    });
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "base",
+      securityLevel: "strict",
+      flowchart: { htmlLabels: false },
+      themeVariables: {
+        background: "#fafbfa",
+        primaryColor: "#e8eeeb",
+        primaryTextColor: "#2c3431",
+        primaryBorderColor: "#3f5f56",
+        secondaryColor: "#f3f6f5",
+        tertiaryColor: "#ffffff",
+        lineColor: "#2c3431",
+        textColor: "#2c3431",
+        mainBkg: "#ffffff",
+        nodeBorder: "#3f5f56",
+        clusterBkg: "#f3f6f5",
+        titleColor: "#2c3431",
+        edgeLabelBackground: "#fafbfa",
+        actorBkg: "#ffffff",
+        actorBorder: "#3f5f56",
+        actorTextColor: "#2c3431",
+        actorLineColor: "#6d7873",
+        signalColor: "#2c3431",
+        signalTextColor: "#2c3431",
+        labelBoxBkgColor: "#ffffff",
+        labelBoxBorderColor: "#3f5f56",
+        labelTextColor: "#2c3431",
+        loopTextColor: "#2c3431",
+        noteBkgColor: "#e8eeeb",
+        noteTextColor: "#2c3431",
+        noteBorderColor: "#3f5f56",
+        activationBkgColor: "#e8eeeb",
+        sequenceNumberColor: "#ffffff",
+      },
+    });
+    await mermaid.run({ querySelector: ".mermaid" });
+  }
+</script>
 <!-- end custom footer snippets -->
