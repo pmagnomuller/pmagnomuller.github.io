@@ -21,7 +21,7 @@ classes: wide
 
 <!--
 ## Contact Information
-- **Email:** pedro.magnomuller@gmail.com
+- **Email:** work@pedro-muller.com
 - **LinkedIn:** [linkedin.com/in/pedro-müller](https://linkedin.com/in/pedro-müller)
 - **Mobile:** +49 176 82011111
 
