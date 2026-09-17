@@ -91,7 +91,7 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : "pedrommuller"
 facebook:
   username               :
   app_id                 :
@@ -105,6 +105,7 @@ social:
   links:
     - "https://github.com/pmagnomuller"
     - "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
+    - "https://x.com/pedrommuller"
     - "https://pmagnomuller.github.io"
 
 # Analytics
@@ -121,9 +122,10 @@ author:
   avatar           : "/assets/images/profile-photo.jpg"
   bio              : "Software engineer working on energy and clean-tech."
   location         : "Berlin, Germany"
-  email            : "pedro.magnomuller@gmail.com"
+  email            : "work@pedro-muller.com"
   github           : "pmagnomuller"
   linkedin         : "pedro-magno-müller"
+  twitter          : "pedrommuller"
 
 # Site Footer
 footer:
@@ -155,6 +157,7 @@ include:
 exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
+  - _drafts/parked
   - vendor
   - .asset-cache
   - .bundle
