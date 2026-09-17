@@ -13,3 +13,27 @@ description: "Pedro Müller (Pedro Magno Müller) — software engineer in Berli
     I build energy and clean-tech software.
   </p>
 </section>
+
+<div class="section-heading">
+  <h2>Latest writing</h2>
+  <a href="{{ '/blog/' | relative_url }}">View all posts &rarr;</a>
+</div>
+
+<div class="post-cards">
+  {% for post in site.posts limit:3 %}
+    <a class="post-card" href="{{ post.url | relative_url }}">
+      <h3 class="post-card__title">{{ post.title }}</h3>
+      <p class="post-card__meta">
+        <span><i class="far fa-calendar-alt" aria-hidden="true"></i> {{ post.date | date: "%B %-d, %Y" }}</span>
+        {% assign words = post.content | strip_html | number_of_words %}
+        {% assign minutes = words | divided_by: 200 | plus: 1 %}
+        <span><i class="far fa-clock" aria-hidden="true"></i> {{ minutes }} min read</span>
+      </p>
+      {% if post.description %}
+        <p class="post-card__excerpt">{{ post.description | strip_html | truncate: 160 }}</p>
+      {% elsif post.excerpt %}
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+      {% endif %}
+    </a>
+  {% endfor %}
+</div>
