@@ -25,6 +25,39 @@ Instead of ten newsletter emails fighting for attention, you get **one**. A summ
 
 You could connect **Gmail or Outlook**. That login was the whole consent story: we asked for the scopes to **read your mail**, found the newsletters in your inbox, let you pick which ones still deserved a slot, and emailed you a digest on a schedule. The point was never to become another feed. It was to collapse the pile into something you could finish with coffee.
 
+## The product flow
+
+Five screens. That was the whole setup.
+
+```mermaid
+flowchart LR
+  A[Connect inbox] --> B[Scan mail]
+  B --> C[Pick newsletters]
+  C --> D[Choose schedule]
+  D --> E[All set]
+  E --> F[Digest email arrives]
+```
+
+After Google (or Outlook) login you landed on a quiet dashboard with one job: scan.
+
+{% include figure image_path="/assets/images/posts/catchup-digest/01-dashboard.jpg" alt="Catchup Digest dashboard after sign-in, showing the connected Gmail account and a Scan for Newsletters button." caption="Signed in. One button: scan for newsletters." %}
+
+{% include figure image_path="/assets/images/posts/catchup-digest/02-scanning.jpg" alt="Catchup Digest dashboard while scanning the inbox, with a loading spinner and Scanning your inbox text." caption="Scanning the inbox for newsletter-shaped mail." %}
+
+When the scan finished you got a list. In this run: **39 newsletters**. Check the ones you still cared about. Rescan if something looked off. Continue with the selection.
+
+{% include figure image_path="/assets/images/posts/catchup-digest/03-select-newsletters.jpg" alt="Catchup Digest newsletter picker showing Found 39 newsletters with checkboxes for senders like idealista, Lenny's Newsletter, and Lufthansa." caption="Pick what still deserves a slot. Everything else stays out of the digest." %}
+
+Then you set the clock. Days of the week, a time, shortcuts for weekdays / weekends / every day. Here: **Tuesdays at 9:00 AM**.
+
+{% include figure image_path="/assets/images/posts/catchup-digest/04-schedule.jpg" alt="Catchup Digest schedule screen with Tuesday selected and time set to 9:00 AM, Save Subscription button visible." caption="Your cadence, not the publisher's." %}
+
+{% include figure image_path="/assets/images/posts/catchup-digest/05-all-set.jpg" alt="Catchup Digest success screen reading All Set with the scheduled time Tuesdays at 9:00 AM." caption="All set. The boring part of the product, working." %}
+
+And then the point of the whole thing showed up in the inbox: one digest email. Summaries grouped by theme, links back to the originals if you wanted the long version.
+
+{% include figure image_path="/assets/images/posts/catchup-digest/06-digest-email.jpg" alt="Gmail view of a Catchup Digest email with a Ketchup header, Business and Tech section, and summarized newsletter cards with View Original links." caption="What landed: one email instead of a pile. Summaries plus a way back to the source." %}
+
 ## How we found the newsletters
 
 Detection was half AI, half boring rules. An OpenAI call (we used **GPT-4o-mini**, the cheap one) helped classify mail as newsletter-shaped or not. On top of that I layered simple signals: headers that say it is a newsletter, senders you already get on a weekly rhythm, the usual unsubscribe tells. Together that was enough to pull a credible list from a real inbox without making people hand-label everything.
@@ -44,5 +77,3 @@ So we stopped there. Not because the digests were bad. Because the next step was
 Catchup Digest proved the boring version of the idea works. Aggregate, summarize, deliver on the user's clock. Users will try it if you make the first digest easy. The hard part is not the summary model. It is **inbox access**, compliance cost on Gmail and Outlook alike, and whether people will ever feel okay granting that scope.
 
 I still have notes on how I would reshape the product without asking for the whole mailbox. Maybe you will see a descendant of this later. For now this post is the honest version: a small team, a working slice, real users, and a hard stop at the inbox providers' gate.
-
-I will add screenshots when I dig them up.
