@@ -1,7 +1,7 @@
 ---
 title: "Building an Energy Skill for OpenClaw"
-date: 2026-08-04
-description: "Walk through how an OpenClaw energy skill is shaped — CLI contract, dry-run control, and packaging for ClawHub."
+date: 2026-06-23
+description: "I wanted to ask my homelab agent what electricity costs tonight. Here is how the skills came together, what broke, and why I still like them."
 categories:
   - Homelab
 tags:
@@ -9,28 +9,87 @@ tags:
   - Energy
   - ClawHub
   - Skills
+  - OMIE
+  - Ostrom
+  - Tibber
+  - TRMNL
 toc: true
 ---
 
-<!-- DRAFT — promote to _posts/ when ready -->
+I got [OpenClaw](https://docs.openclaw.ai/) running at home and the first useful thing I wanted was boring: **what does power cost in the next few hours?**
 
-## Angle
+Not a dashboard I forget to open. A message from the phone. "Cheapest two hours in Portugal tomorrow." "Is Ostrom cheap enough to run the washer." That is an agent job. Structured data, a clear question, maybe a later action.
 
-Practical build post using `omie-energy` / `ostrom-energy` / `tibber-energy` as the pattern: one skill shape that works from chat and from a terminal.
+So I built skills for it. They are not perfect. People still installed them. [ClawHub](https://clawhub.ai/pmagnomuller) shows about **1.5k downloads** across my publisher page, which I did not expect and still makes me a bit giddy.
 
-## Outline
+This is how I did it, what worked, what didn't, and what I want next: prices on a [TRMNL](https://trmnl.com/) e-ink screen so I don't even have to ask.
 
-1. **The contract** — `prices` / `optimize` / `control` (+ optional `compare` / `anomalies`)
-2. **Units that don't lie** — EUR/MWh vs EUR/kWh; thresholds always in kWh terms
-3. **Secrets stay local** — `.env` vs `~/.config/<skill>/config.json`
-4. **SKILL.md that agents can find** — trigger description, examples, safety section
-5. **Dry-run before `--execute`** — on/off commands as trusted strings only
-6. **Ship it** — standalone repo + ClawHub; what I check before publish
-7. **Demo script** — Portugal cheapest 2h window → optional control dry-run
+## What I wanted OpenClaw to do
 
-## Notes / links
+OpenClaw can run shell commands if you let it. The skill had to be something a model could find and call without inventing `curl` against a random energy site.
 
-- https://github.com/pmagnomuller/omie-energy
-- https://github.com/pmagnomuller/ostrom-energy
-- https://github.com/pmagnomuller/tibber-energy
-- https://clawhub.ai/pmagnomuller
+So each skill is a folder with a `SKILL.md` (when to use it, examples, safety) and a `run.sh` that hides Python. The agent sees English. Underneath it is:
+
+```bash
+bash run.sh prices --hours 36
+bash run.sh optimize --duration-hours 2
+bash run.sh control --price-below 0.15 --on-command "echo on" --off-command "echo off"
+```
+
+Three packages, same shape on purpose:
+
+- [`omie-energy`](https://github.com/pmagnomuller/omie-energy): Iberian OMIE day-ahead, Portugal and Spain, no login
+- [`ostrom-energy`](https://github.com/pmagnomuller/ostrom-energy): Ostrom spot, needs API credentials
+- [`tibber-energy`](https://github.com/pmagnomuller/tibber-energy): Tibber prices, optional consumption anomalies, needs a token
+
+I live in Berlin and I am from Portugal. OMIE is the public market I actually understand. Ostrom is the German dynamic tariff I have spent years around. Tibber is the other one people ask about. One contract in the terminal so OpenClaw does not have to learn three APIs.
+
+## How I actually built it
+
+I started with OMIE because the data is public. [`OMIEData`](https://pypi.org/project/OMIEData/) already wraps the market files. Fetch hours, print a table, find the cheapest contiguous window. No OAuth. If that path is ugly, the agent path will be ugly too.
+
+Then I copied the shape to Ostrom and Tibber. Fetch, optimize, control. Tibber got `anomalies` extra. OMIE got `compare` so I can put PT next to ES. Thresholds always in **EUR/kWh**, even though OMIE publishes **EUR/MWh**. That was the first real bug in my head: I almost taught the agent to compare `0.12` against `120` and wonder why the dishwasher never ran.
+
+Secrets stay off git. `.env` locally, or `~/.config/<skill>/config.json` if the skill is installed as a shared package. OpenClaw does not get the keys in the prompt if I can help it.
+
+`SKILL.md` is the part that made chat work. The `description` is a "use when…" so the agent picks `omie-energy` for Portugal prices instead of guessing. Examples in the file are copy-pasteable. If I skip that, the model writes poetry about the grid and zero commands.
+
+Control is dry-run unless you pass `--execute`. On/off are trusted command strings, not "the model may invent a shell line." I have not fully wired real loads yet. Dry-run stays on until I trust the numbers.
+
+Then I published the repos and pushed them to ClawHub so someone else can `clawhub install` without cloning by hand.
+
+## What worked
+
+Asking the agent from the phone. That was the whole point and it actually works. "Prices for Portugal, next 36 hours." It runs `run.sh prices`, I get numbers.
+
+One CLI for three providers. Once I had muscle memory, adding Tibber was copy-and-adapt, not a new product.
+
+No-auth OMIE as the demo. People can try it without an energy contract. That is probably why it spread more than the credentialed ones.
+
+ClawHub. I published because I use the registry. Seeing downloads stack up was the unexpected part. The skills are small. People still wanted "ask my agent about prices."
+
+## What didn't (and still isn't perfect)
+
+Units. Every time. Market is MWh, humans think kWh. Get that wrong once and every threshold is off by a thousand.
+
+Tomorrow's curve is not there in the morning. OMIE publishes in the afternoon. Early "what's cheap tomorrow?" answers look short unless you know to wait, or widen the window.
+
+DST. OMIE can expose an extra `H25` hour. I documented it. I still wouldn't bet a heat pump on my first parser.
+
+Ostrom and Tibber auth. Fine on my machine, annoying in a clean install. Missing env, the skill should fail loudly. Sometimes the agent retries with a fictional token. The `--prompt-missing-secrets` flag exists because I got tired of that.
+
+`optimize` is a contiguous cheapest window. No battery state of charge, no "don't start the heat pump if nobody is home," no carbon vs price. It is a sliding window over a price series. Useful. Not an energy management system.
+
+Control against real hardware is still the scary bit. Dry-run logs are honest. `--execute` with a Home Assistant switch is how you get a 3am dishwasher. The skills will let you do it. They should not be the only safety layer.
+
+ClawHub packaging is fussy. Include `SKILL.md` and `run.sh`, exclude `.env`, test from a clean shell. If you skip the clean-shell test, you publish a skill that only works on your laptop.
+
+They can be improved. I want better windows, better auth errors, maybe a single engine with provider adapters instead of three near-copies. I am not embarrassed they shipped in this shape. I am glad people are using them while they are still rough.
+
+## Next: prices on e-ink
+
+I don't want to unlock a phone to know if this hour is cheap. I have a [TRMNL](https://trmnl.com/), the little e-ink dashboard. Next I want to wire the same price fetch into a custom plugin and start a small project around it: always-on, low-distraction, today's curve and the cheapest window, sitting on a shelf.
+
+OpenClaw stays the thing I talk to. TRMNL stays the thing I glance at. Same data, two doors.
+
+If you want the skills: GitHub links above, or [ClawHub `@pmagnomuller`](https://clawhub.ai/pmagnomuller). Start with `omie-energy` if you have no tokens. Read the `SKILL.md` before you let `--execute` near anything that plugs into a wall.

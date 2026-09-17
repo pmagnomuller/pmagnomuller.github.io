@@ -1,68 +1,74 @@
 ---
 title: "Cursor as Your Tool: A New Workflow for AI-Native Development"
-date: 2026-09-29
-description: "Explore how Cursor is revolutionizing software development by integrating AI directly into the code editor, making it a true pair programming experience."
+date: 2025-11-18
+description: "The talk I gave at Sword AI Summit: how I use Cursor as the place work happens, not another chat window."
+permalink: /cursor-as-your-tool/
+categories:
+  - AI
+tags:
+  - Cursor
+  - AI
+  - Sword AI Summit
+  - MCP
+  - Developer Tools
+toc: true
 ---
 
-## The Problem: Context Switching Kills Flow
+This is the writeup of the talk I gave at [Sword AI Summit](https://aisummit.swordhealth.com/) on 15 November 2025. The talk was called **Real AI Workflows for Software Engineers**. [Hello world](/meta/hello-world/) is how that day felt. This is what I actually said.
 
-Modern developers often juggle between their code editor and tools like ChatGPT. While powerful, this constant context-switching disrupts focus and slows down development.
+## The problem
 
-## The Core Idea
+Most of us still treat AI like a second monitor. Editor on one side, ChatGPT on the other. Ticket in Jira. Docs in Notion. PR in the browser. You spend the afternoon pasting context and hoping nothing got lost.
 
-Cursor flips the script: instead of working alongside an AI tool, it brings AI into the editor itself. An AI-native code editor that acts like a true pair programmer — embedded, context-aware, and always available.
+It works. It is also a dumb way to spend a day.
 
-## What Is Cursor?
+The interesting part is not "AI can write a function." It is taking the repetitive loop (read ticket, touch code, update docs, open PR) and keeping it in one place.
 
+## The idea
 
-## Key Features
+[Cursor](https://cursor.com/) puts the model in the editor. Same files, same git, same terminal. You stop copying. The model can see the repo, so you stop explaining the repo.
 
-Cursor is not just an editor. It's a supercharged development environment packed with intelligent features:
+That is the whole pitch. You don't need a new language or a new job title. The editor becomes the place the work happens.
 
+I published the setup I use as a template: [`ai-workflow-cursor-config`](https://github.com/pmagnomuller/ai-workflow-cursor-config).
 
-These features become even more powerful with light customization from the user — making Cursor adaptable to your style and stack.
+## Rules
 
-## Cursor Rules: Custom Intelligence
+Out of the box, Cursor writes like a generic Stack Overflow answer. Cursor Rules are how you fix that. You tell it how you like tests, commits, names, what not to touch.
 
-Cursor introduces a concept called Cursor Rules, which lets you train the AI on your team's coding preferences.
+There are project rules (live in the repo, travel with the team) and user rules (your own habits). I won't rehash the product docs. The point I made on stage is simpler: if you skip this step, the model will keep sounding like everyone else.
 
-There are two types:
+A little setup here saves you arguing with it later.
 
-### Why Use Cursor Rules?
+## MCP, or stop pasting tickets
 
+[MCP](https://modelcontextprotocol.io/) is how other apps feed context into the model. Tickets, docs, a browser. You don't paste a Jira page into the chat. You say "start this ticket" and it can fetch it.
 
-In short: Cursor becomes a custom coding assistant that writes like you and your team.
+Without MCP you are still the integration layer. With MCP, the editor can reach Jira, Notion, and GitHub without you playing courier.
 
-## Model Context Protocol (MCP)
+In my setup:
 
-One of Cursor's most exciting innovations is MCP, an open protocol that standardizes how applications feed context to large language models (LLMs).
+- Jira and Notion go through MCP, with browser login
+- GitHub stays in Cursor's own integration, with a personal access token
 
-### What does this unlock?
+Then the loop is just English:
 
-**Without MCP:**
+- **Start task [ticket URL]**: pull the ticket, look at the repo, sketch steps
+- **Update documentation**: sync what changed into Notion
+- **Open PR**: branch, description, links, the boring checklist
 
-**With MCP:**
+The model does not merge. I do. That part is not optional.
 
-## Live Demo: Build a Slack-Style Chat App
+## What I showed
 
-Cursor's power becomes real in practice. With a simple prompt like:
+The live bit was the usual: ask Cursor to stand up a small Slack-style chat app. Express backend, a tiny frontend, endpoints for user, channel, message.
 
-```typescript
-// Example prompt for Cursor
-Build a simple Express backend for a Slack-style chat app. It should have endpoints to:
-Also create a simple frontend with inputs for user, channel, and message.
-```
+You can get a prototype up fast. Then you still have to read it. That was the joke and the warning. Demos look magic. Real work is the ticket-to-PR loop above, plus you reviewing the diff.
 
-You can go from idea to functional prototype in minutes — backend, frontend, and even deployment-ready code.
+## What I would tell myself before the talk
 
-## Of Course... It's Not All Rainbows and Butterflies
+Setup takes an evening. The first week feels slower, not faster. Some days you revert the whole thing.
 
-No tool is perfect. Integrating Cursor into your workflow requires change — and like all AI-powered tools, it's only as good as the context it's given.
+It stuck for me because the busywork left the browser. Rules made the output look like my code. MCP meant I stopped pasting tickets. Autocomplete was never the interesting part.
 
-But for teams that invest in setup and customization, the payoff is massive.
-
-## Conclusion
-
-Cursor isn't just another code editor. It's a bold reimagining of how we write software — turning AI into a collaborative, context-aware teammate.
-
-Whether you're debugging faster, generating docs instantly, or enforcing team standards with Cursor Rules, this tool has the potential to transform the way we code. 
+If you want the template, fork [ai-workflow-cursor-config](https://github.com/pmagnomuller/ai-workflow-cursor-config) and delete what you don't use. I'll write more later about how this grew into a shared skills library across Cursor, Claude Code, and Codex.
