@@ -14,7 +14,7 @@ tags:
 toc: false
 ---
 
-This is the writeup of the talk I gave at [Sword AI Summit](https://aisummit.swordhealth.com/) on 15 November 2025. The talk was called **Building Real AI Workflows for Software Engineers**. [Hello world](/meta/hello-world/) is how that day felt. This is what I actually showed.
+This is the writeup of the talk I gave at [Sword AI Summit](https://aisummit.swordhealth.com/) on 15 November 2025. The talk was called **Building Real AI Workflows for Software Engineers**. This is what I actually showed.
 
 ## The bottleneck
 
@@ -89,4 +89,4 @@ flowchart TD
 
 Setup takes an evening. The first week feels slower, not faster. Some days you revert the whole thing. It stuck for me because the busywork left the browser. Rules made the output look like my code. MCP meant I stopped pasting tickets.
 
-If you want the template, fork [ai-workflow-cursor-config](https://github.com/pmagnomuller/ai-workflow-cursor-config) and delete what you do not use. I write later about how this grew into a [shared skills library](/ai/my-ai-coding-setup/) across Cursor, Claude Code, and Codex.
+If you want the template, fork [ai-workflow-cursor-config](https://github.com/pmagnomuller/ai-workflow-cursor-config) and delete what you do not use.
