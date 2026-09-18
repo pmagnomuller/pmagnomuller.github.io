@@ -1,0 +1,36 @@
+<aside class="listen" data-listen data-post-url="{{ page.url }}" data-post-title="{{ page.title | escape }}" hidden>
+  <div class="listen__bar">
+    <button type="button" class="listen__btn listen__btn--play" data-listen-toggle aria-pressed="false">
+      <i class="fas fa-play" aria-hidden="true" data-listen-icon></i>
+      <span data-listen-toggle-label>Listen</span>
+    </button>
+    <button type="button" class="listen__btn listen__btn--stop" data-listen-stop hidden>
+      <i class="fas fa-stop" aria-hidden="true"></i>
+      <span>Stop</span>
+    </button>
+    <label class="listen__speed">
+      <span class="visually-hidden">Playback speed</span>
+      <select data-listen-speed aria-label="Playback speed">
+        <option value="1" selected>1×</option>
+        <option value="1.25">1.25×</option>
+        <option value="1.5">1.5×</option>
+      </select>
+    </label>
+    <p class="listen__status" data-listen-status aria-live="polite"></p>
+  </div>
+</aside>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "url": {{ page.url | absolute_url | jsonify }},
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".page__title", ".page__content"]
+  }
+}
+</script>
+
+<script src="{{ '/assets/js/listen.js' | relative_url }}" defer></script>
