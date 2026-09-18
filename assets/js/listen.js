@@ -245,6 +245,10 @@
         speakAt(index + 1);
       };
 
+      utterance.onstart = function () {
+        if (index === 0) track("play", meta);
+      };
+
       utterance.onerror = function (event) {
         if (!event || event.error === "interrupted" || event.error === "canceled") return;
         if (event.error === "synthesis-unavailable" || event.error === "synthesis-failed") {
@@ -292,7 +296,6 @@
 
       window.speechSynthesis.cancel();
       state = "playing";
-      track("play", meta);
       speakAt(0);
     }
 
