@@ -18,7 +18,7 @@ toc: false
 
 I dig vinyl in Berlin. I also DJ with analog records. The shops are great until Saturday, when the person behind the counter has three people waiting and zero minutes for “something like this, but warmer.” You can describe the mood. The bins do not speak that language. Discogs helps if you already know the title. Taste is fuzzier than that.
 
-[AI Crate Digger](https://github.com/pmagnomuller/ai-crate-digger) started as a learning project with a selfish use case. I wanted to understand **RAG** properly — not the slide version, the one where you control what the model is allowed to know. Embeddings. A vector store. A chat layer that has to ground itself in real rows. The app was the excuse. Standing in a shop with a sleeve in my hand and asking “what do you think of this?” was the point.
+[AI Crate Digger](https://github.com/pmagnomuller/ai-crate-digger) started as a learning project with a selfish use case. I wanted to understand **RAG** for real, not the slide version: embeddings, a vector store, and a chat layer that has to ground itself in actual rows. The app was the excuse. Standing in a shop with a sleeve in my hand and asking “what do you think of this?” was the point.
 
 ## Why bother
 
@@ -30,11 +30,11 @@ I also wanted a taste model that felt like mine. Not “users who bought X also 
 
 I pulled everything I could find about what I had already heard:
 
-- **Spotify** liked songs and playlists through their API — years of “this is what I actually press play on”
-- **Discogs** — collection, wants, release metadata in the language record shops already use
+- **Spotify** liked songs and playlists through their API (years of “this is what I actually press play on”)
+- **Discogs**: collection, wants, release metadata in the language record shops already use
 - **Bandcamp** and whatever else I could scrape or export from past listening
 
-That pile became text. Artist, title, genre, label, notes I cared about. Then each chunk went through an embedding model. On Azure OpenAI that deployment is **`text-embedding-3-large`** — OpenAI’s text embedding model, the large one. You send a string. You get back a long vector. Songs and releases that “mean” similar things land near each other in that space. That was the important lesson for me: you are not teaching the chat model your taste in the prompt. You are parking your taste as geometry, then asking questions against it.
+That pile became text. Artist, title, genre, label, notes I cared about. Then each chunk went through an embedding model. On Azure OpenAI that deployment is **`text-embedding-3-large`**, OpenAI’s large text embedding model. You send a string. You get back a long vector. Songs and releases that “mean” similar things land near each other in that space. That was the important lesson for me: you are not teaching the chat model your taste in the prompt. You are parking your taste as geometry, then asking questions against it.
 
 ```mermaid
 flowchart LR
@@ -52,7 +52,7 @@ Separately, the **shop-facing catalog** is seeded from Discogs releases into Mon
 
 ## How a question turns into a pick
 
-When I ask something in the shop — “warm deep house under thirty,” “close to this sleeve,” “what should I hear tonight” — the app does not freestyle a recommendation. It embeds the question with the same model, compares that vector to the stored ones (dot product ranking in MongoDB), and hands the chat model only the hits. Chat can call tools like `search_records` and `get_record_detail`. It explains the picks. It is not allowed to invent the rows.
+When I ask something in the shop (“warm deep house under thirty,” “close to this sleeve,” “what should I hear tonight”), the app does not freestyle a recommendation. It embeds the question with the same model, compares that vector to the stored ones (dot product ranking in MongoDB), and hands the chat model only the hits. Chat can call tools like `search_records` and `get_record_detail`. It explains the picks. It is not allowed to invent the rows.
 
 That loop is the RAG people draw on whiteboards, just aimed at wax:
 
@@ -77,7 +77,7 @@ Under the hood it is NestJS, MongoDB with embedding arrays on the documents, Azu
 
 ## What I use it for
 
-In the shop: companion mode. Sleeve in hand, short chat, candidates grounded in the catalog. Mood, budget, similar-to-this. Answers stream back. Optionally Spotify-shaped taste can tilt retrieval toward what I already play — I am still careful how hard I lean on that when the bins are a shop’s stock, not my shelf.
+In the shop: companion mode. Sleeve in hand, short chat, candidates grounded in the catalog. Mood, budget, similar-to-this. Answers stream back. Optionally Spotify-shaped taste can tilt retrieval toward what I already play. I am still careful how hard I lean on that when the bins are a shop’s stock, not my shelf.
 
 At home the next step is playlists. Same vectors, different question: “what should I hear today?” Wire that into [OpenClaw](/homelab/openclaw-on-my-homelab/) so the homelab agent can read the taste store and draft a daily mix without me rebuilding context every morning. The crate digger teaches the geometry. OpenClaw is the channel I already talk to from the couch.
 
