@@ -1,7 +1,7 @@
 ---
 title: "Live coding music"
 date: 2026-02-03
-description: "I'm poking at live coding: type, sound comes out, change the code, the track moves. Ableton in the mix. I want to release something."
+description: "I have always wanted to make music. Live coding — Sonic Pi, TidalCycles, Strudel — is where creativity and software stop pretending they are separate."
 permalink: /live-coding-music/
 categories:
   - Other
@@ -11,30 +11,74 @@ tags:
   - Sonic Pi
   - Tidal Cycles
   - Strudel
-  - Ableton
+  - Creativity
 toc: false
 ---
 
-I am not writing a guide. I don't know enough, and I don't want to pretend I do.
+I have always liked music. I have always wanted to *make* music. For a long time that lived in the same mental drawer as “someday”: guitars I did not practice enough, Ableton sessions that never became a track, playlists that grew while the blank project sat open.
 
-I am exploring live coding. You write code, music comes out while you type. You change a loop, the loop changes. There is no separate "press play" in the usual sense. The edit *is* the performance. That still feels slightly illegal, in a good way. I have Ableton on the machine already. I play around. The hope, if I keep at it, is to actually put a track out. Not a tutorial. A thing you can listen to.
+What makes me excited now is that the software for writing music *as code* is no longer a niche hobby you need a research lab to touch. It is showing up in classrooms, in nightclubs, on Instagram Reels where someone sings with a guitar and a tiny code snippet is firing the piano and the drums behind them. Coding and composition in the same breath. That frontier is moving, AI is shoving it along, and I am happily watching where it goes — because it makes the old split feel fake. There is beauty in the answer. There is also beauty in the method of arriving there. A lot of engineers are artists. A lot of artists are engineers. Live coding is one of the places that becomes obvious.
 
-If you have never seen it, don't start with a syntax page. Start with someone playing. [DJ_Dave](https://www.youtube.com/@dj_dave____) does this in [Strudel](https://strudel.cc/), which is Tidal Cycles living in the browser. You watch patterns get rewritten in real time and the dance floor — or the bedroom — follows. This clip is the one that made it click for me:
+## What it actually is
+
+You write code. Sound comes out while you type. You change a loop, the loop changes. There is no separate “press play” in the usual DAW sense. The edit *is* the performance.
+
+Under the hood the idea is simpler than the demos look. A **clock** keeps time in **cycles** — think bars that keep coming around. You describe **patterns**: this kick every beat, this bass on the offbeats, this sample but only sometimes. Patterns stack. You transform them — faster, slower, reversed, every third hit. Those patterns become timed events. Something has to turn events into audio. Often that is [SuperCollider](https://supercollider.github.io/) (especially via SuperDirt in the Tidal world). In the browser it can be Web Audio instead. You are not drawing a timeline first. You grow a loop until it has a shape, then another, then you duck the bass under the kick by editing text.
+
+```mermaid
+flowchart TD
+  You[You edit the code] --> Patterns[Patterns in a cycle]
+  Patterns --> Clock[Shared clock / tempo]
+  Clock --> Events[Events for this cycle]
+  Events --> Engine[Sound engine]
+  Engine --> Out[What you hear]
+  Out -.->|change a line| You
+```
+
+That loop — write, hear, rewrite while it is still running — is the whole instrument.
+
+## Sonic Pi: where a lot of people start
+
+For me the lineage starts with **[Sonic Pi](https://sonic-pi.net/)**, built by **[Sam Aaron](https://twitter.com/samaaron)** while he was at the **University of Cambridge**. He made it so kids could learn programming and music at the same time — Ruby-ish syntax, friendly enough for a classroom, serious enough that people started making real tracks and playing clubs with it. That combination is what hooked me: not “learn to code, then maybe do art later,” but art *as* the reason to code.
+
+If you have never seen it, watch him do it. This TEDx talk is still one of the cleanest introductions — programming as performance, live loops mutating in front of you:
+
+{% include video id="TK1mBqKvIyU" provider="youtube" %}
+
+That is the door. A teaching tool that escaped the classroom and became a musical instrument.
+
+## TidalCycles and the long improvisations
+
+Alongside that world — and feeding the scene that calls itself [Algorave](https://algorave.com/) — is **[TidalCycles](https://tidalcycles.org/)** (Tidal), started by **[Alex McLean](https://slab.org/)**. Patterns are the whole language. SuperCollider / SuperDirt usually sit underneath as the synth engine. You live inside cycles. You improvise by rewriting the score while the score is already playing.
+
+There are long videos of people doing this for real — not a five-minute demo, an actual set. Hours of code, headphones, and a room that follows the mutations. This Tokyo / Yorkshire Algorave stream is one of those rabbit holes:
+
+{% include video id="Tjf-NJNfOP4" provider="youtube" %}
+
+And a full TidalCycles livecoding set from Algorave Moscow:
+
+{% include video id="iRbq9OoPdqw" provider="youtube" %}
+
+You do not need to understand Haskell to get the point. Watch someone hold a groove with text for forty minutes. The craft is in the timing of the edits.
+
+## Strudel and DJ_Dave
+
+**[Strudel](https://strudel.cc/)** is roughly Tidal’s ideas living in the browser — same pattern brain, no install fight, a link you can send a friend. That is why it spreads. [DJ_Dave](https://www.youtube.com/@dj_dave____) is the person who made Strudel click for me: dance music written live, patterns rewritten in real time, the floor (or the bedroom) following the cursor.
 
 {% include video id="ZCcpWzhekEY" provider="youtube" %}
 
-And this is more of the process, how a file is laid out so you can throw a live set around: kicks, sidechain, sliders, stems you can bring in and out.
+And more of the process — how a file is laid out so you can throw a live set around: kicks, sidechain, stems in and out.
 
 {% include video id="W24pteoigXk" provider="youtube" %}
 
-That is the pitch. Not "learn Haskell." Watch someone mutate a groove by editing text, then decide if you want to try.
+I bounce between Sonic Pi, Tidal, and Strudel. I have a [strudel playground](https://github.com/pmagnomuller/strudel-playground) sitting around for that reason. Nothing there is a release yet. That is fine. The point of this post is not a finished EP. It is the feeling that the tools finally match an old wish.
 
-There is a clock. There are patterns. A pattern is this drum every beat, or this bass on the offbeats, or this sample, but only sometimes. You stack them. You transform them: faster, slower, reversed, every third hit, Euclidean rhythms if you are feeling fancy. The tools I keep bumping into are Sonic Pi (Ruby, friendly, something in thirty seconds), Tidal Cycles (Haskell, SuperCollider underneath, patterns as the whole language), and Strudel (Tidal in the browser, no install fight, which is why I can send someone a link instead of a setup guide). I bounce between them. I have a [strudel playground](https://github.com/pmagnomuller/strudel-playground) sitting around for that reason. Nothing there is a release yet.
+## Where this sits for me
 
-You don't compose a whole song as a timeline, not at first. You grow a loop until it has a shape, then you add a second loop, then you duck the bass under the kick. Arrangement happens by commenting things in and out, or by recording the output and dealing with it later.
+I am not throwing Ableton away. Live coding is another instrument in the same room. Link so the clocks agree. Jam in Strudel or Tidal until it feels like a track, bounce it, finish in the DAW. Or stay in the text and treat the edit as the show.
 
-I don't want to throw Ableton away. I like it. Live coding is another instrument in the same room. Ableton Link so the clocks agree on tempo. MIDI out from Sonic Pi or Tidal into MIDI tracks in Ableton, so code writes the notes and Ableton holds the instruments, effects, and the mix. Audio in: record the live-coding output as stems, then clip, automate, and finish the track like anything else. That last one is probably how a release happens, if it happens. Jam in Strudel or Tidal until it feels like a track. Bounce it. Arrange in Ableton. Don't live-code the mastering. I am still clumsy at the MIDI bridge. Link is the part that already feels obvious: one tempo, two apps, stop fighting.
+What I keep noticing in feeds is the same mash-up: a singer, a guitar, a few lines of code holding the rest of the band. AI will keep pushing how fast you can sketch a sound. The part that stays interesting is taste — what you keep, what you delete, when you stop the loop. That is the same muscle as writing software you are proud of. Method and result. Craft and output.
 
-What I want is a small release. One track, maybe a handful. Live coding as the writing tool, Ableton as the studio. If it is bad, it is still better than another unfinished Ableton session folder.
+I want a small release someday. One track, maybe a handful. Until then I am just glad this corner of software exists, that Sam Aaron built a door for kids that adults still walk through, and that a night of improvising with patterns on a screen can feel as much like art as any studio session.
 
-If you want a rabbit hole, DJ_Dave's channel is a better door than I am. I will write again if something actually comes out.
+If you want a rabbit hole: start with Sam’s talk, then one of the long Algorave sets, then DJ_Dave in Strudel. I will write again if something actually comes out.
