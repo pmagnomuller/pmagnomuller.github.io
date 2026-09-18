@@ -104,7 +104,7 @@ social:
   name                   : "Pedro Müller"
   links:
     - "https://github.com/pmagnomuller"
-    - "https://www.linkedin.com/in/pedro-magno-m%C3%BCller/"
+    - "https://www.linkedin.com/in/pedro-m%C3%BCller/"
     - "https://x.com/pedrommuller"
     - "https://pmagnomuller.github.io"
 
@@ -124,7 +124,7 @@ author:
   location         : "Berlin, Germany"
   email            : "work@pedro-muller.com"
   github           : "pmagnomuller"
-  linkedin         : "pedro-magno-müller"
+  linkedin         : "pedro-m%C3%BCller"
   twitter          : "pedrommuller"
 
 # Site Footer
