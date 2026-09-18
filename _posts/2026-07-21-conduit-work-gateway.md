@@ -18,7 +18,7 @@ toc: false
 
 I like Claude Code. I like staying in one harness, with the same context and the same memory of the session. What I do not like is what happens after the Anthropic subscription window is gone: keep typing on the same tool, and you start burning the expensive path — usage after the plan limit that costs way more than a normal API call to a cheaper model.
 
-[Conduit](https://github.com/pmagnomuller/conduit) is a small loopback gateway that sits between the agent and the providers so I do not have to care about that mid-flow. Claude Code (and [OpenCode](https://opencode.ai/) if I wire it) still talks Anthropic-shaped HTTP. Conduit decides where the request actually goes.
+Conduit is a small loopback gateway that sits between the agent and the providers so I do not have to care about that mid-flow. Claude Code (and [OpenCode](https://opencode.ai/) if I wire it) still talks Anthropic-shaped HTTP. Conduit decides where the request actually goes.
 
 ## The problem in one sentence
 
