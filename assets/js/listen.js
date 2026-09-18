@@ -215,6 +215,8 @@
       setPlayingUi(false);
       if (reason === "error") {
         setStatus("Couldn't start playback.");
+      } else if (reason === "unavailable") {
+        setStatus("This browser has no voice to read with.");
       } else if (reason === "empty") {
         setStatus("Nothing to read on this page.");
       } else if (reason === "complete") {
@@ -245,6 +247,10 @@
 
       utterance.onerror = function (event) {
         if (!event || event.error === "interrupted" || event.error === "canceled") return;
+        if (event.error === "synthesis-unavailable" || event.error === "synthesis-failed") {
+          finish("unavailable");
+          return;
+        }
         finish("error");
       };
 
@@ -262,6 +268,7 @@
 
     function prepareText() {
       utterances = chunkParagraphs(extractParagraphs(titleEl, contentEl));
+      root.setAttribute("data-listen-chunks", String(utterances.length));
       return utterances.length;
     }
 
