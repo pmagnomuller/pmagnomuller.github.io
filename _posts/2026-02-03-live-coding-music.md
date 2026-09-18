@@ -37,4 +37,4 @@ I don't want to throw Ableton away. I like it. Live coding is another instrument
 
 What I want is a small release. One track, maybe a handful. Live coding as the writing tool, Ableton as the studio. If it is bad, it is still better than another unfinished Ableton session folder.
 
-If you want a rabbit hole, DJ_Dave's channel is a better door than I am. I will write again if something actually comes out.
+If you want a rabbit hole, DJ_Dave's channel is a better door than I am.

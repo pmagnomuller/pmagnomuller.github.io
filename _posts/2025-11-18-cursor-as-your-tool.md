@@ -89,4 +89,4 @@ flowchart TD
 
 Setup takes an evening. The first week feels slower, not faster. Some days you revert the whole thing. It stuck for me because the busywork left the browser. Rules made the output look like my code. MCP meant I stopped pasting tickets.
 
-If you want the template, fork [ai-workflow-cursor-config](https://github.com/pmagnomuller/ai-workflow-cursor-config) and delete what you do not use. I write later about how this grew into a [shared skills library](/ai/my-ai-coding-setup/) across Cursor, Claude Code, and Codex.
+If you want the template, fork [ai-workflow-cursor-config](https://github.com/pmagnomuller/ai-workflow-cursor-config) and delete what you do not use.

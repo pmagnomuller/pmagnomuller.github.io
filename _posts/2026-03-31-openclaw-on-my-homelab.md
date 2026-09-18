@@ -28,4 +28,4 @@ A useful night looks like this. I message the agent: cheapest three-hour window 
 
 A few things I wish I had treated as non-negotiable from day one. One trust boundary: shared company agents and the personal home agent do not share an OS user, an Apple or Google login, or a password manager profile. Channels are attack surface — pairing, allowlists, require-mention in groups. Skills are code, so a ClawHub install is a dependency: read the `SKILL.md`, prefer publishers I recognize, keep secrets out of the repo. And observe before you optimize. Log price fetches and dry-run decisions for a week. Only then wire real actuators.
 
-[The next post](/homelab/building-an-energy-skill-for-openclaw/) is how one of those skills is actually shaped. Packages are on [ClawHub `@pmagnomuller`](https://clawhub.ai/pmagnomuller) and the GitHub links above.
+Packages are on [ClawHub `@pmagnomuller`](https://clawhub.ai/pmagnomuller) and the GitHub links above.

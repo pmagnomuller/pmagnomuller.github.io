@@ -25,4 +25,4 @@ A morning looks like this. Open Linear. Skim what is actually mine today. Mark a
 
 I don't let a routine choose whether a ticket is safe. That is the whole point of the planner. I also don't let it merge, and I don't let it pick work that needs a product call. The routines are good at the middle. I keep the start and the end.
 
-This sits next to the [shared skills setup](/ai/my-ai-coding-setup/). Skills are how the work gets done. The planner is how I decide which work is even allowed. [Conduit](/ai/conduit/) is how those runs stay on a budget.
+This sits next to the [shared skills setup](/ai/my-ai-coding-setup/). Skills are how the work gets done. The planner is how I decide which work is even allowed.
