@@ -32,6 +32,4 @@ I'll write about how I actually use AI as a software engineer, energy stuff, the
 
 I want to get better at writing and at showing up. This is me starting.
 
-The talk itself is the [next post](/cursor-as-your-tool/).
-
 Hello world.

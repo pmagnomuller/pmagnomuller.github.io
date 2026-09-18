@@ -15,7 +15,7 @@ toc: false
 
 I like newsletters. I do not like opening Gmail at 11pm to a pile of them and telling myself I'll catch up this weekend. That weekend never comes. The unread count just becomes another thing I feel vaguely guilty about.
 
-[Catchup Digest](https://github.com/pmagnomuller/catchup-digest) is me trying to fix that for myself. Connect Gmail, find the newsletters you actually get, pick which ones still deserve attention, and get one AI-summarized email at a time you chose. The senders keep their cadence. I get mine.
+Catchup Digest is me trying to fix that for myself. Connect Gmail, find the newsletters you actually get, pick which ones still deserve attention, and get one AI-summarized email at a time you chose. The senders keep their cadence. I get mine.
 
 The idea is almost boring, which is why I wanted to own it. Newsletters are useful and badly timed. They arrive when the writer hits publish, not when I have twenty quiet minutes. Batching them into a single scheduled digest is not a research problem. It is infrastructure I kept wishing existed in a shape I trusted: read-only Gmail, an explicit connect I can revoke, and a delivery time I set.
 
