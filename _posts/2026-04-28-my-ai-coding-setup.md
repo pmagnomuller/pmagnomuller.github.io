@@ -31,4 +31,4 @@ A normal day is less cinematic than that paragraph. Morning triage ranks Linear 
 
 The repos are public. [skills](https://github.com/pmagnomuller/skills), [the Cursor workflow config](https://github.com/pmagnomuller/ai-workflow-cursor-config), energy packages on [ClawHub](https://clawhub.ai/pmagnomuller). Fork, delete what you do not use, rewrite the triggers for your stack. It only works if it matches how you actually work.
 
-How I actually dispatch that work is the [Linear planner](/ai/a-linear-planner-for-the-routines/): I select tickets, then routines take them. [Conduit](/ai/conduit/) is the work gateway that keeps those calls from each burning their own pile of tokens. For now: one library, three agents, fewer tabs.
+[Conduit](/ai/conduit/) is the work gateway that keeps those calls from each burning their own pile of tokens. For now: one library, three agents, fewer tabs.

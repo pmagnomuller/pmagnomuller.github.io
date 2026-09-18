@@ -14,7 +14,7 @@ tags:
 toc: false
 ---
 
-The [routines](/ai/a-linear-planner-for-the-routines/) and the [editor loop](/cursor-as-your-tool/) only work at work if someone is watching the bill. Left alone, every tool talks to a frontier model with its own key. You find out at the end of the month.
+The routines and the [editor loop](/cursor-as-your-tool/) only work at work if someone is watching the bill. Left alone, every tool talks to a frontier model with its own key. You find out at the end of the month.
 
 Conduit is the gateway I use so that doesn't happen. One door. Work traffic goes through it. Cheaper models where they are enough, spend you can actually see, a stop when a routine goes feral. Views here are mine. This is how I think about the problem, not a company announcement.
 
