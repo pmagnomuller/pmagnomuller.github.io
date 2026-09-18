@@ -23,7 +23,6 @@ Origin: **15 November 2025**, Sword AI Summit talk in Porto (*Real AI Workflows 
 | 2026-03-31 | OpenClaw on My Homelab | OpenClaw | Published |
 | 2026-04-14 | Building an Energy Skill for OpenClaw | OpenClaw / energy | Published |
 | 2026-04-28 | My AI Coding Setup | AI coding | Published |
-| 2026-05-26 | A Linear planner for the routines | AI / work | Published |
 | 2026-07-21 | Conduit: a gateway so work AI stays cheap | AI / work | Published |
 
 ## Later
