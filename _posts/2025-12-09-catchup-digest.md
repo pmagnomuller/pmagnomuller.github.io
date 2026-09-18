@@ -76,4 +76,4 @@ So we stopped there. Not because the digests were bad. Because the next step was
 
 Catchup Digest proved the boring version of the idea works. Aggregate, summarize, deliver on the user's clock. Users will try it if you make the first digest easy. The hard part is not the summary model. It is **inbox access**, compliance cost on Gmail and Outlook alike, and whether people will ever feel okay granting that scope.
 
-I still have notes on how I would reshape the product without asking for the whole mailbox. Maybe you will see a descendant of this later. For now this post is the honest version: a small team, a working slice, real users, and a hard stop at the inbox providers' gate.
+I still have notes on how I would reshape the product without asking for the whole mailbox. This is the honest version: a small team, a working slice, real users, and a hard stop at the inbox providers' gate.

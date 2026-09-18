@@ -28,10 +28,8 @@ So this is it.
 
 Views here are my own. Nothing I write is on behalf of my employer or anyone I work with.
 
-I'll write about how I actually use AI as a software engineer, energy stuff, the homelab, side projects, and notes I wish I'd written down the first time. Some posts will be more put together than others.
+This is for how I actually use AI as a software engineer, energy stuff, the homelab, side projects, and notes I wish I'd written down the first time. Some posts will be more put together than others.
 
 I want to get better at writing and at showing up. This is me starting.
-
-The talk itself is the [next post](/cursor-as-your-tool/).
 
 Hello world.

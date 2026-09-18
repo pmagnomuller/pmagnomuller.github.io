@@ -21,4 +21,4 @@ The useful layer is semantic. Embed the catalog, retrieve candidates, then let a
 
 It runs on NestJS, MongoDB, Azure OpenAI, a small Vite client for local digs, Docker, CI pointing at Azure Container Apps. None of that is the interesting constraint. The interesting constraint is inventory. Recommendations have to land on titles you can pull. I care about music discovery that stays local to a collection — a shop's stock, or eventually a digger's own shelves — and then gets out of the way so you can flip wax.
 
-This is still a working lab: seeding, retrieval quality, how much Spotify should be allowed to influence a Saturday afternoon. I will write more as the recommendations get good enough to trust with a real shop.
+This is still a working lab: seeding, retrieval quality, how much Spotify should be allowed to influence a Saturday afternoon.
