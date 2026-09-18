@@ -14,6 +14,7 @@ tags:
   - DeepSeek
   - Anthropic
 toc: false
+listen: true
 ---
 
 I like Claude Code. I like staying in one harness, with the same context and the same memory of the session. What I do not like is what happens after the Anthropic subscription window is gone: keep typing on the same tool, and you start burning the expensive path. Usage after the plan limit costs way more than a normal API call to a cheaper model.

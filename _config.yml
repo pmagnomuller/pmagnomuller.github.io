@@ -330,6 +330,7 @@ defaults:
       toc: false
       toc_label: "Contents"
       toc_sticky: false
+      listen: false
   # _pages
   - scope:
       path: ""
