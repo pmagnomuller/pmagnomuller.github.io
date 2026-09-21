@@ -37,7 +37,7 @@ The useful property is the contract. Possible answers are defined before the cal
 ```mermaid
 flowchart LR
   State[State plus questions] --> Jev[Jev]
-  Jev --> Answers[Typed answers and probabilities]
+  Jev --> Answers[Typed answers]
   Answers --> Code[Your code branches]
 ```
 
