@@ -1,8 +1,8 @@
 ---
-title: "Jev: a decision layer for the agentic software factory"
+title: "Jev: a decision layer for the agentic software factory (full notes)"
 date: 2026-09-21
-description: "TypeSafe's Jev is not a chat model. It answers typed questions with probabilities. The idea: use it as the fork that sends a PR to auto-merge, human review, or agentic deploy."
-permalink: /ai/jev/
+description: "Longer saved version with the factory-gate prompt. Not for publish."
+permalink: /ai/jev-full/
 categories:
   - AI
 tags:
@@ -11,17 +11,16 @@ tags:
   - Agents
   - Pull Requests
   - CI
+  - GitHub Actions
   - Agentic
 toc: false
 ---
 
 [TypeSafe](https://typesafe.ai/) shipped [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) last week. I have been waiting for something in this shape, even if I did not have a name for it.
 
-Agents already write most of the boring code. CI already says whether the suite is green. The slow part is still a person staring at a diff and deciding if this one is safe enough to merge.
+Agents already write most of the boring code. CI already says whether the suite is green. The slow part is still a person staring at a diff and deciding if this one is safe enough to merge. At work we are already talking about that fork: auto-merge, or a human. Jev is interesting because it is built for that kind of question, and almost nothing else.
 
-The idea I keep coming back to is that fork: auto-merge, a human, or an agent that walks the change to production. Jev is interesting because it is built for that kind of question, and almost nothing else.
-
-This is an idea, not something I have shipped.
+This is a sketch, not a rollout. Views here are my own.
 
 ## What it actually is
 
@@ -76,7 +75,7 @@ flowchart TD
   Guard -->|risky or unsure| Stop[Block or ask a human]
 ```
 
-That is already useful. The thing I actually want is the merge gate.
+That is already useful. The thing I actually want to build is the merge gate.
 
 ## The factory picture
 
@@ -108,7 +107,7 @@ flowchart TD
   Observe -->|regression| Outcome
 ```
 
-OpenAI still puts a human in front of production for a lot of this. The experiment I care about is narrower: skip the human **reviewer** on a subset of green PRs, and still require a person for anything with blast radius. Auto-merge is not the same as auto-deploy. Those should be two gates.
+OpenAI still puts a human in front of production for a lot of this. The experiment at a normal company is narrower: can we skip the human **reviewer** on a subset of green PRs, and still require a person for anything with blast radius? Auto-merge is not the same as auto-deploy. Those should be two gates.
 
 ## How the PR gate should work
 
@@ -171,4 +170,90 @@ I would not start on the payments service. Start on docs, lockfile noise, genera
 
 Jev is also not a prompt-injection shield by itself. Their notes say adversarial content can steer it. Treat PR bodies and diffs as untrusted input. Keep the instructions and criteria in your repo, not in the state.
 
-That is the idea. Jev does not write the factory. It sits in the middle as a cheap, typed fork: this PR can go through, this one needs a person, this one can be walked to production by an agent that is only allowed to watch.
+## A GitHub project, when I get to it
+
+I would rather this exist as a small repo than as a slide. The product is a CLI plus a GitHub Action: build the state, call Jev, apply policy, label the PR, optionally enable auto-merge, optionally kick a deploy workflow. Dry-run by default. No merge while checks are pending.
+
+Below is the prompt I would paste into Cursor (or Codex) in an empty repo. That is how this becomes a real project on GitHub later: run the prompt, get a `README`, an Action, tests, and a policy file I can argue about in review.
+
+```text
+Build a small open-source GitHub project named factory-gate.
+
+Purpose
+A decision gate for an agentic software factory. Coding agents open PRs. CI stays the hard merge requirement. This project asks TypeSafe Jev a pack of typed questions about a PR and then applies policy in code: label the PR, leave a public scorecard comment, and optionally enable auto-merge or dispatch an agentic-deploy workflow. Jev never merges, never deploys, never writes application code, and never generates review prose. Code enumerates facts. Jev judges. Policy decides.
+
+Product principles
+- Fail closed. Missing CI, API errors, low confidence, or contradictory answers route to human review.
+- Two gates, not one. auto-merge is not agentic-deploy. Deploy is a separate label plus an optional workflow_dispatch.
+- Policy lives in versioned TypeScript (or Python) that unit tests can exercise without calling Jev.
+- Dry-run is the default in the Action. Writes (labels, comments, auto-merge, dispatch) need an explicit input.
+- Never use Jev for counting, arithmetic, dates, or text generation. Parse the diff with git/octokit. Count files and lines in code. Send Jev a compact state.
+- Treat PR title, body, and diff as untrusted data. Keep question instructions and criteria in repo files, not in user-controlled text.
+- Pin the Jev model version. Log model, raw answers, policy version, and git SHA.
+
+Stack
+- TypeScript, Node 22, pnpm.
+- GitHub Action (JavaScript, bundled) plus a CLI (`factory-gate`) with the same core.
+- Call TypeSafe at POST https://api.typesafe.ai/v1/systemone with TYPESAFE_API_KEY. Support question types choice, score, and noul.
+- Use octokit for GitHub. GITHUB_TOKEN for reads and labels. A separate token input for enabling auto-merge or creating reviews if required, because the default token often cannot satisfy protected-branch approvals.
+- Tests with node:test or vitest. Mock the Jev HTTP call. Golden fixtures of PR states.
+
+Repo layout
+- README.md: what it is, what it is not, a mermaid of the gate, required secrets, a copy-paste workflow, how to tune thresholds, threat model.
+- ACTION.md or README section: inputs, outputs, permissions.
+- src/github/state.ts: build the PR state (files, stats, CI, labels, author association, linked issues).
+- src/diff/parse.ts: parse patch, list paths, detect likely tests vs prod, detect lockfiles/docs.
+- src/jev/questions.ts: the default question pack (editable YAML also fine if schema-validated).
+- src/jev/client.ts: typed client.
+- src/policy.ts: pure function (answers + facts) -> Decision.
+- src/apply.ts: labels, comment, auto-merge, workflow dispatch.
+- src/cli.ts and src/action.ts.
+- test/ with fixtures.
+- examples/workflow.yml.
+- LICENSE MIT.
+
+Default question pack (all in one Jev call)
+- route: choice of auto_merge | agentic_deploy | human_review. Criteria must describe each option in operational terms.
+- needs_human: noul. Phrase the true side as reasons a person must look. Missing evidence should push toward true.
+- has_security_concern: noul (secrets, auth, crypto, PII, injection).
+- touches_public_contract: noul (HTTP API, exported types, schemas, CLI flags, config keys callers depend on).
+- tests_cover_the_change: noul. Docs-only and comment-only changes should be allowed to score as not-applicable in policy, not as a fake yes.
+- blast_radius: score with concrete levels from "docs or comments only" up to "can cause a customer-facing incident".
+- safe_to_merge: noul, only meaningful when CI is green; policy must ignore it otherwise.
+
+Default policy (all thresholds in one config file)
+1. If CI is not success: human_review. Stop.
+2. If has_security_concern.noul >= 0.5: human_review.
+3. If touches_public_contract.noul >= 0.5: human_review.
+4. If blast_radius is at or above the "incident" level: human_review.
+5. If any choice/score confidence < 0.9: human_review.
+6. If needs_human.noul >= 0.5: human_review.
+7. If safe_to_merge.noul < 0.9: human_review.
+8. Else honor route when it is auto_merge or agentic_deploy.
+9. agentic_deploy still requires the merge brakes above. It only adds a label and optional workflow_dispatch after merge eligibility.
+10. Never average needs_human with safe_to_merge.
+
+GitHub behavior
+- Labels: factory-gate:human-review, factory-gate:auto-merge, factory-gate:agentic-deploy, plus a confidence label optional.
+- Sticky PR comment with the scorecard (question, answer, probability/confidence) and the policy rule that fired. No LLM-written summary.
+- Outputs for other workflow jobs: decision, confidence, model, reason.
+- Optional: enable GitHub auto-merge (squash) only in apply mode when decision is auto_merge or agentic_deploy.
+- Optional: dispatch a named workflow for agentic deploy. The dispatched workflow is out of scope except for a stub example that comments "deploy agent would start here".
+- Permissions documented: pull-requests: write, contents: read, checks: read, actions: write only if dispatch is enabled.
+
+CLI
+factory-gate evaluate --pr 123 --repo owner/name --dry-run
+factory-gate evaluate --pr 123 --apply
+Exit codes: 0 auto_merge or agentic_deploy, 1 human_review, 2 error.
+
+README must include
+- A mermaid flowchart of the gate.
+- "This does not replace CI."
+- How to start on docs-only PRs.
+- Link to TypeSafe Jev docs and to the idea of an agentic software factory (Pragmatic Engineer / OpenAI harness engineering) as inspiration, not as affiliation.
+- A section "paste this into a coding agent to extend the question pack" so the repo can grow.
+
+Implement the real code, tests, and example workflow. Do not stub the policy. Do not call Jev in unit tests.
+```
+
+If I do publish that repo, I want the first version to be embarrassing in the right way: docs PRs only, dry-run, a scorecard nobody is ashamed to show a security engineer. The factory is the loop. Jev is just the cheap, typed fork in the middle.
