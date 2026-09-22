@@ -12,6 +12,7 @@ tags:
   - MCP
   - Developer Tools
 toc: false
+listen: true
 ---
 
 This is the writeup of the talk I gave at [Sword AI Summit](https://aisummit.swordhealth.com/) on 15 November 2025. The talk was called **Building Real AI Workflows for Software Engineers**. [Hello world](/meta/hello-world/) is how that day felt. This is what I actually showed.

@@ -10,6 +10,7 @@ tags:
   - AI
   - Sword AI Summit
 toc: false
+listen: true
 ---
 
 On 15 November 2025 I got on stage at [Sword AI Summit](https://aisummit.swordhealth.com/) in Porto. The talk was called **Real AI Workflows for Software Engineers**.
