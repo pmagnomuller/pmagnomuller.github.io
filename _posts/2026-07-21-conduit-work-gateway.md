@@ -18,7 +18,7 @@ toc: false
 
 I like Claude Code. I like staying in one harness, with the same context and the same memory of the session. What I do not like is what happens after the Anthropic subscription window is gone: keep typing on the same tool, and you start burning the expensive path. Usage after the plan limit costs way more than a normal API call to a cheaper model.
 
-Conduit is a small loopback gateway that sits between the agent and the providers so I do not have to care about that mid-flow. Claude Code (and [OpenCode](https://opencode.ai/) if I wire it) still talks Anthropic-shaped HTTP. Conduit decides where the request actually goes.
+[Conduit](https://github.com/pmagnomuller/conduit) is a small loopback gateway that sits between the agent and the providers so I do not have to care about that mid-flow. Claude Code (and [OpenCode](https://opencode.ai/) if I wire it) still talks Anthropic-shaped HTTP. Conduit decides where the request actually goes.
 
 ## The problem in one sentence
 
@@ -51,6 +51,6 @@ Compatible with Claude Code out of the box (`ANTHROPIC_BASE_URL` aimed at the ga
 
 This is not a new idea. Token spend is geometric: a long agent session after the soft limit is a different price curve than the same session on a cheap flash model. People are already juggling keys by hand. Conduit is just making the juggle automatic and boring.
 
-I do not know yet if this stays a private tool or turns into something more serious. I do believe the direction is right. Use the subscription while it is the good deal. When it is not, keep working on a key that matches the economics, without leaving the harness.
+The code is open source on [GitHub](https://github.com/pmagnomuller/conduit). I do believe the direction is right. Use the subscription while it is the good deal. When it is not, keep working on a key that matches the economics, without leaving the harness.
 
 This is how I run my own coding agents, not a vendor pitch. If you are already paying for Claude and then paying again the expensive way when the bar turns red, you already feel the shape of the problem.
