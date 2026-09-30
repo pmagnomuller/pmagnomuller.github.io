@@ -27,7 +27,9 @@ flowchart TD
   Try --> Finally[finally release]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Error codes bury the story
 

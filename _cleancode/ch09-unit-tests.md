@@ -28,7 +28,9 @@ flowchart LR
   Refactor --> Red
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Detail-heavy test
 

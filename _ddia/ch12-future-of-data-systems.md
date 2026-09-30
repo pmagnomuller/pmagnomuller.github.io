@@ -29,7 +29,9 @@ flowchart TD
   Log --> Features[Feature store]
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### End-to-end idempotency sketch
 

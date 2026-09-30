@@ -27,7 +27,9 @@ flowchart TD
   E --> M[4 Minimize entities]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Duplication hiding an idea
 

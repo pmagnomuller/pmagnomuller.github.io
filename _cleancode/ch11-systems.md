@@ -25,7 +25,9 @@ flowchart TD
   App --> Adapters[IO adapters]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Construction mixed into use
 

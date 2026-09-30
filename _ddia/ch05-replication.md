@@ -34,7 +34,9 @@ flowchart LR
   C -->|r reads| R1 & R2
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Quorum intuition
 

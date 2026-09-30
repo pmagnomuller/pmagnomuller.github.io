@@ -28,7 +28,9 @@ flowchart TD
   T --> Fix
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Opaque function name
 

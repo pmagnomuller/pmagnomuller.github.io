@@ -32,7 +32,9 @@ flowchart LR
   Slide --> Sess[Session]
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Prefer CDC over dual write
 

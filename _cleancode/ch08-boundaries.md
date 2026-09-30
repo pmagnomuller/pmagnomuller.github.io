@@ -23,7 +23,9 @@ flowchart LR
   Learn[Learning tests] -.-> Lib
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Leaking a boundary type
 

@@ -27,7 +27,9 @@ flowchart TD
   Maint --> Ops[Operate / simplify / evolve]
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Latency as percentiles (not averages)
 

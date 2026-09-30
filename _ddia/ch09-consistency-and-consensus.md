@@ -39,7 +39,9 @@ sequenceDiagram
   C->>B: commit
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Linearizability vs serializability
 

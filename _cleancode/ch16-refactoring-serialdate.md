@@ -24,7 +24,9 @@ flowchart TD
   API --> Clean[Remove dead / duplicated paths]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Smell: unclear API and mixed concerns
 
