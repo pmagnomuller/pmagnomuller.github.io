@@ -5,9 +5,9 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-Features change stored data. In production, old and new code — and old and new data formats — coexist. **Backward** and **forward** compatibility are how rolling upgrades stay possible.
+Features change stored data. In production, old and new code, and old and new data formats, coexist. **Backward** and **forward** compatibility are how rolling upgrades stay possible.
 
 ## Core ideas
 
@@ -17,9 +17,9 @@ Moving data between memory and the network requires encode/decode. Language-nati
 
 ### Modes of dataflow
 
-1. **Through a database** — a process sends a message to its future self; needs both backward and forward compatibility
-2. **Service calls (REST / RPC)** — expose deliberate APIs; expect mixed client/server versions
-3. **Async messaging** — brokers buffer, retry, fan-out, and decouple; replies need another channel
+1. **Through a database**: a process sends a message to its future self; needs both backward and forward compatibility
+2. **Service calls (REST / RPC)**: expose deliberate APIs; expect mixed client/server versions
+3. **Async messaging**: brokers buffer, retry, fan-out, and decouple; replies need another channel
 
 ### Why RPC is not a local call
 
@@ -75,8 +75,6 @@ OrderService --publish OrderPlaced--> broker
                                       |- Analytics
 ```
 
-## Takeaways
+## In short
 
-- Plan for mixed versions in production
-- Network ≠ function call; design for retries + idempotence
-- Brokers trade sync replies for resilience
+Expect old and new versions to run together. A network call is not a local function call. Use idempotency when retries are possible.

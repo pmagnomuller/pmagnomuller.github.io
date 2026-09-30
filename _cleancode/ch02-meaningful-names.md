@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Names are the primary documentation of a codebase. A good name answers why something exists, what it does, and how it is used. If you need a comment to explain a name, rename instead.
 
@@ -13,7 +13,7 @@ Names are the primary documentation of a codebase. A good name answers why somet
 
 ### Intention-revealing names
 
-Choose names that say what the code is doing at the business or problem level — not how the machine happens to store it. `elapsedTimeInDays` beats `d`. `flaggedCells` beats `list1`.
+Choose names that say what the code is doing at the business or problem level, not how the machine happens to store it. `elapsedTimeInDays` beats `d`. `flaggedCells` beats `list1`.
 
 ### Avoid disinformation
 
@@ -23,7 +23,7 @@ Do not call something a `list` if it is not a `List`. Do not reuse platform enco
 
 Noise words are not distinctions: `ProductInfo` vs `ProductData` usually means you have not named the real difference. Numbered series (`a1`, `a2`) are non-informative. Redundant encodings (`nameString`, `CarObject`, `m_description`) add weight without meaning.
 
-### Pronounceable, searchable, scoped
+### Pronounceable, searchable, and scoped
 
 If you cannot say the name aloud, design discussions get awkward. Single-letter names are fine for tiny local scopes (`i` in a loop); longer scopes need precise names. The length of a name should scale with its lifetime and blast radius.
 
@@ -58,7 +58,7 @@ flowchart LR
 
 *Examples below are in Java.*
 
-Before — names hide the domain:
+Before: names hide the domain:
 
 ```java
 public List<int[]> getThem() {
@@ -72,7 +72,7 @@ public List<int[]> getThem() {
 }
 ```
 
-After — names carry the game rules:
+After: names carry the game rules:
 
 ```java
 public List<Cell> getFlaggedCells() {
@@ -97,8 +97,6 @@ private String m_dsc; // textual description
 private String descriptionString;
 ```
 
-## Takeaways
+## In short
 
-- Rename beats explaining with a comment
-- Consistency of vocabulary matters as much as any single clever name
-- Longer scope → more precise name
+If a name needs a comment, rename it. Keep vocabulary consistent. Longer-lived names should be more precise.

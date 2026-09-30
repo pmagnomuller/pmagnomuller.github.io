@@ -5,7 +5,7 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
 Eventual consistency is easy to operate and easy to misuse. Stronger models cost latency or availability. Consensus is how nodes agree on leaders, order, and commits when intuition is not enough.
 
@@ -13,7 +13,7 @@ Eventual consistency is easy to operate and easy to misuse. Stronger models cost
 
 ### Linearizability
 
-The system behaves as if there is one copy of the data and every operation is atomic — a **recency** guarantee. After any read sees `x=2`, all later reads must see that (or newer). Not the same as **serializability** (transaction isolation).
+The system behaves as if there is one copy of the data and every operation is atomic (a **recency** guarantee). After any read sees `x=2`, all later reads must see that (or newer). Not the same as **serializability** (transaction isolation).
 
 Single-leader + consensus can provide linearizability; multi-leader generally cannot; Dynamo-style only with painful caveats. CAP (informally): insist on linearizability during a partition and you sacrifice availability. Few systems are linearizable end-to-end because it is slow even on a healthy network.
 
@@ -68,8 +68,6 @@ long onReceive(long remoteTs, long localTs) {
 }
 ```
 
-## Takeaways
+## In short
 
-- Linearizable ≠ serializable — different jobs
-- Causal consistency is often the geo sweet spot
-- Consensus is powerful; majority + membership + timeout sensitivity
+Linearizability is about recency; serializability is about transactions. Causal consistency is often enough for geo systems. Consensus is powerful and sensitive to membership and timeouts.

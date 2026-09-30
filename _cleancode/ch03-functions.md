@@ -5,13 +5,13 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Functions are the verbs of your system. They should be small, do one thing, and stay at one level of abstraction so a reader can follow the story from top to bottom.
 
 ## Core ideas
 
-### Small, and then smaller
+### Small, then smaller
 
 There is no hard line count, but when a function needs scroll, sections, or nested blocks, extract. Ideal blocks inside `if` / `else` / `while` are often a single named call. Indent depth beyond one or two levels is a smell.
 
@@ -19,7 +19,7 @@ There is no hard line count, but when a function needs scroll, sections, or nest
 
 A function does one thing when you cannot extract another meaningful function from it without merely restating its implementation. Mixing setup, business rule, and persistence in one method is several things.
 
-### One level of abstraction — the stepdown rule
+### One level of abstraction (stepdown rule)
 
 Code should read like a narrative: *to do X, we do Y, then Z*. High-level steps call the next level down; they do not suddenly open sockets mid-paragraph.
 
@@ -29,7 +29,7 @@ Prefer fewer arguments. Zero is ideal; three is usually a stretch. Group related
 
 ### Command / query separation
 
-A function should change state **or** answer a question — not both. `if (set("username", "bob"))` confuses mutation with inquiry.
+A function should change state **or** answer a question, not both. `if (set("username", "bob"))` confuses mutation with inquiry.
 
 ### Prefer exceptions to error codes
 
@@ -101,8 +101,6 @@ public Employee make(EmployeeRecord record) {
 Money pay = employee.calculatePay();
 ```
 
-## Takeaways
+## In short
 
-- One thing, one abstraction level, few arguments
-- Happy path should read as a straight story
-- Extract until names carry the design
+Keep functions small, at one abstraction level, with few arguments. The happy path should read in a straight line. Extract until the names carry the design.

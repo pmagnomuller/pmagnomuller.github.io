@@ -5,9 +5,9 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-Data models shape how we think about problems. Relational, document, and graph models optimize different relationship shapes and access patterns — and most serious systems end up **polyglot**.
+Data models shape how we think about problems. Relational, document, and graph models optimize different relationship shapes and access patterns, and most serious systems end up **polyglot**.
 
 ## Core ideas
 
@@ -19,7 +19,7 @@ One-to-many options: normalized child tables, multi-valued columns, or opaque JS
 
 ### Document model
 
-Documents embed tree-shaped data with locality — great when you usually load a whole aggregate. Schema-on-read is flexible but still a schema (just enforced later). Many-to-one / many-to-many are awkward; applications often simulate joins. Documents must stay reasonably small or locality dies.
+Documents embed tree-shaped data with locality, great when you usually load a whole aggregate. Schema-on-read is flexible but still a schema (just enforced later). Many-to-one / many-to-many are awkward; applications often simulate joins. Documents must stay reasonably small or locality dies.
 
 ### Graph model
 
@@ -91,8 +91,6 @@ for (Order o : orders) {
 }
 ```
 
-## Takeaways
+## In short
 
-- Match model to relationship shape and access pattern
-- Document ≠ schemaless — the schema moves to read time
-- Joins vs locality is the recurring trade-off
+Pick the model that matches your relationships and access patterns. Documents help with locality; joins help with connections. Serious systems often mix stores.

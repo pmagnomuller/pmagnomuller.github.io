@@ -5,9 +5,9 @@ part: "Part III: Derived Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-No single database wins every access pattern. The future Kleppmann sketches is **composed**: a system of record, a log of changes, and specialized derived views — with correctness treated as an end-to-end property, not a checkbox on one product.
+No single database wins every access pattern. Kleppmann's sketch of the future is **composed**: a system of record, a log of changes, and specialized derived views, with correctness treated as an end-to-end property, not a checkbox on one product.
 
 ## Core ideas
 
@@ -72,8 +72,6 @@ Search index lags 30s     -> timeliness miss (usually OK)
 Payment event never lands -> integrity miss (not OK)
 ```
 
-## Takeaways
+## In short
 
-- One writer-of-record; many derived readers
-- Integrity > freshness; audit the pipeline
-- Unbundled dataflow composes what one monolith DB cannot
+One system of record, many derived readers. Integrity matters more than perfect freshness. Audit the pipeline instead of trusting any single store.

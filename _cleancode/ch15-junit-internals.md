@@ -5,9 +5,9 @@ part: "Case Studies"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-A walk through JUnit's `ComparisonCompactor` shows how small methods, clear names, and incremental cleanup turn index arithmetic into a readable algorithm. Case studies are practice — re-derive the choices, do not only skim them.
+A walk through JUnit's `ComparisonCompactor` shows how small methods, clear names, and incremental cleanup turn index arithmetic into a readable algorithm. Case studies are practice, re-derive the choices, do not only skim them.
 
 ## Core ideas
 
@@ -71,8 +71,6 @@ public class ComparisonCompactor {
 }
 ```
 
-## Takeaways
+## In short
 
-- Algorithms become readable when steps are named
-- Case studies stick when you re-implement the design choices
-- Small, boring functions beat clever one-liners
+Name the steps of an algorithm. Re-reading a cleaned-up example teaches more than skimming the prose.

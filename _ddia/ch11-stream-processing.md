@@ -5,9 +5,9 @@ part: "Part III: Derived Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-Streams process **unbounded** event sequences with low lag. Where batch waits for a whole input set, streaming reacts to events as they arrive — monitoring, CDC, real-time analytics, derived views.
+Streams process **unbounded** event sequences with low lag. Where batch waits for a whole input set, streaming reacts to events as they arrive, monitoring, CDC, real-time analytics, derived views.
 
 ## Core ideas
 
@@ -21,7 +21,7 @@ Dual writes into two stores race and diverge. Prefer **change data capture** (da
 
 ### Processing streams
 
-Write to datastores, push to users, or emit derived streams. Windows: tumbling, hopping, sliding, session — prefer **event time** with watermarks over pure processing time under lag. Joins need state and careful ordering. Fault tolerance via micro-batches, transactional sinks, or **idempotent** outputs.
+Write to datastores, push to users, or emit derived streams. Windows: tumbling, hopping, sliding, session, prefer **event time** with watermarks over pure processing time under lag. Joins need state and careful ordering. Fault tolerance via micro-batches, transactional sinks, or **idempotent** outputs.
 
 ## Visual
 
@@ -71,8 +71,6 @@ Hopping   [0,60) [30,90) [60,120)
 Session   idle gap starts a new window
 ```
 
-## Takeaways
+## In short
 
-- Log + derived views beat dual writes
-- Event time beats wall-clock windows under lag
-- Make outputs idempotent; streams retry
+Prefer a log plus derived views over dual writes. Window on event time when lag exists. Make sinks idempotent because retries will happen.

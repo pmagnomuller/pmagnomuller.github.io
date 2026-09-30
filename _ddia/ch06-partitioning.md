@@ -5,26 +5,26 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-When data or load exceeds one node, **partitioning (sharding)** spreads it. Typically combined with replication. The goal is even load — and avoiding **hot spots**.
+When data or load exceeds one node, **partitioning (sharding)** spreads it. Typically combined with replication. The goal is even load and avoid **hot spots**.
 
 ## Core ideas
 
 ### Partitioning key-value data
 
-- **Key-range** — sorted keys with boundaries; great for range scans; hot keys (time prefixes, celebrities) still hurt; boundaries need care
-- **Hash** — spreads load; loses efficient range queries (compound keys can restore some patterns)
+- **Key-range**: sorted keys with boundaries; great for range scans; hot keys (time prefixes, celebrities) still hurt; boundaries need care
+- **Hash**: spreads load; loses efficient range queries (compound keys can restore some patterns)
 
 Skewed popular keys may need application-level scatter (random suffixes) with fan-in on read.
 
 ### Secondary indexes
 
-**Local (document-partitioned) indexes** live inside each partition — writes are local; reads may scatter-gather. **Global (term-partitioned) indexes** make reads targeted but writes touch multiple partitions (often async).
+**Local (document-partitioned) indexes** live inside each partition, writes are local; reads may scatter-gather. **Global (term-partitioned) indexes** make reads targeted but writes touch multiple partitions (often async).
 
 ### Rebalancing
 
-Avoid `hash % N` — almost every key moves when N changes. Better patterns: many fixed partitions moved between nodes; dynamic split/merge by size; partitions proportional to nodes. Keep a human in the loop — fully automatic rebalance can surprise you.
+Avoid `hash % N`, almost every key moves when N changes. Better patterns: many fixed partitions moved between nodes; dynamic split/merge by size; partitions proportional to nodes. Keep a human in the loop, fully automatic rebalance can surprise you.
 
 ### Request routing
 
@@ -73,8 +73,6 @@ celebrityId                -> one hot partition
 celebrityId + random(0..9) -> 10 shards (fan-in on read)
 ```
 
-## Takeaways
+## In short
 
-- Partition for balance; design explicitly for skewed keys
-- Index strategy decides whether reads or writes pay
-- Rebalance by moving partitions, not remapping every key
+Spread load evenly and plan for hot keys. Local vs global secondary indexes trade read cost for write cost. Move partitions when rebalancing; do not remap every key with `hash % N`.

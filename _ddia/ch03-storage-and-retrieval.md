@@ -5,7 +5,7 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
 Under every database is a bet about how to lay bytes on disk (or in memory) so writes and reads stay feasible. The simplest efficient write is **append to a file**; indexes are deliberate trade-offs that speed reads and cost writes.
 
@@ -29,7 +29,7 @@ Clustered indexes store row data in the index. Multi-column / specialized indexe
 
 ### OLTP vs analytics
 
-Operational databases (OLTP) optimize point lookups and small transactions. Warehouses (OLAP) optimize scans of few columns over many rows — hence **column storage**, compression, vectorized execution, and materialized aggregates. ETL/ELT keeps analytics from crushing production.
+Operational databases (OLTP) optimize point lookups and small transactions. Warehouses (OLAP) optimize scans of few columns over many rows, hence **column storage**, compression, vectorized execution, and materialized aggregates. ETL/ELT keeps analytics from crushing production.
 
 ## Visual
 
@@ -87,11 +87,9 @@ Column vs row mental model:
 
 ```text
 Row:    [user=1,age=30,city=Berlin] [user=2,age=41,city=Lisbon]
-Column: age -> [30, 41, ...]   # scan only what the query needs
+Column: age -> [30, 41...]   # scan only what the query needs
 ```
 
-## Takeaways
+## In short
 
-- Indexes are a read/write trade — create them on purpose
-- LSM: write-friendly; B-tree: predictable OLTP default
-- Split OLTP and analytics when access patterns diverge
+Indexes speed reads and cost writes, so add them on purpose. LSM trees lean write-heavy; B-trees are the usual OLTP default. Keep analytics off the OLTP box when you can.

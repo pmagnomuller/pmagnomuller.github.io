@@ -5,9 +5,9 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-Concurrency is a design concern of its own. Mixing thread policy into ordinary business logic hides races and makes failures intermittent — the worst kind to debug.
+Concurrency is a design concern of its own. Mixing thread policy into ordinary business logic hides races and makes failures intermittent, the worst kind to debug.
 
 ## Core ideas
 
@@ -25,7 +25,7 @@ Wide locks kill throughput and raise deadlock risk. Narrow critical sections; do
 
 ### Understand the execution model
 
-Threads, pools, actors, event loops — each has different failure modes. Use the platform's executors and concurrent collections instead of hand-rolling queues.
+Threads, pools, actors, event loops, each has different failure modes. Use the platform's executors and concurrent collections instead of hand-rolling queues.
 
 ### Test under stress
 
@@ -84,7 +84,7 @@ Separate concurrency policy from work:
 ```java
 public final class OrderProcessor {
   public void process(Order order) {
-    // pure domain — no threads here
+    // pure domain, no threads here
   }
 }
 
@@ -92,8 +92,6 @@ ExecutorService pool = Executors.newFixedThreadPool(8);
 pool.submit(() -> processor.process(order));
 ```
 
-## Takeaways
+## In short
 
-- Concurrency is a boundary concern, not a seasoning
-- Prefer immutability, isolation, and narrow locks
-- Stress-test; luck is not a strategy
+Get the single-threaded design right first. Keep shared mutable state rare and obvious. Stress-test; intermittent passes do not count.

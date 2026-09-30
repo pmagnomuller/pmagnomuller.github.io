@@ -5,9 +5,9 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-Objects and data structures are complementary tools. Confusing them produces hybrids that expose guts *and* pretend to encapsulate behavior — usually the worst of both worlds.
+Objects and data structures are complementary tools. Confusing them produces hybrids that expose guts *and* pretend to encapsulate behavior, usually the worst of both worlds.
 
 ## Core ideas
 
@@ -22,11 +22,11 @@ Object-oriented style makes it easy to add new types without changing existing f
 
 ### Data abstraction
 
-Hiding fields is not enough — expose *policy*, not storage. An interface that forces setting coordinates atomically (Cartesian or polar) abstracts better than public `x`/`y` fields.
+Hiding fields is not enough, expose *policy*, not storage. An interface that forces setting coordinates atomically (Cartesian or polar) abstracts better than public `x`/`y` fields.
 
 ### Law of Demeter
 
-A method should talk to its own object, its parameters, objects it creates, and its direct components — not walk a train of getters (`a.getB().getC().doThing()`). Train wrecks mean structure has leaked. Prefer telling an object to do work over asking it for parts.
+A method should talk to its own object, its parameters, objects it creates, and its direct components, not walk a train of getters (`a.getB().getC().doThing()`). Train wrecks mean structure has leaked. Prefer telling an object to do work over asking it for parts.
 
 ### Hybrids and DTOs
 
@@ -81,8 +81,6 @@ Path path = ctxt.scratchDirectory();
 ctxt.writeScratchFile(name, bytes);
 ```
 
-## Takeaways
+## In short
 
-- Choose object vs structure for the kind of change you expect
-- Encapsulation is about abstract interfaces, not mere private fields
-- Avoid train wrecks — talk to friends, not strangers
+Objects hide data and expose behavior. Data structures do the opposite. Pick based on what will change. Avoid getter trains.

@@ -5,9 +5,9 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-Error handling is important enough to deserve its own attention — and important enough not to clutter business logic. If failure handling obscures what the code is supposed to do on the happy path, the design is wrong.
+Error handling is important enough to deserve its own attention, and important enough not to clutter business logic. If failure handling obscures what the code is supposed to do on the happy path, the design is wrong.
 
 ## Core ideas
 
@@ -107,8 +107,6 @@ public List<Employee> getEmployees() {
 }
 ```
 
-## Takeaways
+## In short
 
-- Separate happy path from failure path
-- Context-rich exceptions beat bare codes and nulls
-- Define error types for the caller, not the thrower
+Keep the happy path readable. Put context in exceptions. Avoid returning null when an empty value or a real error works better.
