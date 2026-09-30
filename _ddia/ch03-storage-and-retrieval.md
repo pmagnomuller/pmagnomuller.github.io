@@ -5,19 +5,33 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Under every database is a bet about how to lay bytes on disk (or in memory) so writes and reads stay feasible. The simplest efficient write is **append to a file**; indexes are deliberate trade-offs that speed reads and cost writes.
+
 ## Core ideas
 
-The simplest efficient write is **append to a file**. Indexes are chosen deliberately — they speed reads and cost writes.
+### Log-structured storage
 
-- **Hash index** — in-memory key → offset; great point lookups; no range queries; table must fit memory
-- **LSM-tree** — memtable + sorted segments + compaction; fast writes; bloom filters help negative lookups
-- **B-tree** — fixed-size pages, O(log n), standard for OLTP RDBMS; WAL + latches for crash/concurrency
+**Hash indexes** map keys to byte offsets in an append-only log. Fast point lookups; table must fit memory; no efficient range scans. Segments compact in the background.
 
-Secondary, clustered, multi-column, and fuzzy indexes extend access patterns. In-memory DBs win latency but need async durability.
+**LSM-trees** keep a sorted memtable, flush to sorted segments, and compact. Excellent write throughput and compression; reads may check several levels (bloom filters help negatives). Compaction can steal disk bandwidth.
 
-**OLTP** vs **OLAP**: separate warehouses (ETL/ELT) so analytics do not crush transactions. Warehouses often use **column storage** + compression + materialized aggregates.
+### Page-oriented storage
 
-## Picture
+**B-trees** split data into fixed-size pages (often ~4KB), stay balanced at O(log n), and dominate OLTP relational engines. WAL + latches provide crash safety and concurrency. Optimizations include copy-on-write pages, key abbreviations, and sibling pointers.
+
+Roughly: LSM favors write-heavy workloads; B-trees favor predictable reads and update-in-place patterns. Both support secondary indexes.
+
+### Other index flavors
+
+Clustered indexes store row data in the index. Multi-column / specialized indexes help geo and similar queries. Fuzzy indexes support similarity search. In-memory databases win latency but need a durability story.
+
+### OLTP vs analytics
+
+Operational databases (OLTP) optimize point lookups and small transactions. Warehouses (OLAP) optimize scans of few columns over many rows — hence **column storage**, compression, vectorized execution, and materialized aggregates. ETL/ELT keeps analytics from crushing production.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -25,7 +39,8 @@ flowchart TD
   Mem -->|flush| SS[Sorted segments]
   SS -->|compaction| SS
   Read[Read] --> Mem
-  Read --> SS
+  Read --> Newer[Newer SSTables]
+  Newer --> Older[Older SSTables]
 ```
 
 ```mermaid
@@ -37,9 +52,9 @@ flowchart LR
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Append-only log + hash index (sketch)
+Append-only log + hash index (sketch):
 
 ```java
 public final class HashKvStore {
@@ -68,15 +83,15 @@ public final class HashKvStore {
 }
 ```
 
-### Column vs row mental model
+Column vs row mental model:
 
 ```text
-Row store:   [user=1,age=30,city=Berlin] [user=2,age=41,city=Lisbon]
-Column store age: [30, 41, ...]   # scan only what the query needs
+Row:    [user=1,age=30,city=Berlin] [user=2,age=41,city=Lisbon]
+Column: age -> [30, 41, ...]   # scan only what the query needs
 ```
 
 ## Takeaways
 
 - Indexes are a read/write trade — create them on purpose
-- LSM: write-friendly; B-tree: predictable reads / OLTP default
+- LSM: write-friendly; B-tree: predictable OLTP default
 - Split OLTP and analytics when access patterns diverge

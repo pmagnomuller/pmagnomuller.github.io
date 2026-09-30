@@ -5,42 +5,63 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Objects and data structures are complementary tools. Confusing them produces hybrids that expose guts *and* pretend to encapsulate behavior — usually the worst of both worlds.
+
 ## Core ideas
 
-Objects hide data and expose behavior. Data structures expose data and have little behavior.
+### Objects hide; structures expose
 
-- OO style: easy to add types; harder to add functions across all types
-- Procedural style: easy to add functions; harder to add structures
-- Hybrids (half-exposed guts + "object" claims) are usually worst
-- Law of Demeter: talk to friends, not strangers — avoid train wrecks
-- Prefer telling an object to do work over asking for its innards
+- **Objects** hide data behind abstractions and expose methods that operate on that data
+- **Data structures** expose data and have little meaningful behavior; functions outside operate on them
 
-## Picture
+### Complementary strengths
+
+Object-oriented style makes it easy to add new types without changing existing functions, but harder to add new operations across all types. Procedural / data-structure style makes it easy to add functions over existing structures, but harder to add new structures without editing those functions. Choose based on which axis of change you expect.
+
+### Data abstraction
+
+Hiding fields is not enough — expose *policy*, not storage. An interface that forces setting coordinates atomically (Cartesian or polar) abstracts better than public `x`/`y` fields.
+
+### Law of Demeter
+
+A method should talk to its own object, its parameters, objects it creates, and its direct components — not walk a train of getters (`a.getB().getC().doThing()`). Train wrecks mean structure has leaked. Prefer telling an object to do work over asking it for parts.
+
+### Hybrids and DTOs
+
+DTOs and "active records" blur the line. Be deliberate: if something is a bag of fields crossing a boundary, treat it as a structure; if it owns invariants, treat it as an object.
+
+## Visual
 
 ```mermaid
 flowchart LR
-  subgraph Objects
-    O[Hidden data] --> M[Methods]
+  subgraph Object
+    Hidden[Hidden data] --> Methods[Behavior]
   end
-  subgraph Structures
-    D[Exposed fields] --> F[External functions]
+  subgraph Structure
+    Fields[Exposed fields] --> Fns[External functions]
   end
+```
+
+```mermaid
+flowchart TD
+  Train["ctxt.getOptions().getScratchDir().getAbsolutePath()"] --> Leak[Leaked structure]
+  Tell["ctxt.scratchDirectory()"] --> Boundary[Clear boundary]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Concrete structure vs abstract interface
+Concrete structure vs abstract interface:
 
 ```java
-// Structure: representation leaks
 public class Point {
   public double x;
   public double y;
 }
 
-// Abstraction: policy without exposing storage
 public interface Point {
   double getX();
   double getY();
@@ -51,23 +72,17 @@ public interface Point {
 }
 ```
 
-### Train wreck (Demeter violation)
+Train wreck versus tell-don't-ask:
 
 ```java
 String path = ctxt.getOptions().getScratchDir().getAbsolutePath();
-```
 
-### Tell, don't ask
-
-```java
-// Prefer a clear boundary on the context
 Path path = ctxt.scratchDirectory();
-// or push the work inward
 ctxt.writeScratchFile(name, bytes);
 ```
 
 ## Takeaways
 
-- Choose object vs structure deliberately for the kind of change you expect
-- Don't pass boundary types (`Map`, DTOs) through the whole system
-- Train wrecks mean leaked structure
+- Choose object vs structure for the kind of change you expect
+- Encapsulation is about abstract interfaces, not mere private fields
+- Avoid train wrecks — talk to friends, not strangers

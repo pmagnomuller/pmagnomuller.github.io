@@ -5,29 +5,52 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Comments are not a strategy for unclear code. They compensate when the language cannot express intent cleanly. Every comment is a maintenance liability: if the code changes and the comment does not, you now have a lie.
+
 ## Core ideas
 
-Comments compensate for failure to express ourselves in code. Prefer clearer names and structure. When you do write a comment, maintain it like code.
+### Prefer expressive code
 
-Helpful: legal headers, non-obvious intent/warnings, TODOs with ownership, public API docs.
+Before writing a comment, try a better name, a smaller function, or a type that makes the illegal state unrepresentable. Many "explanatory" comments are missing abstractions in disguise.
 
-Harmful: restating the obvious, outdated notes, mandated noise, journal comments, commented-out code, position banners.
+### Comments that help
 
-## Picture
+- Legal / copyright headers required by policy
+- Warnings of non-obvious consequences ("this closes the socket")
+- Clarifying intent that still cannot fit in a name
+- Public API documentation for callers outside the module
+- TODOs with ownership and enough context to act
+
+### Comments that hurt
+
+- Restating what the next line already says
+- Journal / changelog comments (use version control)
+- Noise mandated by process templates
+- Commented-out code (delete it; git remembers)
+- HTML banners and position markers
+- Misleading or obsolete notes — worse than silence
+
+### Keep comments local and honest
+
+A good comment is close to the code it describes and updated in the same change. If you cannot afford to maintain it, do not write it.
+
+## Visual
 
 ```mermaid
 flowchart TD
-  Need[Need to explain] --> Ask{Can code say it?}
-  Ask -->|yes| Rename[Rename / extract]
-  Ask -->|no| Comment[Short, local comment]
-  Comment --> Keep[Keep it truthful]
+  Need[Need to explain something] --> Ask{Can clearer code say it?}
+  Ask -->|yes| Refactor[Rename / extract / type]
+  Ask -->|no| Comment[Write a short local comment]
+  Comment --> Maintain[Update it when code changes]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Redundant / lying comment
+Redundant comment propping up opaque logic:
 
 ```java
 // Check to see if the employee is eligible for full benefits
@@ -36,7 +59,7 @@ if ((employee.flags & HOURLY) != 0 && employee.age > 65) {
 }
 ```
 
-### Express it in code
+Intent moved into the code:
 
 ```java
 if (employee.isEligibleForFullBenefits()) {
@@ -44,21 +67,21 @@ if (employee.isEligibleForFullBenefits()) {
 }
 ```
 
-### Comments that earn their place
+Comments that earn their place:
 
 ```java
 /**
- * Returns the balance after pending settlements.
- * Does not include soft-holds from fraud review.
+ * Balance after pending settlements.
+ * Soft-holds from fraud review are excluded on purpose.
  */
 public Money availableBalance() { /* ... */ }
 
-// Failure mode: vendor returns 200 with an empty body on throttle.
+// Vendor returns HTTP 200 with an empty body when throttled.
 return vendorClient.fetchRates();
 ```
 
 ## Takeaways
 
 - Code first; comments for what code cannot say cleanly
-- Delete commented-out code — git remembers
+- Delete commented-out code
 - A wrong comment is worse than no comment

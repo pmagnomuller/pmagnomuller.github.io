@@ -5,18 +5,33 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Concurrency is a design concern of its own. Mixing thread policy into ordinary business logic hides races and makes failures intermittent — the worst kind to debug.
+
 ## Core ideas
 
-Concurrency is its own design concern. Mixing it into ordinary business logic hides races.
+### Keep it separate and minimal
 
-- Keep concurrent code separate and minimal
-- Know shared data; prefer immutability and isolation
-- Limit synchronized/locked scope
-- Understand the execution model (threads, pools, actors, events)
-- Copy on the way out of a boundary when it simplifies reasoning
-- Stress-test for races; failures are often intermittent
+Correct single-threaded design first. Then introduce concurrency deliberately, with clear ownership of shared state. Prefer immutability and isolation over synchronized spaghetti.
 
-## Picture
+### Know your shared data
+
+Every mutable value touched by more than one thread needs a story: locked critically and briefly, atomic, confined to one thread, or redesigned away.
+
+### Limit synchronized scope
+
+Wide locks kill throughput and raise deadlock risk. Narrow critical sections; do not hold locks while doing IO or calling untrusted code.
+
+### Understand the execution model
+
+Threads, pools, actors, event loops — each has different failure modes. Use the platform's executors and concurrent collections instead of hand-rolling queues.
+
+### Test under stress
+
+Races rarely show up in happy-path unit tests. Repeat, load, and shake schedules. Treat "it passed once" as weak evidence.
+
+## Visual
 
 ```mermaid
 flowchart LR
@@ -26,11 +41,17 @@ flowchart LR
   Shared --> Lock[Narrow critical section]
 ```
 
+```mermaid
+flowchart TD
+  Mixed[Business logic + threads] --> Bugs[Hidden races]
+  Split[Domain pure / concurrency at edges] --> Clear[Clear ownership]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Shared mutable state
+Shared mutable state:
 
 ```java
 public class Counter {
@@ -42,7 +63,7 @@ public class Counter {
 }
 ```
 
-### Safer approaches
+Safer approaches:
 
 ```java
 public final class Counter {
@@ -56,11 +77,9 @@ public final class Counter {
     return value.get();
   }
 }
-
-// Or confine mutation to one thread / actor and pass immutable messages.
 ```
 
-### Separate concurrency policy from work
+Separate concurrency policy from work:
 
 ```java
 public final class OrderProcessor {
@@ -75,6 +94,6 @@ pool.submit(() -> processor.process(order));
 
 ## Takeaways
 
-- Correct single-threaded design first
-- Introduce concurrency deliberately with clear ownership
-- Test under load; luck is not a strategy
+- Concurrency is a boundary concern, not a seasoning
+- Prefer immutability, isolation, and narrow locks
+- Stress-test; luck is not a strategy

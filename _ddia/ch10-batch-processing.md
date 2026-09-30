@@ -5,17 +5,25 @@ part: "Part III: Derived Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Systems fall into three shapes: **online** (request/response), **batch** (bounded input → output, often scheduled), and **stream** (unbounded, near-real-time). Batch processing is the Unix philosophy at datacenter scale.
+
 ## Core ideas
 
-Three system shapes: **online** (request/response), **batch** (bounded input → output), **stream** (unbounded, near-real-time).
+### Unix tools as a design lesson
 
-Unix philosophy: immutable inputs, composable tools, pipes as the interface — limited to one machine.
+`awk`, `sort`, `uniq`, pipes: immutable inputs, composable programs, a uniform interface (bytes). You can interrupt a pipeline, materialize intermediate files, and retry. Limited to one machine — hence Hadoop-style systems.
 
-**MapReduce** — map extracts key/values; reduce aggregates by key; HDFS-scale; chain jobs for workflows. Joins via sort-merge / hash variants; build outputs as new files, not live dual-writes into OLTP.
+### MapReduce
 
-**Dataflow engines** (Spark, Flink, …) treat the whole workflow as one job, less materialization, faster iteration — recompute on failure instead of always checkpointing intermediates.
+Mappers emit key/value pairs; shuffle groups by key; reducers aggregate. Inputs stay immutable; outputs land on a distributed filesystem (HDFS). Chain jobs into workflows. Joins use sort-merge / broadcast-hash / partitioned-hash patterns — prefer bringing data together over querying remote DBs mid-job. Build derived databases as files; avoid dual-writing live into OLTP from mappers.
 
-## Picture
+### Beyond MapReduce
+
+Fully materialized stages waste IO and block pipelines. **Dataflow engines** (Spark, Flink, …) treat a workflow as one job with richer operators, less redundant materialization, and faster iteration — trading some failure recovery for speed. High-level APIs (Hive, Spark SQL) shrink code and enable interactive use. Arbitrary code in operators is a superpower versus rigid SQL-only engines.
+
+## Visual
 
 ```mermaid
 flowchart LR
@@ -25,11 +33,17 @@ flowchart LR
   Reduce --> Out[(Output files)]
 ```
 
+```mermaid
+flowchart TD
+  Unix[Unix pipes] --> MR[MapReduce on HDFS]
+  MR --> Flow[Dataflow engines]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Unix pipeline
+Unix pipeline:
 
 ```bash
 gunzip -c events.log.gz \
@@ -40,7 +54,7 @@ gunzip -c events.log.gz \
   | head
 ```
 
-### MapReduce word-count sketch
+MapReduce word-count sketch:
 
 ```java
 void map(String line, Emitter emitter) {
