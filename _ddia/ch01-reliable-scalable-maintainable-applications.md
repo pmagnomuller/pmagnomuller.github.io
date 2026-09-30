@@ -5,61 +5,59 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
-CPU power is rarely the limiting factor anymore, it is the data size that is.
+## Core ideas
 
-There are many technology options out there, and our task is to figure out the most appropriate tools and approaches for the task; that is to ensure that the data remains correct and complete, provide good performance, and scale to handle load increase, despite any internal failures, or system degradations.
+Data size, not CPU, is usually the constraint. Our job is to pick tools that keep data correct, perform well, and survive faults.
 
-## Reliability
+- **Reliability** — keep working correctly despite faults. A *fault* is one component misbehaving; a *failure* is the whole system stopping. Design for fault tolerance (hardware redundancy + software that survives machine loss).
+- **Scalability** — define load parameters first (QPS, read/write ratio, payload size). Batch cares about throughput; online cares about latency. Report **percentiles** (p95/p99), measured client-side on realistic traffic.
+- **Maintainability** — most cost is ongoing work. Aim for operable (monitoring, defaults, rollbacks), simple (good abstractions), and evolvable (change without fear).
 
-System should continue to work correctly, even in the face of faults and human errors.
+Early startups should optimize for iteration speed over hypothetical mega-scale.
 
-A fault is a one component of the system deviating from its specs, while failure is the when the system as a whole stops working. It's impossible to prevent faults, but we should try to prevent faults from causing failures by designing fault-tolerance mechanisms.
+## Picture
 
-Hardware redundancy is the first line of defense against hardware faults. It was sufficient for a long time, but as computing demand increase, there is a move toward systems that can tolerate the loss of entire machines by using software fault tolerance as well.
+```mermaid
+flowchart TD
+  Goals[Data system goals] --> Rel[Reliability]
+  Goals --> Scal[Scalability]
+  Goals --> Maint[Maintainability]
+  Rel --> FT[Tolerate faults]
+  Scal --> Load[Define load + percentiles]
+  Maint --> Ops[Operate / simplify / evolve]
+```
 
-The reason behind software faults is making some kind of assumptions about the environment, this assumptions are usually true, until the moment they are not. There is no quick solution to the problem, but the software can constantly check itself while running for discrepancy.
+## Example
 
-Some approaches for making reliable systems, in spite of unreliable human actions include:
+### Latency as percentiles (not averages)
 
-- Design abstractions that are minimal and easy to achieve one thing with, but not too restrictive for people to work around them.
-- Provide fully featured sandbox environments with real data for testing, without affecting real users.
-- Test throughly at all levels, from unit tests, to whole system integration tests.
-- Make it fast to roll back configuration changes, and provide tools to re-compute data.
-- Use proper monitoring that shows early warnings signals of faults.
+```text
+1000 requests sorted by duration
+p50  = duration at index 500   # typical user
+p99  = duration at index 990   # the painful tail
+avg  = mean(all)               # hides the tail
+```
 
-## Scalability
+### Operability hooks in application code
 
-As system grows, there should be reasonable ways for dealing with that growth.
+```java
+public Money charge(UserId user, Money amount) {
+  Timer.Sample sample = Timer.start(meterRegistry);
+  try {
+    Money result = billing.charge(user, amount);
+    meterRegistry.counter("billing.charge.ok").increment();
+    return result;
+  } catch (Exception e) {
+    meterRegistry.counter("billing.charge.fail").increment();
+    throw e;
+  } finally {
+    sample.stop(Timer.builder("billing.charge").register(meterRegistry));
+  }
+}
+```
 
-The first step in scaling a system is to define the system's loads parameters (eg. requests, read to write ratio, etc.)
+## Takeaways
 
-Throughput is the most important metric in batch processing systems, while response time is the most important metrics for online systems.
-
-A common performance metric is percentile, where Xth percentile = Y ms means that X% of the requests will perform better than Y ms. It's important to optimize for a high percentile, as customers with slowest requests often have the most data (eg. purchases). However, over optimizing (eg. 99.999th) might be too expensive.
-
-It's important to measure response times on client side against realistic traffic size.
-
-Elastic system is useful if load is highly unpredictable, but manually scaled systems are simpler and have fewer operational surprises.
-
-In an early stage startup, it's more important to be able to iterate quickly on product features than to scale to some hypothetical future load.
-
-## Maintainability
-
-Different people who works on the system should all be able to work on it productively.
-
-The majority of the cost of the software is in the ongoing maintenance and not the initial development.
-
-A good system should be operable, which means making routine tasks easy. This can be done by:
-
-- Good monitoring
-- Avoiding dependency on individual machines
-- Good documentation
-- Providing good default behavior, while giving administrators the option to override
-- Self-healing, while giving administrators a manual control
-
-A good system should be simple, this can be done by reducing complexity, which doesn't necessarily mean reducing its functionality, but rather by making abstractions.
-
-Simple and easy to understand systems are usually easier to modify than complex ones.
-
-A good system should be evolvable, which means making it easily adapt the changes. Agile is one of the best working patterns for maintaining evolvable systems.
-
+- Fault ≠ failure; prevent faults from cascading
+- Measure the tail; the slowest users often have the most data
+- Make routine ops easy — that is where lifetime cost lives
