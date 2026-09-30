@@ -5,27 +5,66 @@ part: "Principles"
 collection: cleancode
 ---
 
-Tests are what keep clean code clean under change. Without them, every cleanup is a risk. Test code is not second-class — dirty tests rot and get deleted, then production code freezes.
+## Core ideas
 
-## Three laws of TDD
+Tests keep clean code clean under change. Test code is first-class — dirty tests rot and get deleted, then production freezes.
 
-1. No production code until you have a failing unit test
-2. Write only enough test to fail (not compiling counts as failing)
-3. Write only enough production code to pass that failing test
+Three laws of TDD:
 
-Cycle: fail → pass → refactor. Keep both sides clean.
+1. No production code until a failing unit test exists
+2. Write only enough test to fail (not compiling counts)
+3. Write only enough production code to pass
 
-## FIRST
+FIRST: Fast, Independent, Repeatable, Self-validating, Timely.
 
-- **Fast** — slow tests don’t get run
-- **Independent** — order and shared state shouldn’t matter
-- **Repeatable** — any environment, same result
-- **Self-validating** — pass/fail without manual inspection
-- **Timely** — written close to the production code (ideally first)
+Readability is the top virtue: clarity, simplicity, density. Prefer domain helpers so tests read as arrange / act / assert.
 
-## Craft
+## Picture
 
-- Readability is the top virtue in tests: clarity, simplicity, density of expression
-- Build domain-specific helpers so tests read as arrange / act / assert, not API noise
-- One assert per concept; one concept per test
-- Coverage is a lagging indicator; confidence to change is the goal
+```mermaid
+flowchart LR
+  Red[Failing test] --> Green[Pass]
+  Green --> Refactor[Refactor]
+  Refactor --> Red
+```
+
+## Java
+
+### Detail-heavy test
+
+```java
+@Test
+void pageHierarchyAsXml() throws Exception {
+  crawler.addPage(root, PathParser.parse("PageOne"));
+  crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
+  crawler.addPage(root, PathParser.parse("PageTwo"));
+  request.setResource("root");
+  request.addInput("type", "pages");
+  Responder responder = new SerializedPageResponder();
+  SimpleResponse response =
+      (SimpleResponse) responder.makeResponse(new FitNesseContext(root), request);
+  assertEquals("text/xml", response.getContentType());
+  assertTrue(response.getContent().contains("<name>PageOne</name>"));
+}
+```
+
+### Domain-language test
+
+```java
+@Test
+void pageHierarchyAsXml() {
+  makePages("PageOne", "PageOne.ChildOne", "PageTwo");
+  submitRequest("root", "type:pages");
+  assertResponseIsXml();
+  assertResponseContains(
+      "<name>PageOne</name>",
+      "<name>PageTwo</name>",
+      "<name>ChildOne</name>");
+}
+```
+
+## Takeaways
+
+- Keep tests as clean as production
+- One concept per test; helpers beat copy-paste setup
+- Confidence to change is the goal, not vanity coverage

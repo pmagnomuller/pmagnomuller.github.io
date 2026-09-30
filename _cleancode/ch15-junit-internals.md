@@ -5,13 +5,66 @@ part: "Case Studies"
 collection: cleancode
 ---
 
-A walkthrough of JUnit's `ComparisonCompactor`: how a small, focused class communicates intent through naming, structure, and careful incremental improvement.
+## Core ideas
+
+A walk through JUnit's `ComparisonCompactor`: small methods, clear names, and incremental cleanup make an algorithm teachable.
+
+- Study real code refined under pressure
+- Extract until each step of the comparison has a name
+- Refactoring encodes understanding into the source
+
+## Picture
+
+```mermaid
+flowchart TD
+  Compact[compact expected vs actual] --> Pref[find common prefix]
+  Compact --> Suff[find common suffix]
+  Pref --> Fmt[format with ellipsis]
+  Suff --> Fmt
+```
+
+## Java
+
+### Idea of the compactor
+
+```java
+public class ComparisonCompactor {
+  private final int contextLength;
+  private final String expected;
+  private final String actual;
+
+  public ComparisonCompactor(int contextLength, String expected, String actual) {
+    this.contextLength = contextLength;
+    this.expected = expected;
+    this.actual = actual;
+  }
+
+  public String compact(String message) {
+    if (expected == null || actual == null || expected.equals(actual)) {
+      return Assert.format(message, expected, actual);
+    }
+    String compactExpected = compactString(expected);
+    String compactActual = compactString(actual);
+    return Assert.format(message, compactExpected, compactActual);
+  }
+
+  private String compactString(String source) {
+    String result = "[" + extractDiffering(source) + "]";
+    if (prefixLength > 0) {
+      result = startingEllipsis() + result;
+    }
+    if (suffixLength > 0) {
+      result = result + endingEllipsis();
+    }
+    return result;
+  }
+}
+```
+
+(Illustration of structure — naming turns index arithmetic into a readable story.)
 
 ## Takeaways
 
-- Study real code that has been refined under pressure
-- Small methods and clear names make algorithms teachable
-- Refactoring is how understanding gets encoded into the source
-
-Use case studies as practice: re-derive the design choices, don't only read them.
-
+- Algorithms become readable when steps are named
+- Case studies are practice: re-derive the choices
+- Small, boring functions beat clever one-liners

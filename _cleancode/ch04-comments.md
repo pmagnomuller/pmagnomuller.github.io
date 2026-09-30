@@ -5,24 +5,58 @@ part: "Principles"
 collection: cleancode
 ---
 
-Comments compensate for failure to express ourselves in code. Prefer clearer names and structure over explaining messy code.
+## Core ideas
 
-## When comments help
+Comments compensate for failure to express ourselves in code. Prefer clearer names and structure. When you do write a comment, maintain it like code.
 
-- Legal / license headers
-- Clarifying intent that code cannot easily say
-- Warning of consequences
-- TODOs with clear ownership and context
-- Public API documentation where the audience is outside the module
+Helpful: legal headers, non-obvious intent/warnings, TODOs with ownership, public API docs.
 
-## When comments hurt
+Harmful: restating the obvious, outdated notes, mandated noise, journal comments, commented-out code, position banners.
 
-- Redundant restatements of the obvious
-- Misleading or outdated comments
-- Mandated noise ("this closes the file")
-- Journal / changelog comments (use VCS)
-- Commented-out code (delete it; git remembers)
-- Position markers and HTML-in-source decoration
+## Picture
 
-If you write a comment, keep it local and maintain it like code.
+```mermaid
+flowchart TD
+  Need[Need to explain] --> Ask{Can code say it?}
+  Ask -->|yes| Rename[Rename / extract]
+  Ask -->|no| Comment[Short, local comment]
+  Comment --> Keep[Keep it truthful]
+```
 
+## Java
+
+### Redundant / lying comment
+
+```java
+// Check to see if the employee is eligible for full benefits
+if ((employee.flags & HOURLY) != 0 && employee.age > 65) {
+  // ...
+}
+```
+
+### Express it in code
+
+```java
+if (employee.isEligibleForFullBenefits()) {
+  // ...
+}
+```
+
+### Comments that earn their place
+
+```java
+/**
+ * Returns the balance after pending settlements.
+ * Does not include soft-holds from fraud review.
+ */
+public Money availableBalance() { /* ... */ }
+
+// Failure mode: vendor returns 200 with an empty body on throttle.
+return vendorClient.fetchRates();
+```
+
+## Takeaways
+
+- Code first; comments for what code cannot say cleanly
+- Delete commented-out code — git remembers
+- A wrong comment is worse than no comment

@@ -5,19 +5,59 @@ part: "Principles"
 collection: cleancode
 ---
 
-Classes should be small and focused on a single responsibility (SRP): one reason to change.
+## Core ideas
 
-## Organization
+Classes should be small and have one reason to change (SRP).
 
-Typical order: statics → instance variables → public functions → private utilities used by those publics. Prefer keeping encapsulation; loosen it only as a last resort.
+- Typical order: statics → fields → publics → private helpers
+- Size is about responsibilities, not only line count
+- If you need "and/or/if/but" to describe the class in ~25 words, split it
+- High cohesion: methods share the fields they use
+- Maintaining cohesion often means *more* small classes
+- Organize for change; hide internals behind a small API
 
-## Size and SRP
+## Picture
 
-- Smaller is the primary rule, measured by responsibilities more than line count
-- A class name should describe its responsibility; if you need “and/or/if/but” to describe it in ~25 words, it’s too big
-- God classes with dozens of methods are a smell even when each method looks fine alone
-- High cohesion: methods use the fields they share; few instance variables
-- Maintaining cohesion often means *more* small classes, not fewer large ones
-- Organize for change: isolate what varies; prefer open for extension where it earns its keep
+```mermaid
+flowchart TD
+  God[God class] --> A[Presentation]
+  God --> B[Persistence]
+  God --> C[Rules]
+  Split[Split by reason to change] --> A2[View]
+  Split --> B2[Repository]
+  Split --> C2[Policy]
+```
 
-Getting to green first is fine. Then refactor toward SRP and clear boundaries before the class grows roots everywhere.
+## Java
+
+### Too many reasons to change
+
+```java
+public class Employee {
+  public Money calculatePay() { /* payroll rules */ }
+  public void save() { /* database */ }
+  public String reportHtml() { /* UI formatting */ }
+}
+```
+
+### One responsibility each
+
+```java
+public class Employee {
+  public Money calculatePay() { /* payroll rules */ }
+}
+
+public class EmployeeRepository {
+  public void save(Employee employee) { /* database */ }
+}
+
+public class EmployeeReporter {
+  public String toHtml(Employee employee) { /* UI formatting */ }
+}
+```
+
+## Takeaways
+
+- Name the responsibility; if the name needs "and", split
+- Prefer many small cohesive classes over one kitchen sink
+- Get green, then reshape toward SRP
