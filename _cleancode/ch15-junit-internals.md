@@ -5,29 +5,39 @@ part: "Case Studies"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+A walk through JUnit's `ComparisonCompactor` shows how small methods, clear names, and incremental cleanup turn index arithmetic into a readable algorithm. Case studies are practice — re-derive the choices, do not only skim them.
+
 ## Core ideas
 
-A walk through JUnit's `ComparisonCompactor`: small methods, clear names, and incremental cleanup make an algorithm teachable.
+### Study refined real code
 
-- Study real code refined under pressure
-- Extract until each step of the comparison has a name
-- Refactoring encodes understanding into the source
+Production-hardened helpers teach more than toy samples. Notice how naming turns "what index?" into "common prefix length."
 
-## Picture
+### Extract until steps have names
+
+Compacting a diff is: find shared prefix, find shared suffix, format with ellipsis and context. Each step deserves a function.
+
+### Refactoring encodes understanding
+
+When you finally understand a tangle, leave that understanding in the source so the next reader does not pay the same tuition.
+
+## Visual
 
 ```mermaid
 flowchart TD
   Compact[compact expected vs actual] --> Pref[find common prefix]
   Compact --> Suff[find common suffix]
-  Pref --> Fmt[format with ellipsis]
+  Pref --> Fmt[format with ellipsis + context]
   Suff --> Fmt
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Idea of the compactor
+Structure of the idea (illustrative):
 
 ```java
 public class ComparisonCompactor {
@@ -45,17 +55,15 @@ public class ComparisonCompactor {
     if (expected == null || actual == null || expected.equals(actual)) {
       return Assert.format(message, expected, actual);
     }
-    String compactExpected = compactString(expected);
-    String compactActual = compactString(actual);
-    return Assert.format(message, compactExpected, compactActual);
+    return Assert.format(message, compactString(expected), compactString(actual));
   }
 
   private String compactString(String source) {
     String result = "[" + extractDiffering(source) + "]";
-    if (prefixLength > 0) {
+    if (hasPrefix()) {
       result = startingEllipsis() + result;
     }
-    if (suffixLength > 0) {
+    if (hasSuffix()) {
       result = result + endingEllipsis();
     }
     return result;
@@ -63,10 +71,8 @@ public class ComparisonCompactor {
 }
 ```
 
-(Illustration of structure — naming turns index arithmetic into a readable story.)
-
 ## Takeaways
 
 - Algorithms become readable when steps are named
-- Case studies are practice: re-derive the choices
+- Case studies stick when you re-implement the design choices
 - Small, boring functions beat clever one-liners

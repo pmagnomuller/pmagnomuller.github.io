@@ -5,33 +5,58 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Error handling is important enough to deserve its own attention — and important enough not to clutter business logic. If failure handling obscures what the code is supposed to do on the happy path, the design is wrong.
+
 ## Core ideas
 
-Error handling matters — and must not obscure business logic.
+### Prefer exceptions to return codes
 
-- Prefer exceptions over return codes and flag soup
-- Write `try` / `catch` / `finally` first to define the scope
-- Provide context in exceptions (what, with which input, why it matters)
-- Define exception types by how callers must handle them
-- Don't return `null`; don't pass `null` when avoidable
-- Wrap third-party failures at the boundary
+Return codes and status flags force every caller to check immediately, nesting the real work inside error ladders. Exceptions separate the success story from recovery.
 
-## Picture
+### Write try / catch / finally first
+
+When a block can fail, start by defining the scope: what must happen on success, what recovery looks like, and what always releases (files, locks, connections). That scope teaches callers what to expect.
+
+### Provide context
+
+Bare exceptions waste time. Include what operation failed, which inputs mattered, and enough state to diagnose without a debugger séance.
+
+### Define exceptions by caller need
+
+Classify errors by how callers must respond (retryable network fault vs permanent validation failure), not by every internal throw site.
+
+### Don't return or pass null
+
+`null` pushes crashes downstream and forces noisy checks. Prefer empty collections, `Optional`, special-case objects, or exceptions at the boundary.
+
+### Wrap third-party failures
+
+At module edges, translate foreign exceptions into your types so the rest of the system does not depend on vendor error models.
+
+## Visual
 
 ```mermaid
 flowchart TD
-  Call[Call] --> Try[try happy path]
+  Call[Operation] --> Try[try happy path]
   Try --> Ok[Success]
   Try --> Catch[catch with context]
   Catch --> Handle[Log / translate / recover]
-  Try --> Finally[finally release]
+  Try --> Finally[finally release resources]
+```
+
+```mermaid
+flowchart LR
+  Codes[Error codes] --> Nest[Nested if ladders]
+  Exc[Exceptions] --> Linear[Linear happy path]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Error codes bury the story
+Error codes bury the story:
 
 ```java
 public void sendShutDown() {
@@ -51,7 +76,7 @@ public void sendShutDown() {
 }
 ```
 
-### Exceptions keep the happy path linear
+Exceptions keep the happy path linear:
 
 ```java
 public void sendShutDown() {
@@ -71,18 +96,13 @@ private void tryToShutDown() {
 }
 ```
 
-### Prefer empty / Optional over null
+Prefer empty results over null:
 
 ```java
-// Fragile
 public List<Employee> getEmployees() {
-  if (noEmployees()) return null;
-  return employees;
-}
-
-// Honest
-public List<Employee> getEmployees() {
-  if (noEmployees()) return List.of();
+  if (noEmployees()) {
+    return List.of();
+  }
   return employees;
 }
 ```
@@ -90,5 +110,5 @@ public List<Employee> getEmployees() {
 ## Takeaways
 
 - Separate happy path from failure path
-- Context-rich exceptions beat bare codes
-- Null pushes crashes to someone else's stack
+- Context-rich exceptions beat bare codes and nulls
+- Define error types for the caller, not the thrower

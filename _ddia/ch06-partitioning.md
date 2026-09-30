@@ -5,17 +5,32 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+When data or load exceeds one node, **partitioning (sharding)** spreads it. Typically combined with replication. The goal is even load — and avoiding **hot spots**.
+
 ## Core ideas
 
-Partitioning (sharding) spreads data/load when one node is not enough. Usually combine with replication. Goal: even load, avoid **hot spots**.
+### Partitioning key-value data
 
-- **Key-range** — good for range scans; hot keys (time, celebrity) still hurt
-- **Hash** — spreads load; loses efficient range queries (compound keys can help)
-- Secondary indexes: **local** (scatter-gather reads) vs **global** (faster reads, harder writes)
+- **Key-range** — sorted keys with boundaries; great for range scans; hot keys (time prefixes, celebrities) still hurt; boundaries need care
+- **Hash** — spreads load; loses efficient range queries (compound keys can restore some patterns)
 
-Rebalancing: avoid `hash % N` (moves almost everything). Prefer many fixed partitions, dynamic splits, or partitions-per-node — keep a human in the loop. Routing via nodes, proxy, or clients; often coordinated with ZooKeeper-like metadata.
+Skewed popular keys may need application-level scatter (random suffixes) with fan-in on read.
 
-## Picture
+### Secondary indexes
+
+**Local (document-partitioned) indexes** live inside each partition — writes are local; reads may scatter-gather. **Global (term-partitioned) indexes** make reads targeted but writes touch multiple partitions (often async).
+
+### Rebalancing
+
+Avoid `hash % N` — almost every key moves when N changes. Better patterns: many fixed partitions moved between nodes; dynamic split/merge by size; partitions proportional to nodes. Keep a human in the loop — fully automatic rebalance can surprise you.
+
+### Request routing
+
+Something must map keys → partitions → nodes: the nodes themselves, a proxy tier, or smart clients. Coordination services (ZooKeeper et al.) often hold the cluster metadata.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -28,38 +43,38 @@ flowchart TD
   P2 --> N2[Node B]
 ```
 
+```mermaid
+flowchart LR
+  LocalIdx[Local secondary index] --> Scatter[Scatter-gather read]
+  GlobalIdx[Global secondary index] --> Targeted[Targeted read]
+  GlobalIdx --> MultiWrite[Multi-partition write]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Bad vs better placement
+Bad vs better placement:
 
 ```java
 int badPartition(String key, int n) {
-  return Math.floorMod(key.hashCode(), n); // almost all keys move when n changes
+  return Math.floorMod(key.hashCode(), n); // remaps almost everything when n changes
 }
 
 int fixedPartition(String key, int partitionCount) {
-  return Math.floorMod(stableHash(key), partitionCount); // move whole partitions between nodes
+  return Math.floorMod(stableHash(key), partitionCount); // move whole partitions
 }
 ```
 
-### Hot key scatter
+Hot-key scatter:
 
 ```text
 celebrityId                -> one hot partition
-celebrityId + random(0..9) -> 10 shards (app must fan-in on read)
-```
-
-### Local secondary index query
-
-```sql
--- Must ask every partition: WHERE email = ?
--- Global term index would map email -> {partition, pk} instead
+celebrityId + random(0..9) -> 10 shards (fan-in on read)
 ```
 
 ## Takeaways
 
 - Partition for balance; design explicitly for skewed keys
 - Index strategy decides whether reads or writes pay
-- Rebalance with partition moves, not remapping every key
+- Rebalance by moving partitions, not remapping every key

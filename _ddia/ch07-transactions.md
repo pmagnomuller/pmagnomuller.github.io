@@ -5,23 +5,38 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+A transaction groups reads and writes into one logical unit that succeeds or fails together. "ACID" is slippery in marketing — know what isolation you actually have.
+
 ## Core ideas
 
-A transaction groups reads/writes into one all-or-nothing unit.
+### ACID, practically
 
-**ACID (practical reading):**
-- Atomicity — abort + retry on fault mid-writes
-- Consistency — mostly an *application* invariant
-- Isolation — concurrent txs do not step on each other (levels vary)
-- Durability — committed data survives crashes (and replicas)
+- **Atomicity** — mid-flight faults abort the whole unit; safe to retry (with care)
+- **Consistency** — mostly application invariants the database helps enforce
+- **Isolation** — concurrent transactions should not step on each other (levels vary widely)
+- **Durability** — committed data survives crashes (and enough replicas)
 
-Single-object atomicity is common; multi-object is harder across partitions.
+Single-object atomicity is common; multi-object transactions across partitions are hard, so many distributed stores weaken or drop them.
 
-Weak levels: **read committed** (no dirty read/write), **snapshot** (no read skew). Still watch **lost updates**, **write skew**, **phantoms**.
+### Weak isolation you will actually meet
 
-**Serializability** via single-thread execution, **2PL**, or **SSI** (optimistic; often the modern default direction).
+**Read committed** prevents dirty reads/writes — not read skew. **Snapshot isolation** gives each transaction a consistent freeze of the database — still allows lost updates, write skew, and phantoms unless you add more.
 
-## Picture
+Lost-update defenses: atomic `UPDATE ... SET x = x + 1`, `SELECT FOR UPDATE`, automatic lost-update detection, compare-and-set, or app-level merge on replicas.
+
+Write skew and phantoms often need serializable isolation or carefully designed locks / materialized conflicts.
+
+### Serializability
+
+Strongest isolation: transactions behave as if run one at a time. Implementations:
+
+- **Actual serial execution** — single thread; great when txs are short and in-memory
+- **Two-phase locking (2PL)** — correct but latency-heavy under contention
+- **Serializable snapshot isolation (SSI)** — optimistic; abort on conflict at commit; often the modern sweet spot
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -29,34 +44,30 @@ flowchart TD
   SI --> Ser[Serializable]
   Ser --> Exec[Serial execution]
   Ser --> Locks[Two-phase locking]
-  Ser --> SSI[Serializable snapshot]
+  Ser --> SSI[SSI]
+```
+
+```mermaid
+flowchart LR
+  Lost[Lost update] --> Atomic[Atomic UPDATE]
+  Skew[Write skew] --> Ser2[Serializable / FOR UPDATE]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Lost update
+Lost update:
 
 ```sql
--- Two txs both read balance=100 and write 120  => one increment lost
+-- Both txs read 100 and write 120 → one increment lost
 UPDATE accounts SET balance = 120 WHERE id = 1;
 
--- Prefer atomic update
 UPDATE accounts SET balance = balance + 20 WHERE id = 1;
-
--- Or lock the row
 SELECT balance FROM accounts WHERE id = 1 FOR UPDATE;
 ```
 
-### Write skew sketch
-
-```text
-Two doctors on call. Each txn sees "other is on call" and both go off duty.
-Locks / serializable isolation required — row locks on different rows are not enough.
-```
-
-### Compare-and-set
+Compare-and-set:
 
 ```sql
 UPDATE documents
@@ -64,8 +75,15 @@ SET content = $new, version = version + 1
 WHERE id = $id AND version = $seen_version;
 ```
 
+Write skew sketch:
+
+```text
+Two doctors each see "the other is on call" and both go off duty.
+Row locks on different rows are not enough — need serializable (or equivalent).
+```
+
 ## Takeaways
 
-- "ACID" databases often ship weak isolation by default — know what you have
+- Know your real isolation level — "ACID" is not a guarantee of serializability
 - Lost updates and write skew survive read-committed
 - Prefer serializable when correctness is hard to audit by inspection

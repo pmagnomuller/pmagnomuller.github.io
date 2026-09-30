@@ -5,41 +5,64 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Tests are what keep clean production code clean under change. Without them, every cleanup is a gamble. Test code is not a second-class citizen — dirty tests rot, get deleted, and then the production code freezes.
+
 ## Core ideas
 
-Tests keep clean code clean under change. Test code is first-class — dirty tests rot and get deleted, then production freezes.
+### Three laws of TDD
 
-Three laws of TDD:
+1. You may not write production code until you have a failing unit test
+2. You may not write more of a unit test than is sufficient to fail (not compiling counts as failing)
+3. You may not write more production code than is sufficient to pass the currently failing test
 
-1. No production code until a failing unit test exists
-2. Write only enough test to fail (not compiling counts)
-3. Write only enough production code to pass
+The rhythm is short: fail → pass → refactor. Both sides stay clean.
 
-FIRST: Fast, Independent, Repeatable, Self-validating, Timely.
+### FIRST
 
-Readability is the top virtue: clarity, simplicity, density. Prefer domain helpers so tests read as arrange / act / assert.
+- **Fast** — slow suites do not get run
+- **Independent** — order and shared mutable state should not matter
+- **Repeatable** — any environment, same result
+- **Self-validating** — pass/fail without manual inspection
+- **Timely** — written close to the production code (ideally first)
 
-## Picture
+### Clean tests
+
+Readability is the top virtue: clarity, simplicity, density of expression. Build domain-specific helpers so tests read as arrange / act / assert instead of API noise. One assert per concept; one concept per test.
+
+### Coverage vs confidence
+
+Coverage numbers are lagging indicators. The goal is confidence to change behavior without fear.
+
+## Visual
 
 ```mermaid
 flowchart LR
-  Red[Failing test] --> Green[Pass]
-  Green --> Refactor[Refactor]
+  Red[Failing test] --> Green[Minimal pass]
+  Green --> Refactor[Refactor both sides]
   Refactor --> Red
+```
+
+```mermaid
+flowchart TD
+  Dirty[Dirty tests] --> Skip[Suite gets skipped]
+  Skip --> Fear[Production freezes]
+  Clean[Clean tests] --> Run[Suite stays trusted]
+  Run --> Change[Safe refactoring]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Detail-heavy test
+Detail-heavy test — hard to see the intent:
 
 ```java
 @Test
 void pageHierarchyAsXml() throws Exception {
   crawler.addPage(root, PathParser.parse("PageOne"));
   crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
-  crawler.addPage(root, PathParser.parse("PageTwo"));
   request.setResource("root");
   request.addInput("type", "pages");
   Responder responder = new SerializedPageResponder();
@@ -50,7 +73,7 @@ void pageHierarchyAsXml() throws Exception {
 }
 ```
 
-### Domain-language test
+Domain-language test:
 
 ```java
 @Test
@@ -68,5 +91,5 @@ void pageHierarchyAsXml() {
 ## Takeaways
 
 - Keep tests as clean as production
-- One concept per test; helpers beat copy-paste setup
-- Confidence to change is the goal, not vanity coverage
+- TDD laws keep steps small; FIRST keeps suites trustworthy
+- Helpers beat copy-pasted setup

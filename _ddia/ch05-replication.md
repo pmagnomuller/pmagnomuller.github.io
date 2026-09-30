@@ -5,19 +5,37 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Replication copies data for latency, availability, and read scale. The hard part is **ongoing change** — sync vs async, failover, lag, and conflicts.
+
 ## Core ideas
 
-Replication copies data for latency, availability, and scale. Hard part: **ongoing change**.
+### Single-leader replication
 
-- **Single-leader** — writes to leader, followers replicate (sync/async mix is common)
-- **Multi-leader** — a leader per datacenter; better locality; conflict-prone
-- **Leaderless (Dynamo)** — clients write/read several replicas; quorums `w + r > n`
+Writes go to a leader; followers apply the change stream; clients may read any replica. Common and well understood. Fully synchronous replicas stall writes when a follower hangs, so production often syncs one (or a few) and leaves others async.
 
-Replication lag needs application-visible guarantees: **read-your-writes**, **monotonic reads**, **consistent prefix**. Failover risks split brain and lost unreplicated writes.
+Failover elects a new leader — risks include unreplicated writes and **split brain**. Replication formats: statement-based (fragile), WAL (coupled to storage), logical logs (better decoupling), triggers (flexible, heavier).
 
-Conflict tools: last-write-wins (loses data), merge, happens-before, **version vectors**.
+### Replication lag
 
-## Picture
+Under async replication, readers can see the past. Application-level cures:
+
+- **Read-your-writes** — read self-writes from the leader (or until a timestamp catches up)
+- **Monotonic reads** — sticky replica so time does not go backwards for a user
+- **Consistent prefix** — causally related writes stay ordered
+
+If multi-minute lag is unacceptable, you need stronger guarantees than pure eventual consistency.
+
+### Multi-leader
+
+A leader per datacenter improves locality and independence, but concurrent writes conflict. Avoid conflicts when possible; otherwise last-write-wins, replica priority, merge, or explicit conflict records. Topologies (circular/star/all-to-all) each have failure and causality pitfalls. Often considered dangerous for good reason.
+
+### Leaderless (Dynamo-style)
+
+Clients write/read several replicas; quorums `w + r > n` detect freshness. Repair via read repair and anti-entropy. Concurrent writes need merge / version vectors; last-write-wins converges by discarding data.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -30,45 +48,44 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-  C[Client] -->|w writes| R1 & R2 & R3
+  C[Client] -->|w writes| R1[( )] & R2[( )] & R3[( )]
   C -->|r reads| R1 & R2
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Quorum intuition
+Quorum intuition:
 
 ```text
-n = 3 replicas
-w = 2, r = 2  => w + r > n  (overlap guarantees seeing a fresh write)
-w = 1, r = 1  => faster, more stale reads
+n = 3
+w = 2, r = 2  => w + r > n  (overlap sees a fresh write)
+w = 1, r = 1  => faster, staler
 ```
 
-### Read-your-writes routing (sketch)
+Read-your-writes routing:
 
 ```java
 public Profile readProfile(UserId id, Optional<Instant> lastWrite) {
-  if (lastWrite.isPresent() && clock.instant().isBefore(lastWrite.get().plusSeconds(5))) {
-    return leader.read(id); // recent self-write: avoid stale follower
+  if (lastWrite.isPresent()
+      && clock.instant().isBefore(lastWrite.get().plusSeconds(5))) {
+    return leader.read(id);
   }
   return replica.read(id);
 }
 ```
 
-### Statement-based replication pitfall
+Statement-based pitfall:
 
 ```sql
--- On leader this uses NOW(); replaying the statement on followers drifts
 UPDATE accounts SET last_active = NOW() WHERE id = 42;
-
--- Replicate the concrete value instead (row-based / logical)
+-- Prefer replicating the concrete value the leader used
 UPDATE accounts SET last_active = '2026-09-30T12:00:00Z' WHERE id = 42;
 ```
 
 ## Takeaways
 
-- Async replication is common; name the consistency you actually need
-- Automated failover is powerful and dangerous (split brain)
+- Async replication is common; name the consistency you need
+- Automated failover is powerful and dangerous
 - Quorums and version vectors are the Dynamo toolkit

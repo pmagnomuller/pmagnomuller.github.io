@@ -5,20 +5,33 @@ part: "Case Studies"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Clean code is rarely written clean on the first pass. The Args case study shows the real craft: make it work, then successively refine structure, names, and responsibilities under tests until each module expresses one clear idea.
+
 ## Core ideas
 
-Clean code is rarely written clean on the first pass. The Args example shows: make it work, then successively refine structure, names, and responsibilities under tests.
+### First drafts can be messy
 
-- First drafts can be messy; stopping there is the failure
-- Refactor in small, test-backed steps
-- Aim for modules that each express one clear idea
-- Delete paths that confuse more than they help
+Stopping at "it works" is the failure mode. Working code that resists change is unfinished.
 
-## Picture
+### Refactor in small, test-backed steps
+
+Characterization or unit tests unlock fearless cleanup. Rename, extract, move — one motivation per step — and keep the suite green.
+
+### Aim for modules with one idea
+
+Argument parsing, type marshaling, and error reporting do not belong in one constructor blob. When each concept has a home, readers navigate by name.
+
+### Delete confusing paths
+
+Code that exists "just in case" and confuses more than it helps should go. Git remembers.
+
+## Visual
 
 ```mermaid
 flowchart LR
-  Draft[Working draft] --> Tests[Characterization / unit tests]
+  Draft[Working draft] --> Tests[Tests lock behavior]
   Tests --> Rename[Rename]
   Rename --> Extract[Extract]
   Extract --> Shape[Clear modules]
@@ -26,9 +39,9 @@ flowchart LR
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### First-cut argument blob
+First-cut argument blob (sketch of the smell):
 
 ```java
 public class Args {
@@ -42,7 +55,7 @@ public class Args {
 }
 ```
 
-### Refined shape (sketch)
+Refined shape — marshaling strategy per type:
 
 ```java
 public class Args {
@@ -59,12 +72,12 @@ public class Args {
 }
 
 interface ArgumentMarshaler {
-  void set(Iterator<String> currentArgument);
+  void set(Iterator<String> currentArgument) throws ArgsException;
 }
 ```
 
 ## Takeaways
 
 - Working is necessary; clean is the second delivery
-- Tests unlock fearless cleanup
-- Refinement is the craft, not a luxury pass
+- Tests unlock successive refinement
+- One idea per module is the target shape

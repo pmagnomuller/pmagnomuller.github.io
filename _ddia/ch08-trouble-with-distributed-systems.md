@@ -5,18 +5,31 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+A single computer is mostly all-or-nothing. A distributed system fails **partially** and nondeterministically. You must assume it will.
+
 ## Core ideas
 
-Distributed systems fail **partially** and nondeterministically. Assume it.
+### Partial failures
 
-- **Networks** — loss, delay, partitions; detect with timeouts (too short → cascading failure)
-- **Clocks** — wall clock for dates (NTP, can jump); **monotonic** for durations; do not order events by wall time alone — use logical clocks
-- **Truth** — a node cannot trust itself; use quorums; **fencing tokens** on locks/leases
-- Byzantine faults are costly; inside a DC, checksums + validation usually suffice
+Some nodes work while others hang, lie about time, or disappear. Build fault tolerance by defining expected behavior under fault, enumerating failure modes, and injecting them in tests.
 
-Useful models: **partially synchronous** + **crash-recovery**. Distinguish **safety** (never wrong) vs **liveness** (eventually happens).
+### Unreliable networks
 
-## Picture
+Packets drop, delay, and reorder. Timeouts detect suspicion — not truth. Too-short timeouts cause cascading failure; too-long timeouts delay recovery. Prefer measuring real latency distributions over theoretical `2d + r` formulas. UDP can beat TCP when late data is worthless.
+
+### Unreliable clocks
+
+**Wall clocks** (NTP) jump and are unsafe for measuring elapsed time or ordering events alone. **Monotonic clocks** are for durations. Use logical clocks / version vectors for causality. GCP-style interval timestamps acknowledge uncertainty. GC pauses can freeze a thread mid-thought — designs must tolerate that.
+
+### Knowledge, truth, and lies
+
+A node cannot trust itself; majorities (quorums) decide. Locks/leases need **fencing tokens** so a zombie holder cannot corrupt shared resources. Full Byzantine fault tolerance is expensive; inside a DC, checksums and validation usually suffice.
+
+Useful models: **partially synchronous** timing + **crash-recovery** nodes. Distinguish **safety** (never wrong) from **liveness** (eventually progresses).
+
+## Visual
 
 ```mermaid
 flowchart LR
@@ -32,24 +45,23 @@ sequenceDiagram
   N->>L: acquire lease
   L-->>N: token=33
   N->>S: write with token=33
-  S-->>N: reject if token < fenced
+  S-->>N: reject if token stale
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Prefer monotonic for elapsed time
+Prefer monotonic elapsed time:
 
 ```java
-long start = System.nanoTime(); // monotonic-ish for measuring duration
+long start = System.nanoTime();
 doWork();
 long elapsedNs = System.nanoTime() - start;
-
-// System.currentTimeMillis() can jump backward/forward with NTP
+// currentTimeMillis() can jump with NTP
 ```
 
-### Fencing token
+Fencing token:
 
 ```java
 void write(String key, byte[] value, long fencingToken) {

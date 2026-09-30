@@ -5,19 +5,27 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Features change stored data. In production, old and new code — and old and new data formats — coexist. **Backward** and **forward** compatibility are how rolling upgrades stay possible.
+
 ## Core ideas
 
-Features change stored data. **Backward** and **forward** compatibility let old and new code/data coexist.
+### Encoding formats
 
-- Prefer JSON/XML/Avro/Protobuf/Thrift over language-native pickle formats (security, portability, performance)
-- Binary + schema (Protobuf, Thrift, Avro) is compact and documents the contract
-- Dataflow paths: **database**, **services** (REST/RPC), **async messaging**
+Moving data between memory and the network requires encode/decode. Language-native pickles are convenient and dangerous (security, portability, performance). Prefer JSON/XML for humans; Avro/Protobuf/Thrift when you want compact binary plus an explicit schema and codegen.
 
-RPC looks like a local call but is not: timeouts, retries, duplicates, variable latency. Prefer idempotence. REST dominates public APIs; RPC is common inside a datacenter.
+### Modes of dataflow
 
-Message brokers buffer, retry, fan-out, and decouple — but replies need another channel.
+1. **Through a database** — a process sends a message to its future self; needs both backward and forward compatibility
+2. **Service calls (REST / RPC)** — expose deliberate APIs; expect mixed client/server versions
+3. **Async messaging** — brokers buffer, retry, fan-out, and decouple; replies need another channel
 
-## Picture
+### Why RPC is not a local call
+
+Network calls time out, fail partially, retry into duplicates, and have wild latency. Design for at-least-once delivery plus **idempotence**. REST dominates public APIs; RPC remains common inside a datacenter. Maintain multiple API versions when you cannot force clients to upgrade.
+
+## Visual
 
 ```mermaid
 flowchart LR
@@ -27,36 +35,41 @@ flowchart LR
   Decode --> Reader[Reader v1 or v2]
 ```
 
+```mermaid
+flowchart TD
+  Sync[RPC / REST] --> Coupled[Caller waits]
+  Async[Message broker] --> Buffer[Buffer / retry / fan-out]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Evolving a schema (Protobuf-style field rules)
+Evolving a schema (Protobuf-style field rules):
 
 ```protobuf
 message User {
   int64 id = 1;
   string email = 2;
-  // Added later: old readers ignore unknown fields (forward compat
-  // if writers keep writing fields old readers need).
+  // Added later: old readers ignore unknown fields.
   string display_name = 3;
 }
 ```
 
-### Why naive RPC retries hurt
+Idempotent charge:
 
 ```java
-// Dangerous without idempotency keys
+// Dangerous without an idempotency key
 paymentClient.charge(orderId, amount);
 
 // Safer
 paymentClient.charge(IdempotencyKey.of(orderId), orderId, amount);
 ```
 
-### Async decoupling
+Fan-out via a topic:
 
 ```text
-OrderService --publish OrderPlaced--> broker topic
+OrderService --publish OrderPlaced--> broker
                                       |- Inventory
                                       |- Email
                                       |- Analytics
@@ -65,5 +78,5 @@ OrderService --publish OrderPlaced--> broker topic
 ## Takeaways
 
 - Plan for mixed versions in production
-- Network ≠ function call; design for at-least-once + idempotence
-- Brokers trade sync replies for resilience and fan-out
+- Network ≠ function call; design for retries + idempotence
+- Brokers trade sync replies for resilience

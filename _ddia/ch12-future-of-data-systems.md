@@ -5,19 +5,31 @@ part: "Part III: Derived Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+No single database wins every access pattern. The future Kleppmann sketches is **composed**: a system of record, a log of changes, and specialized derived views — with correctness treated as an end-to-end property, not a checkbox on one product.
+
 ## Core ideas
 
-No single database wins every access pattern — **compose** specialized systems.
+### Data integration
 
-Funnel writes into a **system of record**, then derive search, cache, analytics. Log-based derived data sits between heavyweight distributed transactions and chaotic dual writes.
+Funnel writes into one **system of record** that decides write order; derive search, cache, warehouse, features from that log. Distributed transactions give linearizability at high cost; chaotic dual writes give races. Log-based derived data is the practical middle.
 
-**Unbundle the database**: loosely coupled storage, change log, and compute. Dataflow is one-way async (vs microservice RPC). Lambda architecture (batch + stream) works but costs operational complexity.
+Batch and stream both favor functional, replayable dataflow. Derived views evolve gradually (old and new schemas side by side). Lambda architecture (batch + stream in parallel) works but costs operational complexity.
 
-Correctness: idempotence end-to-end, request IDs through the pipeline, immutable messages. Split **timeliness** (eventual) from **integrity** (must not silently corrupt). **Audit** derived pipelines continuously.
+### Unbundling the database
 
-Ethics: ML amplifies bias; do not retain data forever — immutability meets privacy via deletion/crypto access control.
+Treat durable storage, change capture, and compute as loosely coupled parts that together behave like a database. One-way async dataflow differs from microservice request/response. The pattern extends to end-user devices.
 
-## Picture
+### Aiming for correctness
+
+Idempotence must be end-to-end (client request IDs through the pipeline). Split **timeliness** (eventual freshness OK) from **integrity** (silent corruption is catastrophic). Immutable messages + deterministic derivation + auditing beat blind trust in any single vendor guarantee. Event logs often audit better than opaque mutable rows.
+
+### Doing the right thing
+
+Systems have unintended consequences. ML amplifies bias in inputs. Immutability meets privacy: do not retain forever; deletion and cryptographic access control matter as much as replayability.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -29,27 +41,35 @@ flowchart TD
   Log --> Features[Feature store]
 ```
 
+```mermaid
+flowchart LR
+  Late[Late index update] --> Time[Timeliness miss]
+  Drop[Dropped payment event] --> Integrity[Integrity miss]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### End-to-end idempotency sketch
+End-to-end idempotency sketch:
 
 ```java
 public void handle(CreateOrder cmd) {
-  String requestId = cmd.requestId(); // client-generated
-  if (orders.existsByRequestId(requestId)) return; // duplicate suppress
+  String requestId = cmd.requestId();
+  if (orders.existsByRequestId(requestId)) {
+    return;
+  }
   Order order = Order.from(cmd);
-  orders.append(requestId, order); // single atomic message / row
+  orders.append(requestId, order);
   // downstream consumers derive views deterministically from the log
 }
 ```
 
-### Timeliness vs integrity
+Timeliness vs integrity:
 
 ```text
-Late search index update     -> timeliness miss (eventual OK)
-Dropped payment event        -> integrity miss (catastrophic)
+Search index lags 30s     -> timeliness miss (usually OK)
+Payment event never lands -> integrity miss (not OK)
 ```
 
 ## Takeaways

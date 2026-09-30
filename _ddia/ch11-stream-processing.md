@@ -5,17 +5,25 @@ part: "Part III: Derived Data"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Streams process **unbounded** event sequences with low lag. Where batch waits for a whole input set, streaming reacts to events as they arrive — monitoring, CDC, real-time analytics, derived views.
+
 ## Core ideas
 
-Streams process **unbounded** event sequences with low lag. Events are small, immutable, timestamped; grouped by topic.
+### Transmitting events
 
-Messaging: direct (fast, loss-aware) vs **brokers** (buffer/retry) vs **log-based brokers** (Kafka-style: durable, ordered, replayable).
+Events are small, immutable, timestamped facts, grouped by topic. Messaging options: direct network (fast, loss-aware), classic brokers (buffer/retry/delete-on-ack), and **log-based brokers** (Kafka-style: durable, ordered, replayable, partitionable). Choose based on throughput, ordering needs, and processing cost.
 
-**CDC** and **event sourcing** turn the database into a leader of derived views — prefer over dual writes. Immutability helps audit/evolve; async consumers complicate read-your-writes.
+### Databases as streams
 
-Processing: CEP, windowed analytics (tumbling/hopping/sliding/session), stream-stream / stream-table joins. Fault tolerance via micro-batching, exactly-once-ish transactions, or **idempotent** sinks. Use event time, not only processing time.
+Dual writes into two stores race and diverge. Prefer **change data capture** (database as leader; derived followers) or **event sourcing** (store commands/facts; derive state). Immutability aids audit and evolution; async consumers complicate read-your-writes. Log compaction keeps history bounded; true deletion remains hard.
 
-## Picture
+### Processing streams
+
+Write to datastores, push to users, or emit derived streams. Windows: tumbling, hopping, sliding, session — prefer **event time** with watermarks over pure processing time under lag. Joins need state and careful ordering. Fault tolerance via micro-batches, transactional sinks, or **idempotent** outputs.
+
+## Visual
 
 ```mermaid
 flowchart LR
@@ -34,37 +42,37 @@ flowchart LR
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Prefer CDC over dual write
+Prefer CDC over dual write:
 
 ```java
-// Fragile: two writes, no shared order
+// Fragile
 db.save(user);
 searchIndex.put(user);
 
-// Better: one system of record, derived consumers
-db.save(user); // binlog/CDC -> indexer updates search
+// Better: one system of record; indexer follows CDC/binlog
+db.save(user);
 ```
 
-### Idempotent sink
+Idempotent sink:
 
 ```java
 void upsert(Event e) {
-  store.putIfAbsent(e.id(), e.payload()); // retries safe
+  store.putIfAbsent(e.id(), e.payload());
 }
 ```
 
-### Window types (mental model)
+Window mental model:
 
 ```text
 Tumbling  [0,60) [60,120)
-Hopping   [0,60) [30,90) [60,120)   # overlap by hop
-Session   gaps > idle timeout start a new window
+Hopping   [0,60) [30,90) [60,120)
+Session   idle gap starts a new window
 ```
 
 ## Takeaways
 
 - Log + derived views beat dual writes
-- Event time + watermarks beat wall-clock windows under lag
+- Event time beats wall-clock windows under lag
 - Make outputs idempotent; streams retry

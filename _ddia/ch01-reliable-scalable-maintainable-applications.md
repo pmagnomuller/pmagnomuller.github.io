@@ -5,42 +5,72 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
+## What this chapter is about
+
+Modern systems are constrained more by **data** than by CPU. The craft is choosing tools and designs that keep data correct, stay fast enough under load, and remain operable by humans — despite faults.
+
 ## Core ideas
 
-Data size, not CPU, is usually the constraint. Our job is to pick tools that keep data correct, perform well, and survive faults.
+### Reliability
 
-- **Reliability** — keep working correctly despite faults. A *fault* is one component misbehaving; a *failure* is the whole system stopping. Design for fault tolerance (hardware redundancy + software that survives machine loss).
-- **Scalability** — define load parameters first (QPS, read/write ratio, payload size). Batch cares about throughput; online cares about latency. Report **percentiles** (p95/p99), measured client-side on realistic traffic.
-- **Maintainability** — most cost is ongoing work. Aim for operable (monitoring, defaults, rollbacks), simple (good abstractions), and evolvable (change without fear).
+The system should continue to work correctly even when things go wrong.
 
-Early startups should optimize for iteration speed over hypothetical mega-scale.
+A **fault** is one component misbehaving; a **failure** is the whole system stopping. You cannot prevent all faults, so design so faults do not become failures.
 
-## Picture
+- Hardware: redundancy used to be enough; at scale you also need software that survives losing machines
+- Software: bugs often come from assumptions that were true until they weren't — self-checks and careful degradation help
+- Humans: most outages involve people — sandbox environments, fast rollbacks, good defaults, monitoring, and minimal sharp edges reduce blast radius
+
+### Scalability
+
+As load grows, there should be a reasonable way to cope.
+
+First define **load parameters** (QPS, read/write ratio, payload size, working set). Batch systems care about throughput; online systems care about response time. Report **percentiles** (p95/p99), measured client-side on realistic traffic — averages hide the tail, and the slowest users often have the most data.
+
+Elastic autoscaling helps unpredictable load; manual scaling is simpler and can surprise less. Early products should optimize for iteration speed over hypothetical mega-scale.
+
+### Maintainability
+
+Most software cost is ongoing maintenance. Aim for:
+
+- **Operable** — monitoring, docs, good defaults, self-healing with manual override
+- **Simple** — reduce accidental complexity with abstractions (not by deleting features)
+- **Evolvable** — change without fear; agile practices support this when the codebase allows it
+
+## Visual
 
 ```mermaid
 flowchart TD
   Goals[Data system goals] --> Rel[Reliability]
   Goals --> Scal[Scalability]
   Goals --> Maint[Maintainability]
-  Rel --> FT[Tolerate faults]
-  Scal --> Load[Define load + percentiles]
+  Rel --> FT[Fault tolerance]
+  Scal --> Load[Load params + percentiles]
   Maint --> Ops[Operate / simplify / evolve]
+```
+
+```mermaid
+flowchart LR
+  Fault[Component fault] --> Tolerate[Tolerate / isolate]
+  Tolerate --> Ok[System keeps serving]
+  Fault --> Cascade[Unchecked cascade]
+  Cascade --> Failure[System failure]
 ```
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
+*Snippets below use Java, SQL, or plain text as labeled.*
 
-### Latency as percentiles (not averages)
+Percentiles beat averages:
 
 ```text
 1000 requests sorted by duration
-p50  = duration at index 500   # typical user
-p99  = duration at index 990   # the painful tail
-avg  = mean(all)               # hides the tail
+p50 = index 500   # typical
+p99 = index 990   # painful tail
+avg = mean(all)   # hides the tail
 ```
 
-### Operability hooks in application code
+Operability hooks:
 
 ```java
 public Money charge(UserId user, Money amount) {
@@ -60,6 +90,6 @@ public Money charge(UserId user, Money amount) {
 
 ## Takeaways
 
-- Fault ≠ failure; prevent faults from cascading
-- Measure the tail; the slowest users often have the most data
-- Make routine ops easy — that is where lifetime cost lives
+- Fault ≠ failure; design so faults do not cascade
+- Measure the latency tail on the client
+- Operability and evolvability dominate lifetime cost

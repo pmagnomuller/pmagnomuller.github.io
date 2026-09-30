@@ -5,24 +5,39 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+Classes organize functions and data. Like functions, they should be small — measured primarily by **responsibility**, not line count. The Single Responsibility Principle (SRP) is the guiding constraint: one reason to change.
+
 ## Core ideas
 
-Classes should be small and have one reason to change (SRP).
+### Organization
 
-- Typical order: statics → fields → publics → private helpers
-- Size is about responsibilities, not only line count
-- If you need "and/or/if/but" to describe the class in ~25 words, split it
-- High cohesion: methods share the fields they use
-- Maintaining cohesion often means *more* small classes
-- Organize for change; hide internals behind a small API
+A common, readable order: static constants → static variables → instance variables → public methods → private helpers used by those publics. Prefer keeping encapsulation; loosen visibility only as a last resort.
 
-## Picture
+### Small classes, SRP
+
+A class name should describe its responsibility. If you need "and", "or", "if", or "but" to describe it in about twenty-five words, it is doing too much. God classes with dozens of methods are a smell even when each method looks fine alone.
+
+### Cohesion
+
+High cohesion means methods share the fields they use. Few instance variables help. Maintaining cohesion often produces *more* small classes rather than fewer large ones — that is a feature.
+
+### Organizing for change
+
+Isolate what varies. Prefer designs that are open for extension and closed for modification where the extension points earn their keep. Hide internals behind a small, intention-revealing API.
+
+### Get green, then shape
+
+First make it work. Then refactor toward SRP before the class grows roots through the system.
+
+## Visual
 
 ```mermaid
 flowchart TD
   God[God class] --> A[Presentation]
   God --> B[Persistence]
-  God --> C[Rules]
+  God --> C[Business rules]
   Split[Split by reason to change] --> A2[View]
   Split --> B2[Repository]
   Split --> C2[Policy]
@@ -30,9 +45,9 @@ flowchart TD
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Too many reasons to change
+Too many reasons to change in one type:
 
 ```java
 public class Employee {
@@ -42,7 +57,7 @@ public class Employee {
 }
 ```
 
-### One responsibility each
+One responsibility each:
 
 ```java
 public class Employee {
@@ -61,5 +76,5 @@ public class EmployeeReporter {
 ## Takeaways
 
 - Name the responsibility; if the name needs "and", split
-- Prefer many small cohesive classes over one kitchen sink
-- Get green, then reshape toward SRP
+- Cohesion beats stuffing related-looking methods into one file
+- Many small classes are easier to change than one kitchen sink

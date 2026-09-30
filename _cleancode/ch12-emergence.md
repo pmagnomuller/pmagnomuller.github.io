@@ -5,20 +5,30 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+You do not invent a perfect architecture on day one. Simple design *emerges* when you follow a short priority list while refactoring continuously.
+
 ## Core ideas
 
-Kent Beck's four rules of simple design, in priority order:
+### Kent Beck's four rules of simple design
 
-1. Runs all the tests
-2. Contains no duplication
-3. Expresses the intent of the programmers
-4. Minimizes classes and methods
+In priority order:
 
-Simple design *emerges* from following these under continuous refactoring. You do not invent the perfect architecture up front — you apply pressure toward clarity.
+1. **Runs all the tests** — correctness first; without tests you cannot refactor safely
+2. **Contains no duplication** — duplication is often a missing abstraction waiting to be born
+3. **Expresses the intent of the programmers** — names and structure should say what you mean
+4. **Minimizes the number of classes and methods** — no speculative structure; minimalism comes *last*
 
-Duplication often means an abstraction is waiting. Extract when the duplication is real, not speculative.
+### What "emerges" means
 
-## Picture
+Follow the rules under continuous pressure and good shapes appear. Extract duplication when it is real, not when you imagine a future framework. Prefer expressiveness over clever compression.
+
+### Duplication as a design signal
+
+When the same idea is written three ways, the system is trying to tell you there is a concept without a name. Give it one — carefully.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -27,19 +37,25 @@ flowchart TD
   E --> M[4 Minimize entities]
 ```
 
+```mermaid
+flowchart LR
+  Copy[Copy-paste formulas] --> Name[Named Shape.area]
+  Name --> Reuse[One idea, many places]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Duplication hiding an idea
+Duplication hiding an idea:
 
 ```java
 double area1 = length * width;
 double area2 = radius * radius * Math.PI;
-// later, same formulas copy-pasted in pricing, reports, UI...
+// same formulas later in pricing, reports, UI...
 ```
 
-### Named design idea
+Named design idea:
 
 ```java
 public interface Shape {
@@ -47,11 +63,15 @@ public interface Shape {
 }
 
 public record Rectangle(double length, double width) implements Shape {
-  public double area() { return length * width; }
+  public double area() {
+    return length * width;
+  }
 }
 
 public record Circle(double radius) implements Shape {
-  public double area() { return Math.PI * radius * radius; }
+  public double area() {
+    return Math.PI * radius * radius;
+  }
 }
 ```
 

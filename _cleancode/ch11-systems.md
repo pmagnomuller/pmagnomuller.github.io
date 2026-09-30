@@ -5,17 +5,29 @@ part: "Principles"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+At system scale, cleanliness is about separation of concerns: how the whole is constructed, wired, and allowed to evolve without tribal knowledge.
+
 ## Core ideas
 
-At system scale, cleanliness is separation of concerns: construction vs use, modular wiring, and growth without tribal knowledge.
+### Construction vs use
 
-- Separate building the object graph from running business logic
-- Dependency injection / factories keep startup wiring explicit
-- Cross-cutting concerns (logging, transactions, security) need clear mechanisms
-- Optimize for clarity and testability; premature infrastructure is still premature
-- Test-drive architecture the same way you test-drive modules
+Building the object graph is a different concern from running business logic. A composition root (main, DI container, factory module) wires dependencies; application services then use abstractions without `new`-ing infrastructure mid-flow.
 
-## Picture
+### Dependency injection
+
+Inject collaborators so modules depend on interfaces they need, not on concrete construction details. That keeps startup wiring explicit and units testable.
+
+### Cross-cutting concerns
+
+Logging, transactions, security, and similar concerns need clear mechanisms (decorators, aspects, middleware) — not copy-paste through every use case.
+
+### Growth without folklore
+
+A clean system stays navigable as it scales. Optimize for clarity and testability first; premature infrastructure platforms are still premature. Test-drive architecture the same way you test-drive modules: small proofs, then expand.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -25,11 +37,17 @@ flowchart TD
   App --> Adapters[IO adapters]
 ```
 
+```mermaid
+flowchart LR
+  Mixed[new Db inside use case] --> Hard[Hard to test / swap]
+  Injected[Injected ports] --> Easy[Test doubles / replace adapters]
+```
+
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Construction mixed into use
+Construction mixed into use:
 
 ```java
 public class OrderService {
@@ -41,7 +59,7 @@ public class OrderService {
 }
 ```
 
-### Injected collaborators
+Injected collaborators:
 
 ```java
 public class OrderService {

@@ -5,16 +5,29 @@ part: "Case Studies"
 collection: cleancode
 ---
 
+## What this chapter is about
+
+This chapter applies clean-code practices to a real open-source date class. The lesson is the sequence: lock behavior with tests, rename for intent, extract, shrink the public surface, and remove dead or duplicated paths — without changing what the system does.
+
 ## Core ideas
 
-Apply clean-code practices to a real date class: characterization tests first, then rename, simplify, remove smells, and clarify public vs private intent while preserving behavior.
+### Characterization tests first
 
-- Legacy becomes tractable under tests that lock current behavior
-- Rename and extract before rewriting algorithms
-- Delete dead paths; expose a minimal API
-- Heuristics from chapter 17 guide what to fix next
+Legacy code becomes tractable when tests capture current behavior — including quirks. Only then is cleanup safe.
 
-## Picture
+### Rename and extract before rewriting
+
+Resist the urge to replace the algorithm on day one. Clarify names and boundaries; the better shape often reveals a simpler implementation later.
+
+### Shrink the API
+
+Public surface area is a promise. Move formatting, parsing, and odd utilities to collaborators so the core type stays about dates.
+
+### Use the smells catalog
+
+Chapter 17's heuristics tell you what to fix next: opaque names, feature envy, long methods, speculative flags.
+
+## Visual
 
 ```mermaid
 flowchart TD
@@ -26,33 +39,32 @@ flowchart TD
 
 ## Code Example
 
-<p class="notes-code-lang"><small>Language: Java</small></p>
+*Examples below are in Java.*
 
-### Smell: unclear API and mixed concerns
+Smell: unclear API and mixed concerns:
 
 ```java
 public abstract class SerialDate {
-  public static final int MONDAY = 1; // magic calendars...
+  public static final int MONDAY = 1;
   public abstract int toSerial();
   public abstract int getYYYY();
-  // dozens of date utilities, relative day math, formatting...
+  // date math, formatting, relative day utilities...
 }
 ```
 
-### Direction of cleanup
+Direction of cleanup:
 
 ```java
-// 1) Lock behavior
 @Test
-void mondayConstantMatchesHistoricalValues() { /* ... */ }
+void mondayConstantMatchesHistoricalValues() {
+  // lock legacy meaning before renames
+}
 
-// 2) Rename toward domain language
 public abstract class Date {
   public abstract int toSerialDayNumber();
   public abstract Year year();
 }
 
-// 3) Move formatting / parsing to collaborators
 public final class DateFormat {
   public String format(Date date) { /* ... */ }
 }
