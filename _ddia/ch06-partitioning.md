@@ -5,52 +5,59 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
-For huge datasets that doesn't fit in a single database, or for scalability purposes, partitioning (sharding) is the solution. Typically each piece of data belongs to exactly one partition, and a single operation might need to touch multiple partitions at once. Thus, complex queries should be parallelized across many nodes.
+## Core ideas
 
-## Partitioning and Replication
+Partitioning (sharding) spreads data/load when one node is not enough. Usually combine with replication. Goal: even load, avoid **hot spots**.
 
-Replication and partitioning usually works together hand-in-hand, so partitions are usually stored on several nodes for fault-tolerance. However, the choice of partitioning and replication schemes are mostly independent.
+- **Key-range** — good for range scans; hot keys (time, celebrity) still hurt
+- **Hash** — spreads load; loses efficient range queries (compound keys can help)
+- Secondary indexes: **local** (scatter-gather reads) vs **global** (faster reads, harder writes)
 
-## Partitioning of Key-Value Data
+Rebalancing: avoid `hash % N` (moves almost everything). Prefer many fixed partitions, dynamic splits, or partitions-per-node — keep a human in the loop. Routing via nodes, proxy, or clients; often coordinated with ZooKeeper-like metadata.
 
-The goal of partitioning is to spread data evenly across nodes, and more importantly to avoid having skewed partitions with most of the load (resulting in hot spots).
+## Picture
 
-There are two main ways of partitioning keys:
+```mermaid
+flowchart TD
+  Key[Key] --> Hash[Hash]
+  Hash --> P0[Partition 0]
+  Hash --> P1[Partition 1]
+  Hash --> P2[Partition 2]
+  P0 --> N1[Node A]
+  P1 --> N1
+  P2 --> N2[Node B]
+```
 
-- Partitioning by key range, that is by sorting the keys we have, and assigning boundaries between ranges. This is suitable for range queries, but requires continuous boundaries adaptation, with the risk of still having hot-spots
-- Partitioning by hash key, that is by using a non-cryptographic hash function (eg. MD5), and partition using range of hashes instead of keys. This provides more randomization, and also can be used in partitioning by compound primary key which enables one-to-many relationships, but we lose the range queries ability.
+## Example
 
-One problem still is when most reads and writes are for the same key (eg. celebrity account ID), it is usually left for the application to handle this skew, typically by assigning random bytes at the beginning/end of this key to scatter it across all the replicas, however, this requires extra bookkeeping, as well as requests to all the replicas when reading.
+### Bad vs better placement
 
-## Partitioning of Secondary Indexes
+```java
+int badPartition(String key, int n) {
+  return Math.floorMod(key.hashCode(), n); // almost all keys move when n changes
+}
 
-Secondary indexes are important to all relational databases, and also some document databases. However, they don't map neatly to partitions.
+int fixedPartition(String key, int partitionCount) {
+  return Math.floorMod(stableHash(key), partitionCount); // move whole partitions between nodes
+}
+```
 
-One option is to add an extra secondary index inside every partition, this index would cover-up only the keys in the partition. However, if the client needs to find all fields with a common secondary field, it has to query all partitions.
+### Hot key scatter
 
-Another option is to have a global secondary index which can also be partitioned, but using term instead of document. Every partition would keep a secondary index of some of these terms, this makes reads more efficient, but writes are slower and complicated. However, in practice updates to global secondary indexes are asynchronous and very fast.
+```text
+celebrityId                -> one hot partition
+celebrityId + random(0..9) -> 10 shards (app must fan-in on read)
+```
 
-## Rebalancing Partitions
+### Local secondary index query
 
-Over time, data has to be moved from one node to another, this re-balancing process is expected to meet some minimum requirements:
+```sql
+-- Must ask every partition: WHERE email = ?
+-- Global term index would map email -> {partition, pk} instead
+```
 
-- After re-balancing, the load should be shared fairly between nodes
-- While re-balancing, the database should continue accepting reads and writes
-- Data shouldn't be moved between nodes more than necessary
+## Takeaways
 
-A top of mind strategy for re-balancing might be using mod operation for the hash of the key, but this turns out to be very bad because if the number of nodes changes, most keys will need to be moved.
-
-A good alternative is to have a fixed number of partitions, by creating many more partitions than there are nodes, and assign several partitions to each node, and when a node is added to the cluster, it steals some partitions as are from older nodes. This can allow us to assign more partitions to nodes that are more powerful, but since the number is fixed, partitions can get very large, thus making re-balancing and recovery from failures very expensive, and if they are too small, it is too much overhead.
-
-Another alternative is dynamic partitioning, which acts similarly to the top level of a B-tree, when partitions exceeds a configured size, it's split into two partitions, and when shrinks when goes below another configured size, then partitions can be moved to different nodes for re-balancing the load. The big advantage is that the number of partitions adapts to the total volume.
-
-Another option is Partitioning proportionally to nodes, which is to have a fixed number of partitions per node. When a new node joins, it picks fixed number of random partitions to split and take half of them. However, the randomization might produce unfair splits.
-
-Having a completely automated re-balancing process can be very unpredictable, so it's good to have a human in the loop for re-balancing.
-
-## Request Routing
-
-Similar to all network systems, service discovery problem needs to be approached, for which we need a mechanism of mapping keys to partition and their hosting nodes. This mechanism can be placed inside the nodes, routing tier (load balancer), or clients themselves.
-
-Many distributed systems rely on a coordination service such as Zoo-Keeper for solving this problem, that is by keeping track of cluster's metadata including partitioning.
-
+- Partition for balance; design explicitly for skewed keys
+- Index strategy decides whether reads or writes pay
+- Rebalance with partition moves, not remapping every key

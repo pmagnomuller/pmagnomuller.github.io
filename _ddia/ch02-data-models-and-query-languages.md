@@ -5,52 +5,76 @@ part: "Part I: Foundations of Data Systems"
 collection: ddia
 ---
 
-## Data Models
+## Core ideas
 
-Data models are perhaps the most important part of developing software, because they have such a profound effect on the way we think about the problems we're solving.
+Data models shape how we think about the problem.
 
-Relational model is the best known data model today, because of the way it hides the implementation details behind a cleaner interface. It turned out to generalize very well when computers were used for increasingly diverse purposes.
+- **Relational** — hides storage behind a clean interface; strong joins; schema-on-write
+- **Document** — locality for tree-shaped data; flexible schema-on-read; weaker many-to-one/many-to-many
+- **Graph** — best when many-to-many relationships dominate (Cypher, etc.)
+- **Polyglot persistence** — use multiple stores; hybrids are increasingly common
 
-NoSQL databases have been adopted quickly and easily because:
+Declarative query languages (SQL) describe *what*, not *how*, and parallelize more easily than imperative MapReduce-style code.
 
-- It provided a better scaling mechanism, including very high write throughput than relational databases
-- It was free and open source
-- It supported few specific query operations better than relational databases
-- It provided more dynamic and expressive data model than relational databases
+Prefer IDs for reference data humans might rename. Documents must stay reasonably small to keep locality benefits.
 
-Relational databases will continue to be used alongside a broad variety of non-relational datastores (Polyglot Persistence).
+## Picture
 
-Relational databases receives common criticism as an awkward translation layer is required between the application code objects, and the database model. ORM frameworks reduce the overhead but they don't eliminate it.
+```mermaid
+flowchart LR
+  App[Application] --> Rel[(Relational)]
+  App --> Doc[(Document)]
+  App --> Graph[(Graph)]
+  Rel -->|joins| Rel
+  Doc -->|embed 1-to-many| Doc
+  Graph -->|edges| Graph
+```
 
-Relational databases deal with the one-to-many relationship in one of three ways:
+## Example
 
-- The common normalized way is to put the many values in a separate table, with foreign key reference to the one.
-- Later versions of SQL allowed multi-valued data be stored in a single row, with support for querying inside them.
-- The least favorable option is to store them as encoded JSON or XML, and let the application do the internal query.
+### Same domain, two models
 
-Document-oriented databases on the other hand supports one-to-many relationship natively, and provides better locality for the data object, thanks to the self-contained nature of JSON.
+```sql
+-- Relational: normalize many-side
+CREATE TABLE users (id BIGINT PRIMARY KEY, name TEXT);
+CREATE TABLE positions (
+  id BIGINT PRIMARY KEY,
+  user_id BIGINT REFERENCES users(id),
+  title TEXT
+);
+SELECT u.name, p.title
+FROM users u JOIN positions p ON p.user_id = u.id;
+```
 
-Having standardized lists for users to choose from rather than plain typing is easier for updating, better for styling consistency, better for localization support, and easier for searching. This standardized lists should be using an underlying IDs for the values, as anything that is meaningful to humans may need to change sometime in the future.
+```json
+// Document: embed one-to-many for locality
+{
+  "id": 1,
+  "name": "Ada",
+  "positions": [
+    { "title": "Engineer" },
+    { "title": "Manager" }
+  ]
+}
+```
 
-Relational databases deal with many-to-one relationship by referring to rows in tables by ID, as joins are easy. However, Document databases doesn't nicely support many-to-one relationships. Instead, the application code would need to go through the overhead of simulating the join itself, which can cache it all in memory if it's small and slow-changing.
+### Declarative vs imperative flavor
 
-Relational databases overpowered older models such as hierarchical model and network model on the long run, thanks to the query optimizer that made it easier for relational model to add new features to the applications.
+```sql
+-- Declarative: optimizer chooses plan
+SELECT region, COUNT(*) FROM orders GROUP BY region;
+```
 
-When comparing document model to relational model, arguments in favor of document model are schema flexibility, better performance, and more-matching data structure with the application, while Relational model provides better support for joins, and many-to-one and many-to-many relationships.
+```java
+// Imperative MapReduce-style sketch
+Map<String, Long> counts = new HashMap<>();
+for (Order o : orders) {
+  counts.merge(o.region(), 1L, Long::sum);
+}
+```
 
-Document databases are not schemaless, but rather have schema on read in oppose to relational model's schema on write. It is not enforced by the database, but more easier to change and modify.
+## Takeaways
 
-For document databases to benefit from locality, documents have to be relatively small in size.
-
-A hybrid of relational and document models might be the future of databases, as they are becoming more similar over time.
-
-## Query Languages
-
-SQL is attractive to people due to its declarative nature, it specifies the pattern of the resulted data instead of the way of querying it. Also, declarative code is easier to parallelize across multiple machines.
-
-MapReduce is fairly low-level programming model for distributed execution, but it doesn't have a monopoly on distributed query execution.
-
-Graph data model is usually the most suitable model for data with a lot of many-to-many relationships. There are many well-known algorithms which can operate on graphs, and some good declarative query languages such as Cypher for efficient querying.
-
-Graph data model is different from network model in the way it gives much greater flexibility for applications to adapt.
-
+- Match model to relationship shape and access pattern
+- Document ≠ schemaless — schema moves to read time
+- Joins vs locality is the recurring trade-off

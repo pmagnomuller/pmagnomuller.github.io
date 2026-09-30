@@ -354,7 +354,9 @@ defaults:
       comments: false
       share: false
       related: false
-      toc: false
+      toc: true
+      toc_label: "Contents"
+      toc_sticky: true
   # _cleancode
   - scope:
       path: ""
