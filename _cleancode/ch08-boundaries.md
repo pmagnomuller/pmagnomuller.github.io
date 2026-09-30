@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Third-party libraries, vendor APIs, and legacy modules are not under your control. Clean systems meet them at a deliberate boundary so the rest of the code depends on interfaces you own.
 
@@ -21,7 +21,7 @@ Maps, vendor DTOs, and SDK clients are fine at the edge. Dragging them into doma
 
 ### Learning tests
 
-Write small tests that encode how a library actually behaves. They teach the API, document assumptions, and fail loudly when an upgrade changes semantics — cheaper than rediscovering behavior in production.
+Write small tests that encode how a library actually behaves. They teach the API, document assumptions, and fail loudly when an upgrade changes semantics, cheaper than rediscovering behavior in production.
 
 ### Clean boundaries are tested boundaries
 
@@ -77,8 +77,6 @@ void log4jWritesToMemoryAppender() {
 }
 ```
 
-## Takeaways
+## In short
 
-- Own the interface; rent the implementation
-- Confine foreign types to the edge
-- Learning tests are cheap insurance against upgrades
+Wrap third-party code behind your own types. Keep vendor details at the edge. Learning tests make upgrades less painful.

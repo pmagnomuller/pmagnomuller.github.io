@@ -5,15 +5,15 @@ part: "Case Studies"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-This chapter applies clean-code practices to a real open-source date class. The lesson is the sequence: lock behavior with tests, rename for intent, extract, shrink the public surface, and remove dead or duplicated paths — without changing what the system does.
+This chapter applies clean-code practices to a real open-source date class. The lesson is the sequence: lock behavior with tests, rename for intent, extract, shrink the public surface, and remove dead or duplicated paths, without changing what the system does.
 
 ## Core ideas
 
 ### Characterization tests first
 
-Legacy code becomes tractable when tests capture current behavior — including quirks. Only then is cleanup safe.
+Legacy code becomes tractable when tests capture current behavior, including quirks. Only then is cleanup safe.
 
 ### Rename and extract before rewriting
 
@@ -66,12 +66,10 @@ public abstract class Date {
 }
 
 public final class DateFormat {
-  public String format(Date date) { /* ... */ }
+  public String format(Date date) { /*... */ }
 }
 ```
 
-## Takeaways
+## In short
 
-- Tests first on legacy, then structure
-- Preserve behavior while deleting confusion
-- Principles stick only when applied to imperfect code
+Lock behavior with tests, then rename and extract. Shrink the public API. Do not rewrite the algorithm until the shape is clear.

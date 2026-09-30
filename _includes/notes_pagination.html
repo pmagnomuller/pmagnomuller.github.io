@@ -31,26 +31,21 @@
   {% endfor %}
 
   <nav class="notes-pager" aria-label="Chapter navigation">
-    {% if notes_prev %}
-      <a class="notes-pager__link notes-pager__link--prev" href="{{ notes_prev.url | relative_url }}" title="{{ notes_prev.title | markdownify | strip_html | strip }}">
-        <span class="notes-pager__dir">← Previous</span>
-        <span class="notes-pager__name">{{ notes_prev.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
-      </a>
-    {% else %}
-      <span class="notes-pager__link notes-pager__link--prev is-disabled">
-        <span class="notes-pager__dir">← Previous</span>
-      </span>
-    {% endif %}
-
-    {% if notes_next %}
-      <a class="notes-pager__link notes-pager__link--next" href="{{ notes_next.url | relative_url }}" title="{{ notes_next.title | markdownify | strip_html | strip }}">
-        <span class="notes-pager__dir">Next →</span>
-        <span class="notes-pager__name">{{ notes_next.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
-      </a>
-    {% else %}
-      <span class="notes-pager__link notes-pager__link--next is-disabled">
-        <span class="notes-pager__dir">Next →</span>
-      </span>
-    {% endif %}
+    <div class="notes-pager__side notes-pager__side--prev">
+      {% if notes_prev %}
+        <a class="notes-pager__btn" href="{{ notes_prev.url | relative_url }}">
+          <span class="notes-pager__dir">← Previous</span>
+          <span class="notes-pager__name">{{ notes_prev.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
+        </a>
+      {% endif %}
+    </div>
+    <div class="notes-pager__side notes-pager__side--next">
+      {% if notes_next %}
+        <a class="notes-pager__btn" href="{{ notes_next.url | relative_url }}">
+          <span class="notes-pager__dir">Next →</span>
+          <span class="notes-pager__name">{{ notes_next.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
+        </a>
+      {% endif %}
+    </div>
   </nav>
 {% endif %}

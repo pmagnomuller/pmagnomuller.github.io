@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Formatting is communication. Readers form an opinion about the care behind the code long before they understand the algorithms. Consistent layout lets the eye find structure without fighting noise.
 
@@ -20,7 +20,7 @@ A source file should read like a news article: headline (name) at the top, high-
 - Related concepts stay close; blank lines separate ideas
 - Dependent functions follow the functions they support when it aids reading
 - Concepts that change together appear together
-- File length should stay scannable — huge files hide structure
+- File length should stay scannable, huge files hide structure
 
 ### Horizontal formatting
 
@@ -60,7 +60,7 @@ public class Report {
 }
 ```
 
-Newspaper layout — story first, helpers below:
+Newspaper layout: story first, helpers below:
 
 ```java
 public class Report {
@@ -83,8 +83,6 @@ public class Report {
 }
 ```
 
-## Takeaways
+## In short
 
-- Vertical proximity guides understanding
-- Consistency beats clever formatting
-- Automate style so humans review meaning
+Put related code close together. Pick one team style and automate it so reviews talk about behavior, not spaces.

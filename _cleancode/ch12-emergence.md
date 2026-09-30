@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 You do not invent a perfect architecture on day one. Simple design *emerges* when you follow a short priority list while refactoring continuously.
 
@@ -15,10 +15,10 @@ You do not invent a perfect architecture on day one. Simple design *emerges* whe
 
 In priority order:
 
-1. **Runs all the tests** — correctness first; without tests you cannot refactor safely
-2. **Contains no duplication** — duplication is often a missing abstraction waiting to be born
-3. **Expresses the intent of the programmers** — names and structure should say what you mean
-4. **Minimizes the number of classes and methods** — no speculative structure; minimalism comes *last*
+1. **Runs all the tests**: correctness first; without tests you cannot refactor safely
+2. **Contains no duplication**: duplication is often a missing abstraction waiting to be born
+3. **Expresses the intent of the programmers**: names and structure should say what you mean
+4. **Minimizes the number of classes and methods**: no speculative structure; minimalism comes *last*
 
 ### What "emerges" means
 
@@ -26,7 +26,7 @@ Follow the rules under continuous pressure and good shapes appear. Extract dupli
 
 ### Duplication as a design signal
 
-When the same idea is written three ways, the system is trying to tell you there is a concept without a name. Give it one — carefully.
+When the same idea is written three ways, the system is trying to tell you there is a concept without a name. Give it one, carefully.
 
 ## Visual
 
@@ -75,8 +75,6 @@ public record Circle(double radius) implements Shape {
 }
 ```
 
-## Takeaways
+## In short
 
-- Priority order matters: tests first, minimalism last
-- Expressiveness beats premature abstraction
-- Refactor until the design is obvious in the names
+Tests first, then kill duplication, then make intent obvious, then trim extra types. Good structure shows up through that pressure, not through a big upfront design.

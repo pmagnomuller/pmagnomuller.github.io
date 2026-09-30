@@ -5,7 +5,7 @@ part: "Case Studies"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Clean code is rarely written clean on the first pass. The Args case study shows the real craft: make it work, then successively refine structure, names, and responsibilities under tests until each module expresses one clear idea.
 
@@ -17,7 +17,7 @@ Stopping at "it works" is the failure mode. Working code that resists change is 
 
 ### Refactor in small, test-backed steps
 
-Characterization or unit tests unlock fearless cleanup. Rename, extract, move — one motivation per step — and keep the suite green.
+Characterization or unit tests unlock fearless cleanup. Rename, extract, move, one motivation per step, and keep the suite green.
 
 ### Aim for modules with one idea
 
@@ -50,12 +50,12 @@ public class Args {
     // in one long constructor with many locals and flags
   }
 
-  public boolean getBoolean(char arg) { /* ... */ }
-  public int getInt(char arg) { /* ... */ }
+  public boolean getBoolean(char arg) { /*... */ }
+  public int getInt(char arg) { /*... */ }
 }
 ```
 
-Refined shape — marshaling strategy per type:
+Refined shape, marshaling strategy per type:
 
 ```java
 public class Args {
@@ -76,8 +76,6 @@ interface ArgumentMarshaler {
 }
 ```
 
-## Takeaways
+## In short
 
-- Working is necessary; clean is the second delivery
-- Tests unlock successive refinement
-- One idea per module is the target shape
+Working code is the start. With tests in place, rename and extract until each piece has one job.

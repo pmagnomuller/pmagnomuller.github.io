@@ -5,9 +5,9 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
-Replication copies data for latency, availability, and read scale. The hard part is **ongoing change** — sync vs async, failover, lag, and conflicts.
+Replication copies data for latency, availability, and read scale. The hard part is **ongoing change**, sync vs async, failover, lag, and conflicts.
 
 ## Core ideas
 
@@ -15,15 +15,15 @@ Replication copies data for latency, availability, and read scale. The hard part
 
 Writes go to a leader; followers apply the change stream; clients may read any replica. Common and well understood. Fully synchronous replicas stall writes when a follower hangs, so production often syncs one (or a few) and leaves others async.
 
-Failover elects a new leader — risks include unreplicated writes and **split brain**. Replication formats: statement-based (fragile), WAL (coupled to storage), logical logs (better decoupling), triggers (flexible, heavier).
+Failover elects a new leader, risks include unreplicated writes and **split brain**. Replication formats: statement-based (fragile), WAL (coupled to storage), logical logs (better decoupling), triggers (flexible, heavier).
 
 ### Replication lag
 
 Under async replication, readers can see the past. Application-level cures:
 
-- **Read-your-writes** — read self-writes from the leader (or until a timestamp catches up)
-- **Monotonic reads** — sticky replica so time does not go backwards for a user
-- **Consistent prefix** — causally related writes stay ordered
+- **Read-your-writes**: read self-writes from the leader (or until a timestamp catches up)
+- **Monotonic reads**: sticky replica so time does not go backwards for a user
+- **Consistent prefix**: causally related writes stay ordered
 
 If multi-minute lag is unacceptable, you need stronger guarantees than pure eventual consistency.
 
@@ -84,8 +84,6 @@ UPDATE accounts SET last_active = NOW() WHERE id = 42;
 UPDATE accounts SET last_active = '2026-09-30T12:00:00Z' WHERE id = 42;
 ```
 
-## Takeaways
+## In short
 
-- Async replication is common; name the consistency you need
-- Automated failover is powerful and dangerous
-- Quorums and version vectors are the Dynamo toolkit
+Async replication is common, so be explicit about lag. Failover can lose unreplicated writes or split the leadership. Quorums and version vectors are the Dynamo toolkit.

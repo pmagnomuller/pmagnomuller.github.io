@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 At system scale, cleanliness is about separation of concerns: how the whole is constructed, wired, and allowed to evolve without tribal knowledge.
 
@@ -21,7 +21,7 @@ Inject collaborators so modules depend on interfaces they need, not on concrete 
 
 ### Cross-cutting concerns
 
-Logging, transactions, security, and similar concerns need clear mechanisms (decorators, aspects, middleware) — not copy-paste through every use case.
+Logging, transactions, security, and similar concerns need clear mechanisms (decorators, aspects, middleware), not copy-paste through every use case.
 
 ### Growth without folklore
 
@@ -78,8 +78,6 @@ public class OrderService {
 }
 ```
 
-## Takeaways
+## In short
 
-- One place builds; many places use
-- Depend on abstractions you own at module edges
-- A clean system is navigable without folklore
+Build the object graph in one place. Inject collaborators. A system is clean when a new person can find their way without folklore.

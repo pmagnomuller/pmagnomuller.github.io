@@ -5,7 +5,7 @@ part: "Smells and Heuristics"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 A practical catalog of smells spanning comments, environment, functions, names, classes, and tests. Treat them as **signals**, not laws. Prefer the smallest change that removes the smell. A name smell often hides a deeper design smell.
 
@@ -23,9 +23,9 @@ Prefer polymorphism to sprawling `if`/`switch` when types vary. Do not inherit c
 
 ### Functions
 
-Too many arguments; output arguments; **flag arguments** (avoid them — do not add them); dead functions; boolean entanglement; temporal coupling without names that reveal order.
+Too many arguments; output arguments; **flag arguments** (avoid them, do not add them); dead functions; boolean entanglement; temporal coupling without names that reveal order.
 
-### Names, classes, tests
+### Names, classes, and tests
 
 Encoded or disinformative names; names at the wrong abstraction level; classes that are too big or hold too many fields; tests that are unclear, incomplete, or unassertive.
 
@@ -81,8 +81,6 @@ renderBodyOnly(page);
 - Classes: too big, too many fields
 - Tests: unclear or unassertive
 
-## Takeaways
+## In short
 
-- Smells are prompts to improve design, not scorecards
-- Structure beats convention when you can enforce it
-- Make the next reader faster
+Treat smells as prompts, not a scorecard. Fix the smallest real problem. Often a bad name is covering a deeper design issue.

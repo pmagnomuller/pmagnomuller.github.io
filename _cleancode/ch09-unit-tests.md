@@ -5,9 +5,9 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-Tests are what keep clean production code clean under change. Without them, every cleanup is a gamble. Test code is not a second-class citizen — dirty tests rot, get deleted, and then the production code freezes.
+Tests are what keep clean production code clean under change. Without them, every cleanup is a gamble. Test code is not a second-class citizen, dirty tests rot, get deleted, and then the production code freezes.
 
 ## Core ideas
 
@@ -21,11 +21,11 @@ The rhythm is short: fail → pass → refactor. Both sides stay clean.
 
 ### FIRST
 
-- **Fast** — slow suites do not get run
-- **Independent** — order and shared mutable state should not matter
-- **Repeatable** — any environment, same result
-- **Self-validating** — pass/fail without manual inspection
-- **Timely** — written close to the production code (ideally first)
+- **Fast**: slow suites do not get run
+- **Independent**: order and shared mutable state should not matter
+- **Repeatable**: any environment, same result
+- **Self-validating**: pass/fail without manual inspection
+- **Timely**: written close to the production code (ideally first)
 
 ### Clean tests
 
@@ -56,7 +56,7 @@ flowchart TD
 
 *Examples below are in Java.*
 
-Detail-heavy test — hard to see the intent:
+Detail-heavy test, hard to see the intent:
 
 ```java
 @Test
@@ -88,8 +88,6 @@ void pageHierarchyAsXml() {
 }
 ```
 
-## Takeaways
+## In short
 
-- Keep tests as clean as production
-- TDD laws keep steps small; FIRST keeps suites trustworthy
-- Helpers beat copy-pasted setup
+Treat tests like production code. Keep the red-green-refactor loop short. Prefer readable helpers over copy-pasted setup.

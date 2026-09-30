@@ -5,7 +5,7 @@ part: "Part II: Distributed Data"
 collection: ddia
 ---
 
-## What this chapter is about
+## Overview
 
 A single computer is mostly all-or-nothing. A distributed system fails **partially** and nondeterministically. You must assume it will.
 
@@ -17,11 +17,11 @@ Some nodes work while others hang, lie about time, or disappear. Build fault tol
 
 ### Unreliable networks
 
-Packets drop, delay, and reorder. Timeouts detect suspicion — not truth. Too-short timeouts cause cascading failure; too-long timeouts delay recovery. Prefer measuring real latency distributions over theoretical `2d + r` formulas. UDP can beat TCP when late data is worthless.
+Packets drop, delay, and reorder. Timeouts detect suspicion, not truth. Too-short timeouts cause cascading failure; too-long timeouts delay recovery. Prefer measuring real latency distributions over theoretical `2d + r` formulas. UDP can beat TCP when late data is worthless.
 
 ### Unreliable clocks
 
-**Wall clocks** (NTP) jump and are unsafe for measuring elapsed time or ordering events alone. **Monotonic clocks** are for durations. Use logical clocks / version vectors for causality. GCP-style interval timestamps acknowledge uncertainty. GC pauses can freeze a thread mid-thought — designs must tolerate that.
+**Wall clocks** (NTP) jump and are unsafe for measuring elapsed time or ordering events alone. **Monotonic clocks** are for durations. Use logical clocks / version vectors for causality. GCP-style interval timestamps acknowledge uncertainty. GC pauses can freeze a thread mid-thought, designs must tolerate that.
 
 ### Knowledge, truth, and lies
 
@@ -72,8 +72,6 @@ void write(String key, byte[] value, long fencingToken) {
 }
 ```
 
-## Takeaways
+## In short
 
-- Timeouts are guesses — measure and adapt
-- Wall clocks lie; causality needs logical tools
-- Safety first; liveness may wait for majority recovery
+Timeouts are guesses. Wall clocks lie for ordering. Prefer majorities and fencing tokens over trusting one node's opinion.

@@ -5,7 +5,7 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
 Comments are not a strategy for unclear code. They compensate when the language cannot express intent cleanly. Every comment is a maintenance liability: if the code changes and the comment does not, you now have a lie.
 
@@ -30,7 +30,7 @@ Before writing a comment, try a better name, a smaller function, or a type that 
 - Noise mandated by process templates
 - Commented-out code (delete it; git remembers)
 - HTML banners and position markers
-- Misleading or obsolete notes — worse than silence
+- Misleading or obsolete notes, worse than silence
 
 ### Keep comments local and honest
 
@@ -55,7 +55,7 @@ Redundant comment propping up opaque logic:
 ```java
 // Check to see if the employee is eligible for full benefits
 if ((employee.flags & HOURLY) != 0 && employee.age > 65) {
-  // ...
+  //...
 }
 ```
 
@@ -63,7 +63,7 @@ Intent moved into the code:
 
 ```java
 if (employee.isEligibleForFullBenefits()) {
-  // ...
+  //...
 }
 ```
 
@@ -74,14 +74,12 @@ Comments that earn their place:
  * Balance after pending settlements.
  * Soft-holds from fraud review are excluded on purpose.
  */
-public Money availableBalance() { /* ... */ }
+public Money availableBalance() { /*... */ }
 
 // Vendor returns HTTP 200 with an empty body when throttled.
 return vendorClient.fetchRates();
 ```
 
-## Takeaways
+## In short
 
-- Code first; comments for what code cannot say cleanly
-- Delete commented-out code
-- A wrong comment is worse than no comment
+Write clearer code before you write a comment. Delete commented-out code. A wrong comment is worse than none.

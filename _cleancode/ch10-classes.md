@@ -5,9 +5,9 @@ part: "Principles"
 collection: cleancode
 ---
 
-## What this chapter is about
+## Overview
 
-Classes organize functions and data. Like functions, they should be small — measured primarily by **responsibility**, not line count. The Single Responsibility Principle (SRP) is the guiding constraint: one reason to change.
+Classes organize functions and data. Like functions, they should be small, measured primarily by **responsibility**, not line count. The Single Responsibility Principle (SRP) is the guiding constraint: one reason to change.
 
 ## Core ideas
 
@@ -15,13 +15,13 @@ Classes organize functions and data. Like functions, they should be small — me
 
 A common, readable order: static constants → static variables → instance variables → public methods → private helpers used by those publics. Prefer keeping encapsulation; loosen visibility only as a last resort.
 
-### Small classes, SRP
+### Small classes and SRP
 
 A class name should describe its responsibility. If you need "and", "or", "if", or "but" to describe it in about twenty-five words, it is doing too much. God classes with dozens of methods are a smell even when each method looks fine alone.
 
 ### Cohesion
 
-High cohesion means methods share the fields they use. Few instance variables help. Maintaining cohesion often produces *more* small classes rather than fewer large ones — that is a feature.
+High cohesion means methods share the fields they use. Few instance variables help. Maintaining cohesion often produces *more* small classes rather than fewer large ones, that is a feature.
 
 ### Organizing for change
 
@@ -73,8 +73,6 @@ public class EmployeeReporter {
 }
 ```
 
-## Takeaways
+## In short
 
-- Name the responsibility; if the name needs "and", split
-- Cohesion beats stuffing related-looking methods into one file
-- Many small classes are easier to change than one kitchen sink
+One reason to change per class. If the name needs "and", split it. High cohesion usually means more small classes, not fewer big ones.
