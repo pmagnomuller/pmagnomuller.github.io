@@ -27,6 +27,14 @@ Wide locks kill throughput and raise deadlock risk. Narrow critical sections; do
 
 Threads, pools, actors, event loops, each has different failure modes. Use the platform's executors and concurrent collections instead of hand-rolling queues.
 
+### Myths worth dropping
+
+Concurrency does not automatically make things faster. It does not remove the need for design. And "it worked on my machine under light load" is not evidence the shared state is safe.
+
+### Defense in depth
+
+Limit the scope of synchronized data. Use copies when crossing boundaries so callers cannot mutate your internals. Prefer known libraries (executors, concurrent collections) over home-grown locking schemes. Keep concurrent code out of the domain core when you can.
+
 ### Test under stress
 
 Races rarely show up in happy-path unit tests. Repeat, load, and shake schedules. Treat "it passed once" as weak evidence.

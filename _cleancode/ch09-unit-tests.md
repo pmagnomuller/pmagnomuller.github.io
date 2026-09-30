@@ -31,6 +31,10 @@ The rhythm is short: fail → pass → refactor. Both sides stay clean.
 
 Readability is the top virtue: clarity, simplicity, density of expression. Build domain-specific helpers so tests read as arrange / act / assert instead of API noise. One assert per concept; one concept per test.
 
+### Domain-specific testing language
+
+Build tiny helpers named in the language of the feature (`makePages`, `submitRequest`, `assertResponseIsXml`). The suite becomes documentation. That is what "clean tests" usually look like in practice, not a pile of framework calls.
+
 ### Coverage vs confidence
 
 Coverage numbers are lagging indicators. The goal is confidence to change behavior without fear.

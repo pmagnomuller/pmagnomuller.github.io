@@ -28,9 +28,13 @@ Hiding fields is not enough, expose *policy*, not storage. An interface that for
 
 A method should talk to its own object, its parameters, objects it creates, and its direct components, not walk a train of getters (`a.getB().getC().doThing()`). Train wrecks mean structure has leaked. Prefer telling an object to do work over asking it for parts.
 
+### Data/object anti-symmetry
+
+This is the same idea as the complementary strengths above: you optimize either for adding types or for adding operations. Fighting the grain of that choice is where hybrids appear.
+
 ### Hybrids and DTOs
 
-DTOs and "active records" blur the line. Be deliberate: if something is a bag of fields crossing a boundary, treat it as a structure; if it owns invariants, treat it as an object.
+DTOs (and similar "beans") are structures: public fields or getters/setters with almost no behavior. Fine at boundaries. Trouble starts when a DTO grows business rules while still exposing every field, or when an "object" leaks its guts and still claims encapsulation. Be deliberate: bag of fields at the edge, or type that owns invariants.
 
 ## Visual
 

@@ -23,6 +23,10 @@ Characterization or unit tests unlock fearless cleanup. Rename, extract, move, o
 
 Argument parsing, type marshaling, and error reporting do not belong in one constructor blob. When each concept has a home, readers navigate by name.
 
+### The grocery-store walkthrough
+
+The book’s long case study is the Args parser. Chee-Tash’s playlist walks a grocery-store example instead, with a follow-up on interfaces. Same lesson either way: start from working code, then carve clearer boundaries until each piece has one job.
+
 ### Delete confusing paths
 
 Code that exists "just in case" and confuses more than it helps should go. Git remembers.

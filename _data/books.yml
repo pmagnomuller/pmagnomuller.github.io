@@ -13,6 +13,7 @@
 #   sort_by    Front matter field used to order notes (optional).
 #   group_by   Front matter field used to group notes within the book (optional).
 #   open       Whether the section starts expanded (optional, defaults to false).
+#   resources  Optional list of {label, url} shown under the book on /notes/.
 
 - title: "Designing Data-Intensive Applications"
   author: "Martin Kleppmann"
@@ -27,6 +28,9 @@
   sort_by: chapter
   group_by: part
   open: false
+  resources:
+    - label: "Chee-Tash Clean Code walkthrough (YouTube playlist)"
+      url: "https://www.youtube.com/playlist?list=PL-uROEx3vAxg-yricXrDaOK9xzHGGQk1u"
 
 - title: "Design Patterns — Study Guide"
   author: "original guide to the 23 GoF patterns"

@@ -39,6 +39,16 @@ Error-code ladders nest and obscure the happy path. Exceptions let success read 
 
 You cannot always delete `switch`, but you can bury it once (often in a factory) and use polymorphism at call sites so adding a type does not edit every switch in the app.
 
+### Temporal coupling
+
+If method `B` only works after `A` ran, the order is a hidden contract. Prefer an API that makes the order impossible to get wrong (one method that does both steps, or a type that only exists after setup).
+
+### Side effects and DRY
+
+A function named like a query should not also mutate global state. Unexpected side effects are bugs waiting for a call site that trusted the name.
+
+Duplication is not only copy-pasted lines. Structural duplication (the same sequence of steps with different details) often wants an extracted helper or template once the third copy appears.
+
 ### Draft, then extract
 
 First versions can be long. Refactor with tests: extract, rename, restructure until each function names a coherent unit of work.

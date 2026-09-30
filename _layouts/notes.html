@@ -22,6 +22,16 @@ layout: archive
       </summary>
 
       <div class="notes-book__body">
+        {% if book.resources and book.resources.size > 0 %}
+          <ul class="notes-book__resources">
+            {% for resource in book.resources %}
+              <li>
+                <a href="{{ resource.url }}" rel="noopener noreferrer">{{ resource.label }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
         {% assign group_field = book.group_by %}
         {% assign current_group = "__notes_unset__" %}
         {% for post in entries %}

@@ -23,6 +23,14 @@ Inject collaborators so modules depend on interfaces they need, not on concrete 
 
 Logging, transactions, security, and similar concerns need clear mechanisms (decorators, aspects, middleware), not copy-paste through every use case.
 
+### The city metaphor
+
+Martin compares building software to building a city: different people specialize (utilities, roads, buildings), and the whole stays livable through clear boundaries. Your "city planning" is architecture and wiring; your "buildings" are modules that do not each dig their own water main.
+
+### Aspects and cross-cutting concerns
+
+When the same logging, transaction, or security step wraps many use cases, an aspect, decorator, or middleware keeps that policy in one place instead of copy-paste.
+
 ### Growth without folklore
 
 A clean system stays navigable as it scales. Optimize for clarity and testability first; premature infrastructure platforms are still premature. Test-drive architecture the same way you test-drive modules: small proofs, then expand.

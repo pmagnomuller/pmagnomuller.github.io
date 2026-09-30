@@ -1,0 +1,26 @@
+{% comment %}
+  Per-chapter YouTube links for Clean Code notes (see _data/cleancode_videos.yml).
+{% endcomment %}
+{% if page.collection == "cleancode" and page.chapter %}
+  {% assign ch_key = page.chapter | append: "" %}
+  {% assign vids = site.data.cleancode_videos.chapters[ch_key] %}
+  {% if vids and vids.size > 0 %}
+  <aside class="notes-watch" aria-label="Related videos">
+    <h2 class="notes-watch__heading">Watch</h2>
+    <p class="notes-watch__intro">
+      Companion walkthrough from
+      <a href="{{ site.data.cleancode_videos.playlist_url }}" rel="noopener noreferrer">{{ site.data.cleancode_videos.playlist_title }}</a>
+      ({{ site.data.cleancode_videos.playlist_author }}).
+    </p>
+    <ul class="notes-watch__list">
+      {% for vid in vids %}
+        <li>
+          <a href="https://www.youtube.com/watch?v={{ vid.id }}&amp;list=PL-uROEx3vAxg-yricXrDaOK9xzHGGQk1u" rel="noopener noreferrer">
+            {{ vid.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
+{% endif %}

@@ -22,6 +22,10 @@ A source file should read like a news article: headline (name) at the top, high-
 - Concepts that change together appear together
 - File length should stay scannable, huge files hide structure
 
+### Conceptual affinity
+
+Things that are strongly related (a public method and the private helpers it uses, fields that form one concept) should sit near each other. Formatting is partly about affinity: the eye should not travel far to finish one thought.
+
 ### Horizontal formatting
 
 Indentation shows hierarchy. Avoid packing multiple statements onto one line. Alignment tricks are optional; consistency beats clever columns. Let a formatter own whitespace debates so reviews discuss design.

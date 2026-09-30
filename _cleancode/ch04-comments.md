@@ -32,6 +32,12 @@ Before writing a comment, try a better name, a smaller function, or a type that 
 - HTML banners and position markers
 - Misleading or obsolete notes, worse than silence
 
+### Amplifying vs nonlocal comments
+
+An amplifying comment restates something important that is easy to miss in the code (a subtle invariant, a unit, a range). That can help.
+
+A nonlocal comment talks about code somewhere else in the system. Those go stale first. Prefer putting the explanation next to the code it describes, or deleting it when the code can carry the meaning.
+
 ### Keep comments local and honest
 
 A good comment is close to the code it describes and updated in the same change. If you cannot afford to maintain it, do not write it.
