@@ -30,33 +30,26 @@
     {% assign notes_last = note %}
   {% endfor %}
 
-  <nav class="pagination notes-pagination" aria-label="Chapter navigation">
+  <nav class="notes-pager" aria-label="Chapter navigation">
     {% if notes_prev %}
-      <a href="{{ notes_prev.url | relative_url }}" class="pagination--pager notes-pagination__pager" title="{{ notes_prev.title | markdownify | strip_html | strip }}">
-        <span class="notes-pagination__label">Previous</span>
-        <span class="notes-pagination__title">{{ notes_prev.title | markdownify | strip_html | strip }}</span>
+      <a class="notes-pager__link notes-pager__link--prev" href="{{ notes_prev.url | relative_url }}" title="{{ notes_prev.title | markdownify | strip_html | strip }}">
+        <span class="notes-pager__dir">← Previous</span>
+        <span class="notes-pager__name">{{ notes_prev.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
       </a>
     {% else %}
-      <span class="pagination--pager notes-pagination__pager disabled">
-        <span class="notes-pagination__label">Previous</span>
-        <span class="notes-pagination__title">Start of {{ notes_book.title }}</span>
+      <span class="notes-pager__link notes-pager__link--prev is-disabled">
+        <span class="notes-pager__dir">← Previous</span>
       </span>
     {% endif %}
 
-    <a href="{{ '/notes/' | relative_url }}" class="pagination--pager notes-pagination__pager notes-pagination__index" title="All notes">
-      <span class="notes-pagination__label">Notes</span>
-      <span class="notes-pagination__title">{{ notes_book.title }}</span>
-    </a>
-
     {% if notes_next %}
-      <a href="{{ notes_next.url | relative_url }}" class="pagination--pager notes-pagination__pager" title="{{ notes_next.title | markdownify | strip_html | strip }}">
-        <span class="notes-pagination__label">Next</span>
-        <span class="notes-pagination__title">{{ notes_next.title | markdownify | strip_html | strip }}</span>
+      <a class="notes-pager__link notes-pager__link--next" href="{{ notes_next.url | relative_url }}" title="{{ notes_next.title | markdownify | strip_html | strip }}">
+        <span class="notes-pager__dir">Next →</span>
+        <span class="notes-pager__name">{{ notes_next.title | markdownify | strip_html | strip | replace: 'Clean Code Chapter ', 'Ch. ' | replace: 'DDIA Chapter ', 'Ch. ' }}</span>
       </a>
     {% else %}
-      <span class="pagination--pager notes-pagination__pager disabled">
-        <span class="notes-pagination__label">Next</span>
-        <span class="notes-pagination__title">End of {{ notes_book.title }}</span>
+      <span class="notes-pager__link notes-pager__link--next is-disabled">
+        <span class="notes-pager__dir">Next →</span>
       </span>
     {% endif %}
   </nav>
