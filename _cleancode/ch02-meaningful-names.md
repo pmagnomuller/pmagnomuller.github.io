@@ -33,6 +33,14 @@ If you cannot say the name aloud, design discussions get awkward. Single-letter 
 - Methods → verbs or verb phrases (`postPayment`, `isEmpty`, `save`)
 - One word per concept: don't mix `fetch` / `retrieve` / `get` for the same idea across the codebase
 
+### Avoid mental mappings
+
+Do not force readers to translate `r` into "URL decoder result" in their heads. The translation belongs in the name. Loop indexes are the common exception; almost everything else should say what it is.
+
+### Solution domain vs problem domain
+
+Use programmer vocabulary (`AccountVisitor`, `Queue`) when the audience is other programmers working near the machinery. Use problem-domain names (`Customer`, `Shipment`) when the code is expressing business rules. Mixing the two without reason creates noise.
+
 ### Context
 
 Add context when bare names are ambiguous (`addrState` vs `state`). Drop gratuitous prefixes that repeat the class or module on every member (`MacroAirForcePlane_...`).

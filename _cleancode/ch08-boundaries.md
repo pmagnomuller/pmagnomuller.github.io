@@ -23,6 +23,10 @@ Maps, vendor DTOs, and SDK clients are fine at the edge. Dragging them into doma
 
 Write small tests that encode how a library actually behaves. They teach the API, document assumptions, and fail loudly when an upgrade changes semantics, cheaper than rediscovering behavior in production.
 
+### Code that does not exist yet
+
+When a collaborator is not ready, program against an interface you own. That keeps your module moving and defines the boundary before the third-party (or teammate) API hardens in the wrong shape.
+
 ### Clean boundaries are tested boundaries
 
 Outbound tests should exercise the interface the same way production code does. Good boundaries accommodate change without huge rework.

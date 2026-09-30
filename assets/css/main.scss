@@ -465,6 +465,36 @@ h1, h2, h3, h4, h5, h6,
     border-top: 1px solid var(--border);
   }
 
+  &__resources {
+    list-style: none;
+    margin: 0.85rem 0 0.35rem;
+    padding: 0;
+
+    li {
+      margin: 0 0 0.35rem;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &::before {
+        content: "▶";
+        font-size: 0.7rem;
+        opacity: 0.85;
+      }
+    }
+  }
+
   &__part {
     font-size: 0.72rem;
     font-weight: 600;
@@ -507,6 +537,34 @@ h1, h2, h3, h4, h5, h6,
 .notes-code-lang {
   margin: -0.35rem 0 1rem;
   color: var(--text-muted);
+}
+
+.notes-watch {
+  margin: 2rem 0 0.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(232, 238, 235, 0.35);
+
+  &__heading {
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+  }
+
+  &__intro {
+    margin: 0 0 0.65rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+
+  &__list {
+    margin: 0;
+    padding-left: 1.1rem;
+
+    a {
+      font-weight: 500;
+    }
+  }
 }
 
 .notes-pager {
@@ -1001,6 +1059,7 @@ h1, h2, h3, h4, h5, h6,
   .entries-list .list__item .archive__item,
   .notes-book,
   .notes-pager__btn,
+  .notes-watch,
   .btn-pill--ghost {
     background-color: rgba(35, 42, 39, 0.85);
     border-color: var(--border);

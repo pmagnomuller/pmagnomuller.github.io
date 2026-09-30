@@ -1,0 +1,61 @@
+# Optional video companions for Clean Code notes.
+# Source: Chee-Tash chapter walkthrough playlist.
+
+playlist_url: "https://www.youtube.com/playlist?list=PL-uROEx3vAxg-yricXrDaOK9xzHGGQk1u"
+playlist_title: "Chee-Tash Clean Code walkthrough"
+playlist_author: "Chee-Tash"
+
+chapters:
+  "1":
+    - id: q3eXcskerlg
+      title: "What is Clean Code?"
+  "2":
+    - id: KOTdBL-_-6A
+      title: "Meaningful Names"
+  "3":
+    - id: tICvIcOlFXw
+      title: "Functions"
+  "4":
+    - id: d-nYFngOqmE
+      title: "Comments"
+  "5":
+    - id: lKQChHe2gqk
+      title: "Formatting"
+  "6":
+    - id: kQlIplh3fIw
+      title: "Objects and Data Structures"
+  "7":
+    - id: aiMe4QF_ItQ
+      title: "Error Handling"
+  "8":
+    - id: O4hzr0nNXvo
+      title: "Boundaries"
+  "9":
+    - id: iWfkIVsXif4
+      title: "Unit Tests"
+  "10":
+    - id: qBF48NieI1s
+      title: "Classes"
+  "11":
+    - id: 8YzAhfBeF1k
+      title: "Systems"
+  "12":
+    - id: pVdDlBGAbak
+      title: "Emergence"
+  "13":
+    - id: f99zSz5D5RE
+      title: "Concurrency (part 1)"
+    - id: 199dVfVnpMo
+      title: "Concurrency (part 2)"
+  "14":
+    - id: z3lgtlNOYLE
+      title: "Grocery store example"
+    - id: zj6ZbfKY6ZM
+      title: "Grocery store: interfaces"
+  "17":
+    - id: z9soHnOfMIY
+      title: "Smells and Heuristics (part 1)"
+    - id: 3_jV-0mHHfo
+      title: "Smells and Heuristics (part 2)"
+    - id: XOfDv__RiuI
+      title: "Smells and Heuristics (part 3)"

@@ -23,6 +23,10 @@ A class name should describe its responsibility. If you need "and", "or", "if", 
 
 High cohesion means methods share the fields they use. Few instance variables help. Maintaining cohesion often produces *more* small classes rather than fewer large ones, that is a feature.
 
+### Open/closed where it pays
+
+Classes should be open for extension and closed for modification when you have a stable axis of change (new report formats, new payment types). Do not invent plugin architecture for a one-off. OCP is a response to repeated change, not a default template.
+
 ### Organizing for change
 
 Isolate what varies. Prefer designs that are open for extension and closed for modification where the extension points earn their keep. Hide internals behind a small, intention-revealing API.
