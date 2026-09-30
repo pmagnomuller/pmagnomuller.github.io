@@ -28,7 +28,9 @@ flowchart TD
   A --> A2["includeRegularSetup()"]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Flag argument and mixed abstraction
 

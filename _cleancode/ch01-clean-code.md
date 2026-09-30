@@ -31,7 +31,9 @@ flowchart TD
   Care[Keep it clean as you go] --> Fast[Sustainable speed]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Opaque and costly
 

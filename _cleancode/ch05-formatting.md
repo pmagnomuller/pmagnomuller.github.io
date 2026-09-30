@@ -24,7 +24,9 @@ flowchart TD
   Helpers --> Details[Low-level details]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Scattered and noisy
 

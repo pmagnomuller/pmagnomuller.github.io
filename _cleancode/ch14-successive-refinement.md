@@ -24,7 +24,9 @@ flowchart LR
   Extract --> Shape[Clear modules]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### First-cut argument blob
 

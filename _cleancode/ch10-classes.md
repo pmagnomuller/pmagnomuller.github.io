@@ -28,7 +28,9 @@ flowchart TD
   Split --> C2[Policy]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Too many reasons to change
 

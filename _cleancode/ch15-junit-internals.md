@@ -23,7 +23,9 @@ flowchart TD
   Suff --> Fmt
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Idea of the compactor
 

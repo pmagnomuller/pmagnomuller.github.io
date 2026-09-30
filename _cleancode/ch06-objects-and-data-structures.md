@@ -27,7 +27,9 @@ flowchart LR
   end
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Concrete structure vs abstract interface
 

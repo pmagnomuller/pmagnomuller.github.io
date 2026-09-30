@@ -1,0 +1,63 @@
+{% comment %}
+  Previous / next chapter nav for book note collections listed in _data/books.yml.
+{% endcomment %}
+{% assign notes_book = nil %}
+{% for book in site.data.books %}
+  {% if book.collection == page.collection %}
+    {% assign notes_book = book %}
+  {% endif %}
+{% endfor %}
+
+{% if notes_book %}
+  {% assign notes_entries = site[notes_book.collection] | where_exp: "note", "note.hidden != true" %}
+  {% if notes_book.sort_by %}
+    {% assign notes_entries = notes_entries | sort: notes_book.sort_by %}
+  {% endif %}
+
+  {% assign notes_prev = nil %}
+  {% assign notes_next = nil %}
+  {% assign notes_seen = false %}
+  {% for note in notes_entries %}
+    {% if notes_seen and notes_next == nil %}
+      {% assign notes_next = note %}
+    {% endif %}
+    {% if note.url == page.url %}
+      {% assign notes_seen = true %}
+      {% unless forloop.first %}
+        {% assign notes_prev = notes_last %}
+      {% endunless %}
+    {% endif %}
+    {% assign notes_last = note %}
+  {% endfor %}
+
+  <nav class="pagination notes-pagination" aria-label="Chapter navigation">
+    {% if notes_prev %}
+      <a href="{{ notes_prev.url | relative_url }}" class="pagination--pager notes-pagination__pager" title="{{ notes_prev.title | markdownify | strip_html | strip }}">
+        <span class="notes-pagination__label">Previous</span>
+        <span class="notes-pagination__title">{{ notes_prev.title | markdownify | strip_html | strip }}</span>
+      </a>
+    {% else %}
+      <span class="pagination--pager notes-pagination__pager disabled">
+        <span class="notes-pagination__label">Previous</span>
+        <span class="notes-pagination__title">Start of {{ notes_book.title }}</span>
+      </span>
+    {% endif %}
+
+    <a href="{{ '/notes/' | relative_url }}" class="pagination--pager notes-pagination__pager notes-pagination__index" title="All notes">
+      <span class="notes-pagination__label">Notes</span>
+      <span class="notes-pagination__title">{{ notes_book.title }}</span>
+    </a>
+
+    {% if notes_next %}
+      <a href="{{ notes_next.url | relative_url }}" class="pagination--pager notes-pagination__pager" title="{{ notes_next.title | markdownify | strip_html | strip }}">
+        <span class="notes-pagination__label">Next</span>
+        <span class="notes-pagination__title">{{ notes_next.title | markdownify | strip_html | strip }}</span>
+      </a>
+    {% else %}
+      <span class="pagination--pager notes-pagination__pager disabled">
+        <span class="notes-pagination__label">Next</span>
+        <span class="notes-pagination__title">End of {{ notes_book.title }}</span>
+      </span>
+    {% endif %}
+  </nav>
+{% endif %}

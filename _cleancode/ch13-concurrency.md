@@ -26,7 +26,9 @@ flowchart LR
   Shared --> Lock[Narrow critical section]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Shared mutable state
 

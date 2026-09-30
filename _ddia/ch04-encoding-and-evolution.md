@@ -27,7 +27,9 @@ flowchart LR
   Decode --> Reader[Reader v1 or v2]
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Evolving a schema (Protobuf-style field rules)
 

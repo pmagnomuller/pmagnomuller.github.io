@@ -30,7 +30,9 @@ flowchart LR
   Graph -->|edges| Graph
 ```
 
-## Example
+## Code Example
+
+<p class="notes-code-lang"><small>Snippets in Java, SQL, or pseudocode as labeled.</small></p>
 
 ### Same domain, two models
 

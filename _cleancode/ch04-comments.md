@@ -23,7 +23,9 @@ flowchart TD
   Comment --> Keep[Keep it truthful]
 ```
 
-## Java
+## Code Example
+
+<p class="notes-code-lang"><small>Language: Java</small></p>
 
 ### Redundant / lying comment
 
