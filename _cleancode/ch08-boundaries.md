@@ -5,14 +5,64 @@ part: "Principles"
 collection: cleancode
 ---
 
-Code you don't control — libraries, vendors, legacy modules — should meet your code at a clear boundary.
+## Core ideas
 
-## Techniques
+Third-party and legacy code should meet your system at a clear boundary.
 
-- Wrap third-party APIs in adapters that expose only what you need
-- Keep learning tests: small tests that encode how a library behaves, so upgrades don't surprise you
-- Don't sprinkle foreign types through the whole codebase; confine them to the boundary
-- Prefer depending on interfaces you own when the other side is volatile
+- Wrap foreign APIs so the rest of the app depends on *your* interface
+- Don't pass boundary types (`Map`, vendor DTOs) everywhere
+- Learning tests encode how a library behaves — cheap upgrade insurance
+- Outbound tests at the boundary define expected behavior
 
-Clean boundaries let you swap implementations and isolate breakage when the outside world changes.
+## Picture
 
+```mermaid
+flowchart LR
+  App[Your code] --> Adapter[Your adapter]
+  Adapter --> Lib[Third-party API]
+  Learn[Learning tests] -.-> Lib
+```
+
+## Java
+
+### Leaking a boundary type
+
+```java
+Map<String, Sensor> sensors = new HashMap<>();
+Sensor sensor = sensors.get(sensorId);
+```
+
+### Encapsulate the boundary
+
+```java
+public class Sensors {
+  private final Map<String, Sensor> sensors = new HashMap<>();
+
+  public Sensor getById(String id) {
+    return sensors.get(id);
+  }
+
+  public void put(Sensor sensor) {
+    sensors.put(sensor.id(), sensor);
+  }
+}
+```
+
+### Learning test sketch
+
+```java
+@Test
+void log4jLogsToMemoryAppender() {
+  Logger logger = Logger.getLogger("test");
+  MemoryAppender appender = new MemoryAppender();
+  logger.addAppender(appender);
+  logger.info("hello");
+  assertThat(appender.messages()).contains("hello");
+}
+```
+
+## Takeaways
+
+- Own the interface; rent the implementation
+- Boundaries need tests that speak *your* usage
+- Fewer maintenance points when vendors change

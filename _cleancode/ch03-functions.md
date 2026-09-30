@@ -5,22 +5,85 @@ part: "Principles"
 collection: cleancode
 ---
 
-Functions should be small, do one thing, and stay at one level of abstraction.
+## Core ideas
 
-## Shape
+Functions should be small, do one thing, and stay at one abstraction level.
 
-- Prefer short functions; extract until each tells a clear story
-- Blocks inside `if` / `else` / `while` should usually be one line that names the intent (often a function call)
-- Indent depth of one or two is a smell signal for extraction
-- One level of abstraction per function — don’t mix orchestration with low-level detail
-- Stepdown rule: code reads top-down like a narrative — *to do X, we do Y, then Z*
-- Switch / large `if` chains: bury once at a low level (often a factory) and prefer polymorphism elsewhere
-- Prefer few arguments; zero is ideal, three is usually a stretch
-- Group related args into an object (`Point` instead of `x, y`)
-- Flag arguments usually mean two functions
-- Avoid output arguments and hidden side effects
-- Command/query separation: change state *or* return info, not both in one call
-- Prefer exceptions over error codes so the happy path stays linear
-- DRY: duplication is often a missing abstraction
+- Stepdown rule: read top-down like a story — *to do X, do Y, then Z*
+- Few arguments; group related args into objects
+- No flag args, output args, or hidden side effects
+- Command/query separation: mutate *or* query, not both
+- Prefer exceptions over error-code ladders
+- Bury `switch` once (often in a factory); prefer polymorphism elsewhere
+- First drafts can be long — extract until the story is clear
 
-A function that “does one thing” cannot be usefully split further and still names a coherent unit of work. First drafts can be long; extract, rename, and restructure until the story is clear.
+## Picture
+
+```mermaid
+flowchart TD
+  Top["includeSetupsAndTeardowns()"] --> A["includeSetups()"]
+  Top --> B["includePageContent()"]
+  Top --> C["includeTeardowns()"]
+  A --> A1["includeSuiteSetup()"]
+  A --> A2["includeRegularSetup()"]
+```
+
+## Java
+
+### Flag argument and mixed abstraction
+
+```java
+public void save(Employee e, boolean validate) {
+  if (validate) {
+    // validation details...
+  }
+  // persistence details mixed with orchestration
+  db.insert(e);
+}
+```
+
+### Split and name the intent
+
+```java
+public void save(Employee employee) {
+  validate(employee);
+  persist(employee);
+}
+
+public void saveWithoutValidation(Employee employee) {
+  persist(employee);
+}
+```
+
+### Switch → polymorphism
+
+```java
+// Switch lives once, at construction
+public Employee make(EmployeeRecord record) {
+  return switch (record.type()) {
+    case COMMISSIONED -> new CommissionedEmployee(record);
+    case HOURLY -> new HourlyEmployee(record);
+    case SALARIED -> new SalariedEmployee(record);
+  };
+}
+
+// Call sites stay clean
+Money pay = employee.calculatePay();
+```
+
+### Command/query separation
+
+```java
+// Confusing: mutates and answers
+if (attributeMap.set("username", "bob")) { }
+
+// Clear
+attributeMap.set("username", "bob");
+if (attributeMap.contains("username")) { }
+```
+
+## Takeaways
+
+- One thing, one level, few args
+- Happy path should read linearly
+- Extract until each function names a coherent unit of work

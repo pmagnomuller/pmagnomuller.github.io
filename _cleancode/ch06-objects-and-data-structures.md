@@ -5,18 +5,67 @@ part: "Principles"
 collection: cleancode
 ---
 
-Objects hide data behind abstractions and expose behavior. Data structures expose data and have little meaningful behavior.
+## Core ideas
 
-## The distinction
+Objects hide data and expose behavior. Data structures expose data and have little behavior.
 
-- **Object-oriented style:** easy to add new types without changing existing functions; harder to add new functions across all types
-- **Procedural / data-structure style:** easy to add new functions over existing structures; harder to add new structures without touching those functions
+- OO style: easy to add types; harder to add functions across all types
+- Procedural style: easy to add functions; harder to add structures
+- Hybrids (half-exposed guts + "object" claims) are usually worst
+- Law of Demeter: talk to friends, not strangers — avoid train wrecks
+- Prefer telling an object to do work over asking for its innards
 
-Hybrids that expose internals *and* claim to be objects (feature envy, half-encapsulation) are usually the worst of both worlds.
+## Picture
 
-## Law of Demeter
+```mermaid
+flowchart LR
+  subgraph Objects
+    O[Hidden data] --> M[Methods]
+  end
+  subgraph Structures
+    D[Exposed fields] --> F[External functions]
+  end
+```
 
-A method should talk to its own object, its parameters, objects it creates, and its direct components — not reach through a train of getters (`a.getB().getC().doThing()`). Train wrecks signal leaked structure.
+## Java
 
-Prefer telling an object to do work over asking it for data and doing the work yourself.
+### Concrete structure vs abstract interface
 
+```java
+// Structure: representation leaks
+public class Point {
+  public double x;
+  public double y;
+}
+
+// Abstraction: policy without exposing storage
+public interface Point {
+  double getX();
+  double getY();
+  void setCartesian(double x, double y);
+  double getR();
+  double getTheta();
+  void setPolar(double r, double theta);
+}
+```
+
+### Train wreck (Demeter violation)
+
+```java
+String path = ctxt.getOptions().getScratchDir().getAbsolutePath();
+```
+
+### Tell, don't ask
+
+```java
+// Prefer a clear boundary on the context
+Path path = ctxt.scratchDirectory();
+// or push the work inward
+ctxt.writeScratchFile(name, bytes);
+```
+
+## Takeaways
+
+- Choose object vs structure deliberately for the kind of change you expect
+- Don't pass boundary types (`Map`, DTOs) through the whole system
+- Train wrecks mean leaked structure

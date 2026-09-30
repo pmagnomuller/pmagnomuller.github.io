@@ -5,16 +5,74 @@ part: "Principles"
 collection: cleancode
 ---
 
-Concurrency is a design concern of its own. Mixing it into ordinary business logic is a common source of subtle bugs.
+## Core ideas
 
-## Principles
+Concurrency is its own design concern. Mixing it into ordinary business logic hides races.
 
 - Keep concurrent code separate and minimal
-- Know your shared data; prefer immutability and isolation
-- Limit the scope of synchronized/locked regions
-- Understand the execution model (threads, processes, actors, event loops)
-- Take copies of data when crossing boundaries if it simplifies reasoning
-- Test concurrent code under load and with stress strategies that shake out races
+- Know shared data; prefer immutability and isolation
+- Limit synchronized/locked scope
+- Understand the execution model (threads, pools, actors, events)
+- Copy on the way out of a boundary when it simplifies reasoning
+- Stress-test for races; failures are often intermittent
 
-Correct single-threaded design first; then introduce concurrency deliberately, with clear ownership of shared state.
+## Picture
 
+```mermaid
+flowchart LR
+  Req[Requests] --> Pool[Thread pool]
+  Pool --> Pure[Pure domain work]
+  Pure --> Shared[(Shared state)]
+  Shared --> Lock[Narrow critical section]
+```
+
+## Java
+
+### Shared mutable state
+
+```java
+public class Counter {
+  private int value;
+
+  public void increment() { // race
+    value++;
+  }
+}
+```
+
+### Safer approaches
+
+```java
+public final class Counter {
+  private final AtomicInteger value = new AtomicInteger();
+
+  public void increment() {
+    value.incrementAndGet();
+  }
+
+  public int get() {
+    return value.get();
+  }
+}
+
+// Or confine mutation to one thread / actor and pass immutable messages.
+```
+
+### Separate concurrency policy from work
+
+```java
+public final class OrderProcessor {
+  public void process(Order order) {
+    // pure domain — no threads here
+  }
+}
+
+ExecutorService pool = Executors.newFixedThreadPool(8);
+pool.submit(() -> processor.process(order));
+```
+
+## Takeaways
+
+- Correct single-threaded design first
+- Introduce concurrency deliberately with clear ownership
+- Test under load; luck is not a strategy

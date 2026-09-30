@@ -5,14 +5,56 @@ part: "Principles"
 collection: cleancode
 ---
 
+## Core ideas
+
 Kent Beck's four rules of simple design, in priority order:
 
-1. **Runs all the tests** — correctness first
-2. **Contains no duplication** — DRY as design pressure
-3. **Expresses the intent of the programmers** — names, structure, obviousness
-4. **Minimizes the number of classes and methods** — no speculative structure
+1. Runs all the tests
+2. Contains no duplication
+3. Expresses the intent of the programmers
+4. Minimizes classes and methods
 
-Simple design *emerges* from following these rules while refactoring. You don't need to invent the perfect architecture up front; you need continuous pressure toward clarity.
+Simple design *emerges* from following these under continuous refactoring. You do not invent the perfect architecture up front — you apply pressure toward clarity.
 
-Duplication is often the best hint that an abstraction is waiting to be born — extract only when the duplication is real, not imagined.
+Duplication often means an abstraction is waiting. Extract when the duplication is real, not speculative.
 
+## Picture
+
+```mermaid
+flowchart TD
+  T[1 Tests green] --> D[2 Remove duplication]
+  D --> E[3 Express intent]
+  E --> M[4 Minimize entities]
+```
+
+## Java
+
+### Duplication hiding an idea
+
+```java
+double area1 = length * width;
+double area2 = radius * radius * Math.PI;
+// later, same formulas copy-pasted in pricing, reports, UI...
+```
+
+### Named design idea
+
+```java
+public interface Shape {
+  double area();
+}
+
+public record Rectangle(double length, double width) implements Shape {
+  public double area() { return length * width; }
+}
+
+public record Circle(double radius) implements Shape {
+  public double area() { return Math.PI * radius * radius; }
+}
+```
+
+## Takeaways
+
+- Priority order matters: tests first, minimalism last
+- Expressiveness beats premature abstraction
+- Refactor until the design is obvious in the names

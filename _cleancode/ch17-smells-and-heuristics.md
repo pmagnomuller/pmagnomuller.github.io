@@ -5,34 +5,75 @@ part: "Smells and Heuristics"
 collection: cleancode
 ---
 
-A practical catalog of smells and heuristics spanning the rest of the book — a checklist for reviews and refactors. Treat them as signals, not laws.
+## Core ideas
 
-## Comments
+A checklist of smells spanning comments, environment, functions, names, classes, and tests. Signals, not laws — prefer the smallest change that removes the smell.
 
-- Inappropriate information, obsolete comments, redundant comments
-- Poorly written comments; commented-out code (delete it)
+Recurring themes: duplication, opacity, feature envy, long parameter lists, speculative generality, poor encapsulation, unassertive tests.
 
-## Environment / general
+## Picture
 
-- Build requires more than one step; tests require more than one step
-- Duplication (the book’s strongest general rule)
-- Multiple languages jammed into one source file
-- Too much information on an interface; clutter; vertical / horizontal opacity
-- Feature envy; argument lists that wander; dead code
-- Speculative generality; framework / convention without structure to enforce it
-- Prefer polymorphism to sprawling `if`/`switch` when types vary
-- Don’t inherit constants to cheat scoping; choose descriptive names and revisit them as meaning drifts
-- Function names must say what they do (`add(5)` is opaque — days? mutate or copy?)
+```mermaid
+flowchart TD
+  Smell[Smell spotted] --> Loc{Where?}
+  Loc --> C[Comment]
+  Loc --> F[Function]
+  Loc --> N[Name]
+  Loc --> Cl[Class]
+  Loc --> T[Test]
+  C --> Fix[Rename / extract / delete]
+  F --> Fix
+  N --> Fix
+  Cl --> Fix
+  T --> Fix
+```
 
-## Functions
+## Java
 
-- Too many arguments; output arguments; flag arguments (avoid — don’t add them)
-- Dead functions; boolean entanglement; temporal coupling without names that reveal order
+### Opaque function name
 
-## Names / classes / tests
+```java
+Date newDate = date.add(5); // days? months? mutate?
+```
 
-- Encoded or disinformative names; names at the wrong abstraction level
-- Classes that are too big or have too many instance variables
-- Tests that are unclear, incomplete, or unassertive
+```java
+Date newDate = date.plusDays(5); // clear, non-mutating
+date.addDays(5);                 // clear if it mutates — pick one style
+```
 
-Prefer the smallest change that removes the smell. A name smell often hides a function or class smell. When in doubt: make the next reader faster.
+### Feature envy / Demeter
+
+```java
+double amount = order.getCustomer().getWallet().getBalance();
+```
+
+```java
+double amount = order.customerBalance();
+```
+
+### Flag argument
+
+```java
+render(page, true);
+render(page, /* includeHeader */ true);
+```
+
+```java
+renderWithHeader(page);
+renderBodyOnly(page);
+```
+
+## Checklist (abbrev.)
+
+- Comments: obsolete, redundant, commented-out code
+- General: duplication, clutter, too much interface, multiple languages in one file
+- Functions: too many args, flags, output args, dead functions
+- Names: encoded, disinformative, wrong abstraction level
+- Classes: too big, too many fields, god classes
+- Tests: unclear, incomplete, unassertive
+
+## Takeaways
+
+- A name smell often hides a deeper design smell
+- Structure beats convention when you can enforce it
+- Make the next reader faster

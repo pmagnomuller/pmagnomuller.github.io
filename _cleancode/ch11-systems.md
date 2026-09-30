@@ -5,19 +5,61 @@ part: "Principles"
 collection: cleancode
 ---
 
-At system scale, cleanliness is about separation of concerns: how the whole is constructed, wired, and evolved.
+## Core ideas
 
-## Construction vs use
+At system scale, cleanliness is separation of concerns: construction vs use, modular wiring, and growth without tribal knowledge.
 
 - Separate building the object graph from running business logic
-- Use dependency injection / factories / modular composition so startup wiring stays explicit
-- Don't let "architecture" become a dumping ground for unclear dependencies
+- Dependency injection / factories keep startup wiring explicit
+- Cross-cutting concerns (logging, transactions, security) need clear mechanisms
+- Optimize for clarity and testability; premature infrastructure is still premature
+- Test-drive architecture the same way you test-drive modules
 
-## Growth
+## Picture
 
-- Systems should stay understandable as they scale
-- Cross-cutting concerns (logging, transactions, security) belong in clear mechanisms, not copy-paste
-- Optimize for clarity and testability first; premature infrastructure is still premature
+```mermaid
+flowchart TD
+  Main[Composition root] --> Wire[Wire dependencies]
+  Wire --> App[Application services]
+  App --> Domain[Domain logic]
+  App --> Adapters[IO adapters]
+```
 
-A clean system is one a new engineer can navigate without tribal knowledge.
+## Java
 
+### Construction mixed into use
+
+```java
+public class OrderService {
+  public void place(Order order) {
+    Repository repo = new JdbcRepository(DriverManager.getConnection(url));
+    repo.save(order);
+    new SmtpNotifier().send(order.email());
+  }
+}
+```
+
+### Injected collaborators
+
+```java
+public class OrderService {
+  private final OrderRepository repository;
+  private final Notifier notifier;
+
+  public OrderService(OrderRepository repository, Notifier notifier) {
+    this.repository = repository;
+    this.notifier = notifier;
+  }
+
+  public void place(Order order) {
+    repository.save(order);
+    notifier.send(order.email());
+  }
+}
+```
+
+## Takeaways
+
+- One place builds; many places use
+- Depend on abstractions you own at module edges
+- A clean system is navigable without folklore

@@ -5,18 +5,70 @@ part: "Principles"
 collection: cleancode
 ---
 
-Names are the primary documentation of code. A good name reveals why it exists, what it does, and how it is used. If you need a comment to explain a name, rename instead.
+## Core ideas
 
-## Rules of thumb
+Names are the primary documentation. They should answer why something exists, what it does, and how it is used. If you need a comment to explain a name, rename instead.
 
-- Use intention-revealing names (`elapsedTimeInDays`, not `d`)
-- Avoid disinformation (`hp`, `list` that isn’t a list, lookalike `O`/`0`/`l`/`1`)
-- Make meaningful distinctions — not `a1`/`a2`, not noise pairs like `ProductInfo` vs `ProductData`
-- Avoid redundant encodings (`nameString`, `CarObject`, Hungarian prefixes, `m_` members)
-- Make names pronounceable and searchable; longer scope → more precise name
-- Class names = nouns/noun phrases; method names = verbs/verb phrases
-- One word per concept; don’t mix `fetch` / `retrieve` / `get` for the same idea
-- Use solution-domain names when the audience is programmers; problem-domain names when the audience is the business
-- Add meaningful context (`addrState` over bare `state` when needed); don’t add gratuitous context (`MacroAirForce_...` everywhere)
+- Intention-revealing (`elapsedDays`, not `d`)
+- No disinformation (`accountList` that is not a `List`)
+- Meaningful distinctions — not `ProductInfo` vs `ProductData`
+- Pronounceable and searchable; longer scope → more precise name
+- Nouns for classes, verbs for methods
+- One word per concept; consistent vocabulary
+- Add meaningful context; drop gratuitous context
 
-Consistent vocabulary beats cleverness. Cute or opaque puns age badly.
+## Picture
+
+```mermaid
+flowchart LR
+  Bad["d / them / list1"] --> Guess[Reader guesses]
+  Guess --> Comment[Comment props it up]
+  Good["elapsedDays / flaggedCells"] --> Read[Reader understands]
+```
+
+## Java
+
+### Before
+
+```java
+public List<int[]> getThem() {
+  List<int[]> list1 = new ArrayList<>();
+  for (int[] x : theList) {
+    if (x[0] == 4) {
+      list1.add(x);
+    }
+  }
+  return list1;
+}
+```
+
+### After
+
+```java
+public List<Cell> getFlaggedCells() {
+  List<Cell> flagged = new ArrayList<>();
+  for (Cell cell : gameBoard) {
+    if (cell.isFlagged()) {
+      flagged.add(cell);
+    }
+  }
+  return flagged;
+}
+```
+
+Noise words and encodings hide meaning:
+
+```java
+// Prefer
+private String description;
+
+// Over
+private String m_dsc; // textual description
+private String descriptionString;
+```
+
+## Takeaways
+
+- Rename beats explaining
+- Avoid cute, opaque, or inconsistent synonyms
+- Context belongs in the name only when it clarifies
